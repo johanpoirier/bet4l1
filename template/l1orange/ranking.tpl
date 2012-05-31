@@ -3,7 +3,7 @@
         <div id="headline">
             <table width="100%">
                 <tr>
-                    <td width="55%"><h1>Classement</h1>{NB_ACTIVE_PLAYERS} parieurs actifs sur {NB_PLAYERS}</td>
+                    <td width="55%"><h1>Classement Général</h1>{NB_ACTIVE_PLAYERS} parieurs actifs sur {NB_PLAYERS}</td>
                     <td align="center" width="15%"><a href="/?op=view_ranking"><strong>{GENERAL_CUP_LABEL}</strong></a></td>
                     <td align="center" width="15%"><a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a></td>
                     <td align="center" width="15%"><a href="/?op=view_ranking_lcp">{LCP_LABEL}</a></td>
