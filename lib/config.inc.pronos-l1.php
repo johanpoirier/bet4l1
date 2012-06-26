@@ -16,7 +16,7 @@ $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
 $config['title'] = "CLAR - Pronostics L1 2012/2013";
-$config['logo'] = "logo.2011.gif";
+$config['logo'] = "logo.2012.jpg";
 $config['general_cup_label'] = "yannou12 Cup";
 $config['lcp_label'] = "le vieux Cup";
 $config['lcp_short_label'] = "le vieux";

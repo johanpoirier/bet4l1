@@ -8,7 +8,7 @@
 <div id="mainarea">
   <div class="maincontent">
     <div id="headline">
-      <h1 style="float:left;">Resultats et Cotes</h1>
+      <h1 style="float:left;">Résultats et Cotes</h1>
       <select style="float:right;" name="sltPhase" onchange="changePhase(this.value)">
       <!-- BEGIN phases -->
         <option value="{phases.ID}"{phases.SELECTED}>{phases.NAME}</option>
