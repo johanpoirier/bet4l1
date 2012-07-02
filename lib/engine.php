@@ -37,7 +37,7 @@ class Engine {
     /*  CONTRUCTOR	  */
     /*     * *************** */
 
-    function Engine($admin=false, $debug=false) {
+    function Engine($admin = false, $debug = false) {
         global $config;
         global $lang;
 
@@ -103,7 +103,7 @@ class Engine {
         return (isset($_SESSION['status']) && $_SESSION['status'] == 1);
     }
 
-    function loadTags($userTeamID=-1, $start=false) {
+    function loadTags($userTeamID = -1, $start = false) {
         $this->template->set_filenames(array('tags' => 'tags.tpl'));
 
         $start = $start ? $start : 0;
@@ -460,7 +460,7 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_perfect';
     }
 
-    function loadMyProfile($userID, $message="") {
+    function loadMyProfile($userID, $message = "") {
         $this->template->set_filenames(array('my_profile' => 'my_profile.tpl'));
 
         $user = $this->users->getById($userID);
@@ -480,7 +480,7 @@ class Engine {
         $this->blocks_loaded[] = 'my_profile';
     }
 
-    function loadLogin($message="") {
+    function loadLogin($message = "") {
         $this->template->set_filenames(array('login' => 'login.tpl'));
 
         $infos = array(
@@ -524,7 +524,7 @@ class Engine {
         $this->blocks_loaded[] = 'user_stats';
     }
 
-    function loadRankingByPhase($phaseID=false) {
+    function loadRankingByPhase($phaseID = false) {
         $this->template->set_filenames(array('ranking_phase' => 'ranking_phase.tpl'));
 
         $infos = array(
@@ -552,6 +552,14 @@ class Engine {
                 'SELECTED' => $selected,
                 'NAME' => $phase['name']
             ));
+        }
+
+        // get previous and next phases
+        $phaseConsultee = $this->phases->getById($phaseID);
+        $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
+        $phasePrecedente = NULL;
+        if ($phaseConsultee['phasePrecedente'] != NULL) {
+            $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
         if (sizeof($users) > 0) {
@@ -587,12 +595,18 @@ class Engine {
             }
         }
 
-        $this->template->assign_vars(array('PHASE_NAME' => $phaseName));
+        $this->template->assign_vars(array(
+            'PHASE_NAME' => $phaseName,
+            'PREVIOUS_PHASE_VISIBILITY' => ($phasePrecedente == NULL) ? "hidden" : "visible",
+            'PREVIOUS_PHASE_ID' => ($phasePrecedente == NULL) ? $phaseID : $phasePrecedente['phaseID'],
+            'NEXT_PHASE_VISIBILITY' => ($phaseSuivante == NULL) ? "hidden" : "visible",
+            'NEXT_PHASE_ID' => ($phaseSuivante == NULL) ? $phaseID : $phaseSuivante['phaseID']
+        ));
 
         $this->blocks_loaded[] = 'ranking_phase';
     }
 
-    function loadRankingLCPByPhase($phaseID=false) {
+    function loadRankingLCPByPhase($phaseID = false) {
         $this->template->set_filenames(array('ranking_phase_lcp' => 'ranking_phase_lcp.tpl'));
 
         $infos = array(
@@ -620,6 +634,14 @@ class Engine {
                 'SELECTED' => $selected,
                 'NAME' => $phase['name']
             ));
+        }
+
+        // get previous and next phases
+        $phaseConsultee = $this->phases->getById($phaseID);
+        $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
+        $phasePrecedente = NULL;
+        if ($phaseConsultee['phasePrecedente'] != NULL) {
+            $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
         if (sizeof($users) > 0) {
@@ -653,12 +675,18 @@ class Engine {
             }
         }
 
-        $this->template->assign_vars(array('PHASE_NAME' => $phaseName));
+        $this->template->assign_vars(array(
+            'PHASE_NAME' => $phaseName,
+            'PREVIOUS_PHASE_VISIBILITY' => ($phasePrecedente == NULL) ? "hidden" : "visible",
+            'PREVIOUS_PHASE_ID' => ($phasePrecedente == NULL) ? $phaseID : $phasePrecedente['phaseID'],
+            'NEXT_PHASE_VISIBILITY' => ($phaseSuivante == NULL) ? "hidden" : "visible",
+            'NEXT_PHASE_ID' => ($phaseSuivante == NULL) ? $phaseID : $phaseSuivante['phaseID']
+        ));
 
         $this->blocks_loaded[] = 'ranking_phase_lcp';
     }
 
-    function loadRankingPerfectByPhase($phaseID=false) {
+    function loadRankingPerfectByPhase($phaseID = false) {
         $this->template->set_filenames(array('ranking_phase_perfect' => 'ranking_phase_perfect.tpl'));
 
         $infos = array(
@@ -686,6 +714,14 @@ class Engine {
                 'SELECTED' => $selected,
                 'NAME' => $phase['name']
             ));
+        }
+
+        // get previous and next phases
+        $phaseConsultee = $this->phases->getById($phaseID);
+        $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
+        $phasePrecedente = NULL;
+        if ($phaseConsultee['phasePrecedente'] != NULL) {
+            $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
         if (sizeof($users) > 0) {
@@ -719,7 +755,13 @@ class Engine {
             }
         }
 
-        $this->template->assign_vars(array('PHASE_NAME' => $phaseName));
+        $this->template->assign_vars(array(
+            'PHASE_NAME' => $phaseName,
+            'PREVIOUS_PHASE_VISIBILITY' => ($phasePrecedente == NULL) ? "hidden" : "visible",
+            'PREVIOUS_PHASE_ID' => ($phasePrecedente == NULL) ? $phaseID : $phasePrecedente['phaseID'],
+            'NEXT_PHASE_VISIBILITY' => ($phaseSuivante == NULL) ? "hidden" : "visible",
+            'NEXT_PHASE_ID' => ($phaseSuivante == NULL) ? $phaseID : $phaseSuivante['phaseID']
+        ));
 
         $this->blocks_loaded[] = 'ranking_phase_perfect';
     }
@@ -729,18 +771,20 @@ class Engine {
 
         // phases
         $phaseConsultee = $this->phases->getById($phaseID);
-        $phaseCourante = $this->phases->getById($this->phases->getPhaseIDActive());
-        if ($phaseCourante['phasePrecedente'] != NULL) {
-            $phases = $this->phases->getByRoot($phaseCourante['phasePrecedente']);
-        } else {
-            $phases = array($phaseCourante);
-        }
+        $phases = $this->phases->get('DESC');
         foreach ($phases as $phase) {
             $this->template->assign_block_vars('phases', array(
                 'ID' => $phase['phaseID'],
                 'NAME' => $phase['name'],
                 'SELECTED' => ($phaseConsultee['phaseID'] == $phase['phaseID']) ? ' selected="selected"' : ''
             ));
+        }
+
+        // get previous and next phases
+        $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
+        $phasePrecedente = NULL;
+        if ($phaseConsultee['phasePrecedente'] != NULL) {
+            $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
         // results
@@ -801,6 +845,10 @@ class Engine {
         // global vars
         $this->template->assign_vars(array(
             'PHASE_NAME' => $phaseConsultee['name'],
+            'PREVIOUS_PHASE_VISIBILITY' => ($phasePrecedente == NULL) ? "hidden" : "visible",
+            'PREVIOUS_PHASE_ID' => ($phasePrecedente == NULL) ? $phaseID : $phasePrecedente['phaseID'],
+            'NEXT_PHASE_VISIBILITY' => ($phaseSuivante == NULL) ? "hidden" : "visible",
+            'NEXT_PHASE_ID' => ($phaseSuivante == NULL) ? $phaseID : $phaseSuivante['phaseID'],
             'COMPETITION_NAME' => $this->lang['COMPETITION_NAME']
         ));
 
@@ -818,6 +866,14 @@ class Engine {
                 'NAME' => $phase['name'],
                 'SELECTED' => ($phaseID == $phase['phaseID']) ? ' selected="selected"' : ''
             ));
+        }
+
+        // get previous and next phases
+        $phaseConsultee = $this->phases->getById($phaseID);
+        $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
+        $phasePrecedente = NULL;
+        if ($phaseConsultee['phasePrecedente'] != NULL) {
+            $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
         // bets
@@ -876,6 +932,10 @@ class Engine {
         $user = $this->users->getById($userID);
         $this->template->assign_vars(array(
             'COMPETITION_NAME' => $this->lang['COMPETITION_NAME'],
+            'PREVIOUS_PHASE_VISIBILITY' => ($phasePrecedente == NULL) ? "hidden" : "visible",
+            'PREVIOUS_PHASE_ID' => ($phasePrecedente == NULL) ? $phaseID : $phasePrecedente['phaseID'],
+            'NEXT_PHASE_VISIBILITY' => ($phaseSuivante == NULL) ? "hidden" : "visible",
+            'NEXT_PHASE_ID' => ($phaseSuivante == NULL) ? $phaseID : $phaseSuivante['phaseID'],
             'USER_ID' => $user['userID'],
             'USER_LOGIN' => $user['login'],
             'SUBMIT' => ($mode != 1) ? '<center><input type="image" src="' . $this->template_web_location . '/images/submit.gif" name="iptSubmit" /></center>' : ''
@@ -1120,11 +1180,10 @@ class Engine {
                 $imageMatch = "";
                 if ($game['status'] == 1) {
                     $imageMatch = "<img src=\"" . $this->template_web_location . "/images/" . $this->config['bonus_game_img'] . "\" height=\"15px\" alt=\"(bonus)\" />";
-                }
-                elseif ($game['status'] == 2) {
+                } elseif ($game['status'] == 2) {
                     $imageMatch = "<img src=\"" . $this->template_web_location . "/images/" . $this->config['lcp_game_img'] . "\" height=\"15px\" alt=\"(LCP)\" />";
                 }
-                
+
                 $this->template->assign_block_vars('phases.games', array(
                     'ID' => $game['matchID'],
                     'DATE' => $game['dateStr'],
@@ -1178,5 +1237,4 @@ class Engine {
     }
 
 }
-
 ?>

@@ -14,11 +14,13 @@
   <div class="maincontent">  
     <div id="headline">
       <h1 style="float:left;">Pronostics de {USER_LOGIN}</h1>
+      <a onclick="changePhase({NEXT_PHASE_ID})" style="cursor: pointer; float:right; visibility: {NEXT_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/next.gif" alt="next" /></a>
       <select style="float:right;" name="sltPhase" onchange="changePhase(this.value)">
       <!-- BEGIN phases -->
         <option value="{phases.ID}"{phases.SELECTED}>{phases.NAME}</option>
       <!-- END phases -->
       </select>
+      <a onclick="changePhase({PREVIOUS_PHASE_ID})" style="cursor: pointer; float:right; visibility: {PREVIOUS_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/previous.gif" alt="previous" /></a>
       &nbsp;<br /><br />
     </div>
     <br />
