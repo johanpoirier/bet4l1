@@ -8,6 +8,7 @@ include_once(BASE_PATH . 'lib/db.php');
 include_once(BASE_PATH . 'lib/template.php');
 include_once(BASE_PATH . 'lib/bets.php');
 include_once(BASE_PATH . 'lib/games.php');
+include_once(BASE_PATH . 'lib/instances.php');
 include_once(BASE_PATH . 'lib/phases.php');
 include_once(BASE_PATH . 'lib/settings.php');
 include_once(BASE_PATH . 'lib/stats.php');
@@ -26,6 +27,7 @@ class Engine {
     var $blocks_loaded;
     var $bets;
     var $games;
+    var $instances;
     var $phases;
     var $stats;
     var $tags;
@@ -56,6 +58,7 @@ class Engine {
 
         $this->bets = new Bets($this);
         $this->games = new Games($this);
+        $this->instances = new Instances($this);
         $this->phases = new Phases($this);
         $this->settings = new Settings($this);
         $this->stats = new Stats($this);
@@ -151,16 +154,26 @@ class Engine {
         $this->display();
     }
 
-    function loadRanking() {
+    function loadRanking($instanceID = false) {
         $this->template->set_filenames(array('ranking' => 'ranking.tpl'));
 
-        $users = $this->users->get();
-        $nbTotalUsers = $this->users->getNumberOf();
-        $nbJoueursActifs = $this->users->getNumberOfActiveOnes();
+        $instance = NULL;
+        if($instanceID) {
+            $instance = $this->instances->getById($instanceID);
+            $this->template->set_filenames(array('ranking' => 'ranking_simple.tpl'));
+        }
+        else {
+            $this->template->set_filenames(array('ranking' => 'ranking.tpl'));
+        }
+        $users = $this->users->get($instanceID);
+        $nbTotalUsers = $this->users->getNumberOf($instanceID);
+        $nbJoueursActifs = $this->users->getNumberOfActiveOnes($instanceID);
 
         $infos = array(
             'NB_PLAYERS' => $nbTotalUsers,
             'NB_ACTIVE_PLAYERS' => $nbJoueursActifs,
+            'INSTANCE_ID' => $instanceID,
+            'INSTANCE_NAME' => ( $instance ? $instance['name'] : "" ),
             'GENERAL_CUP_LABEL' => $this->config['general_cup_label'],
             'LCP_LABEL' => $this->config['lcp_label'],
             'LCP_SHORT_LABEL' => $this->config['lcp_short_label'],
@@ -171,7 +184,7 @@ class Engine {
 
         if (($nbTotalUsers > 0) && (sizeof($users) > 0)) {
             usort($users, "compare_users");
-            $nbMatchs = $this->games->getNbMatchsByPhase($this->phases->getNextPhaseIdToBet());
+            $nbMatchs = $this->games->getNbMatchsByPhase($this->phases->getNextPhaseIdToBet($instanceID));
 
             $i = 1;
             $j = 0;
@@ -213,7 +226,7 @@ class Engine {
                 $usersView[$k++] = array(
                     'RANK' => $i,
                     'LAST_RANK' => "<img src=\"" . $this->template_web_location . "/images/" . $img . "\" alt=\"\" /><br/><span style=\"text-align:center;font-size:70%;\">(" . $evol . ")</span>",
-                    'NB_BETS' => ($nbPronosPlayed != $nbMatchs) ? "(<span style=\"color:red;\">" . ($nbMatchs - $nbPronosPlayed) . " pronos à jouer</span>)" : "",
+                    'NB_BETS' => (($nbPronosPlayed != $nbMatchs) && !$instanceID) ? "(<span style=\"color:red;\">" . ($nbMatchs - $nbPronosPlayed) . " pronos à jouer</span>)" : "",
                     'ID' => $user['userID'],
                     'NAME' => $user['name'],
                     'LOGIN' => $user['login'],
@@ -984,12 +997,11 @@ class Engine {
             'menu' => 'menu.tpl'
         ));
 
-        if (!$this->isLogged()) {
-            //
-        } elseif ($this->isAdmin()) {
-            $this->template->assign_block_vars('admin_bar', array());
-        } else {
+        if ($this->isLogged()) {
             $this->template->assign_block_vars('user_bar', array());
+            if ($this->isAdmin()) {
+                $this->template->assign_block_vars('admin_bar', array());
+            }
         }
 
         $this->blocks_loaded[] = 'menu';

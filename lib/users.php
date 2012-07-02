@@ -183,7 +183,7 @@ class Users {
         return $users;
     }
 
-    function get() {
+    function get($instanceID = false) {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.password, u.points, u.nbresults, u.nbscores, u.bonus, u.diff, u.last_rank";
         $req .= ", u.userTeamID, t.name AS team, count(p.userID) AS nbpronos";
@@ -191,7 +191,7 @@ class Users {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "pronos AS p ON(p.userID = u.userID)";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "user_teams AS t ON(t.userTeamID = u.userTeamID)";
-        $req .= " WHERE u.instanceID = " . $this->parent->config['current_instance'];
+        $req .= " WHERE u.instanceID = " . ( $instanceID ? $instanceID : $this->parent->config['current_instance'] );
         $req .= " AND (p.scoreA IS NOT null) AND (p.scoreB IS NOT null) AND u.status >= 0";
         $req .= " GROUP BY p.userID";
         $req .= " ORDER BY u.name ASC";
@@ -203,7 +203,7 @@ class Users {
         return $users;
     }
 
-    function getByPhase($phaseID=false) {
+    function getByPhase($phaseID = false) {
         if (!$phaseID)
             $phaseID = PHASE_ID_ACTIVE - 1;
         if ($phaseID < 0)
@@ -227,7 +227,7 @@ class Users {
         return $users;
     }
 
-    function getByTeam($userTeamID, $all_users=false) {
+    function getByTeam($userTeamID, $all_users = false) {
         $req = "SELECT DISTINCT(u.userID), u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, t.name AS team";
         if (!$all_users) {
             $req .= ", COUNT(p.userID) AS nbpronos";
@@ -305,7 +305,7 @@ class Users {
         return $user;
     }
 
-    function getTeams($orderby="name", $sens="ASC") {
+    function getTeams($orderby = "name", $sens = "ASC") {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "user_teams";
@@ -319,25 +319,25 @@ class Users {
         return $userTeams;
     }
 
-    function getNumberOf() {
+    function getNumberOf($instanceID = false) {
         // Main Query
         $req = "SELECT count(DISTINCT u.userID)";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
         $req .= " WHERE u.status >= 0";
-        $req .= " AND instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND instanceID = " . ($instanceID ? $instanceID : $this->parent->config['current_instance']);
 
         $nb_users = $this->parent->db->select_one($req);
 
         return $nb_users;
     }
 
-    function getNumberOfActiveOnes() {
+    function getNumberOfActiveOnes($instanceID = false) {
         // Main Query
         $req = "SELECT count(DISTINCT u.userID)";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
         $req .= " RIGHT JOIN " . $this->parent->config['db_prefix'] . "pronos AS p ON(p.userID = u.userID)";
         $req .= " WHERE u.status >= 0";
-        $req .= " AND u.instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND u.instanceID = " . ($instanceID ? $instanceID : $this->parent->config['current_instance']);
 
         $nb_users = $this->parent->db->select_one($req);
 
@@ -525,7 +525,7 @@ class Users {
         return;
     }
 
-    function getRankingByPhase($phaseID=false) {
+    function getRankingByPhase($phaseID = false) {
         if (!$phaseID)
             $phaseID = PHASE_ID_ACTIVE - 1;
         if ($phaseID < 0)
@@ -572,7 +572,7 @@ class Users {
         return $users;
     }
 
-    function getRankingLCPByPhase($phaseID=false) {
+    function getRankingLCPByPhase($phaseID = false) {
         if (!$phaseID)
             $phaseID = PHASE_ID_ACTIVE - 1;
         if ($phaseID < 0)
@@ -681,6 +681,7 @@ class Users {
         }
         return $users;
     }
+
 }
 
 ?>

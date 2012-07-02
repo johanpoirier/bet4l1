@@ -194,7 +194,11 @@ switch($op) {
         break;
 
     case "view_ranking":
-        $engine->loadRanking();
+        $instanceID = false;
+        if(isset($_GET['instance'])) {
+            $instanceID = $_GET['instance'];
+        }
+        $engine->loadRanking($instanceID);
         break;
 
     case "view_ranking_lcp":

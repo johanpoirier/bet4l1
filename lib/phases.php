@@ -44,10 +44,10 @@ class Phases {
         return $phaseIDactive;
     }
 
-    function getNextPhaseIdToBet() {
+    function getNextPhaseIdToBet($instanceID = false) {
         $phaseIDactive = -1;
         $phaseIDjoue = -1;
-        $phases = $this->get();
+        $phases = $this->get('ASC', $instanceID);
         foreach($phases as $phase) {
             $req = "SELECT count(*) FROM " . $this->parent->config['db_prefix'] . "matchs";
             $req .= " WHERE phaseID = " . $phase['phaseID'];
@@ -231,11 +231,11 @@ class Phases {
         return $finalPhases;
     }
 
-    function get($order='ASC') {
+    function get($order='ASC', $instanceID = false) {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
-        $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
+        $req .= " WHERE p.instanceID = " . ( $instanceID ? $instanceID : $this->parent->config['current_instance']);
         $req .= " ORDER BY phaseID " . $order;
 
         $phases = $this->parent->db->select_array($req, $nb_teams);
