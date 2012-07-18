@@ -21,6 +21,7 @@ $config['general_cup_label'] = "Général";
 $config['lcp_label'] = "Raymond's Cup";
 $config['lcp_short_label'] = "Raymond";
 $config['perfect_cup_label'] = "Perfect Cup";
+$config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "raymond.gif";
 $config['current_instance'] = "1";
