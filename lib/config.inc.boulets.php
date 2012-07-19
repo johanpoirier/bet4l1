@@ -12,7 +12,7 @@ $config['url'] = "http://pronos.l1.boulets.nirgal.org/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
 $config['forum_link'] = "#";
-$config['db_prefix'] = "boulets__";
+$config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
 $config['title'] = "Boulets - Pronostics L1 2012/2013";
@@ -24,5 +24,5 @@ $config['perfect_cup_label'] = "Perfect Cup";
 $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "raymond.gif";
-$config['current_instance'] = "1";
+$config['current_instance'] = "3";
 ?>

@@ -63,8 +63,9 @@ class Tags {
 
     function save($text, $userTeamID = false) {
         $userID = $_SESSION['userID'];
-        if (!$userTeamID)
+        if (!$userTeamID) {
             $userTeamID = -1;
+        }
         prepare_numeric_data(array(&$userTeamID, &$userID));
         prepare_alphanumeric_data(array(&$text));
         $text = htmlspecialchars(trim($text));
@@ -75,14 +76,13 @@ class Tags {
 
     function delete($tagID) {
         $tag = $this->getById($tagID);
-        if ($tag['userID'] != $_SESSION['userID'] && !$this->admin)
+        if (($tag['userID'] != $_SESSION['userID']) && !$this->parent->isAdmin()) {
             return;
+        }
 
         $tagID = $this->parent->db->exec_query("DELETE FROM " . $this->parent->config['db_prefix'] . "tags WHERE tagID = " . $tagID . "");
 
         return;
     }
-
 }
-
 ?>

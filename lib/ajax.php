@@ -31,7 +31,9 @@
   		$tagID = $_POST['tagID'];
   		$engine->tags->delete($tagID);
   		$teamID = -1;
-  		if(isset($_POST['userTeamID'])) $teamID = $_POST['userTeamID'];
+  		if(isset($_POST['userTeamID'])) {
+                    $teamID = $_POST['userTeamID'];
+                }
   		echo $engine->loadTags($teamID, 0);
   		break;
 

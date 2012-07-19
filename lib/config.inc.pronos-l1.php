@@ -11,13 +11,13 @@ $config['lang'] = "fr";
 $config['url'] = "http://pronos-l1.nirgal.org/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
-$config['forum_link'] = "http://clar.basket.free.fr/forum3/viewtopic.php?f=85&t=788";
+$config['forum_link'] = "http://clar.basket.free.fr/forum3/viewtopic.php?f=85&t=1312";
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
 $config['title'] = "CLAR - Pronostics L1 2012/2013";
 $config['logo'] = "logo.2012.jpg";
-$config['general_cup_label'] = "yannou12 Cup";
+$config['general_cup_label'] = "Bassine Bouli Cup";
 $config['lcp_label'] = "le vieux Cup";
 $config['lcp_short_label'] = "le vieux";
 $config['perfect_cup_label'] = "yannou12 Cup";
