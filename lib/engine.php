@@ -971,7 +971,8 @@ class Engine {
             'NB_PTS_RESULTAT_BONUS' => $phase['nbPointsRes'] * $phase['multiplicateurMatchDuJour'],
             'NB_PTS_SCORE_BONUS' => $phase['nbPointsScore'] * $phase['multiplicateurMatchDuJour'],
             'NB_TOTAL_MATCH_BONUS' => ($phase['nbPointsRes'] + $phase['nbPointsScore']) * $phase['multiplicateurMatchDuJour'],
-            'TOTAL_PTS_BONUS' => ($phase['nbPointsRes'] + $phase['nbPointsScore']) * $phase['multiplicateurMatchDuJour']
+            'TOTAL_PTS_BONUS' => ($phase['nbPointsRes'] + $phase['nbPointsScore']) * $phase['multiplicateurMatchDuJour'],
+            'TOTAL_PHASE' => (($phase['nbPointsRes'] + $phase['nbPointsScore']) * $phase['multiplicateurMatchDuJour']) + ($nbMatchsRegular * ($phase['nbPointsRes'] + $phase['nbPointsScore']))
         ));
 
         $this->blocks_loaded[] = 'rules';
