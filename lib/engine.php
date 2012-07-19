@@ -961,12 +961,17 @@ class Engine {
         $this->template->set_filenames(array('rules' => 'rules.tpl'));
 
         $phase = $this->phases->getById(PHASE_ID_ACTIVE);
+        $nbMatchsRegular = $phase['nb_matchs'] - 1;
         $this->template->assign_vars(array(
             'NB_PTS_RESULTAT' => $phase['nbPointsRes'],
             'NB_PTS_SCORE' => $phase['nbPointsScore'],
             'NB_TOTAL_MATCH' => $phase['nbPointsRes'] + $phase['nbPointsScore'],
-            'NB_MATCHS' => $phase['nb_matchs'],
-            'TOTAL_PTS' => $phase['nb_matchs'] * ($phase['nbPointsRes'] + $phase['nbPointsScore'])
+            'NB_MATCHS_REGULAR' => $nbMatchsRegular,
+            'TOTAL_PTS' => $nbMatchsRegular * ($phase['nbPointsRes'] + $phase['nbPointsScore']),
+            'NB_PTS_RESULTAT_BONUS' => $phase['nbPointsRes'] * $phase['multiplicateurMatchDuJour'],
+            'NB_PTS_SCORE_BONUS' => $phase['nbPointsScore'] * $phase['multiplicateurMatchDuJour'],
+            'NB_TOTAL_MATCH_BONUS' => ($phase['nbPointsRes'] + $phase['nbPointsScore']) * $phase['multiplicateurMatchDuJour'],
+            'TOTAL_PTS_BONUS' => ($phase['nbPointsRes'] + $phase['nbPointsScore']) * $phase['multiplicateurMatchDuJour']
         ));
 
         $this->blocks_loaded[] = 'rules';
