@@ -29,8 +29,7 @@
       <p>
         <span class="rule_subtitle">B. Match "Bonus" et match "A l'envers"</span> :
 		<ul class="rules">
-          <li>Le match "Bonus" permet de doubler les points obtenus avec le pronostic de celui-ci.</li>
-          <li>Il entre en compte dans le classement de la "yannou12" cup.</li>
+          <li>Le match "Bonus" permet de doubler les points obtenus avec le pronostic de celui-ci. Il entre en compte dans le classement de la "yannou12" cup.</li>
           <li>Le match "A l'envers" entre en compte dans le classement de la "levieux" cup.</li>
         </ul>
         <br />
