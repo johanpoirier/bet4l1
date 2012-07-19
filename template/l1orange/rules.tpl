@@ -27,10 +27,11 @@
       </p>
 
       <p>
-        <span class="rule_subtitle">B. Matchs Bonus et LeeCharles</span> :
+        <span class="rule_subtitle">B. Match "Bonus" et match "A l'envers"</span> :
 		<ul class="rules">
-          <li>Le match bonus permet de doubler les points obtenus avec le pronostic de celui-ci.</li>
-          <li>Le match LeeCharles est, pour l'instant, juste là pour faire joli.</li>
+          <li>Le match "Bonus" permet de doubler les points obtenus avec le pronostic de celui-ci.</li>
+          <li>Il entre en compte dans le classement de la "yannou12" cup.</li>
+          <li>Le match "A l'envers" entre en compte dans le classement de la "levieux" cup.</li>
         </ul>
         <br />
 	  </p>
@@ -42,15 +43,29 @@
   				  <th>Pts "résultat match"</th>
   				  <th>Pts "score match"</th>
   				  <th>Total pts / match</th>
-  				  <th>Nb de matchs</th>
-  				  <th>Total de pts</th>
+  				  <th>Nb de matchs / journée</th>
+  				  <th>Total de pts / journée</th>
   			  </tr>
   		 	  <tr>
   				  <td>{NB_PTS_RESULTAT}</td>
   				  <td>{NB_PTS_SCORE}</td>
   				  <td>{NB_TOTAL_MATCH}</td>
-  				  <td>{NB_MATCHS}</td>
+  				  <td>{NB_MATCHS_REGULAR}</td>
   				  <td>{TOTAL_PTS}</td>
+  			  </tr>
+  		 	  <tr>
+  				  <td>{NB_PTS_RESULTAT_BONUS}</td>
+  				  <td>{NB_PTS_SCORE_BONUS}</td>
+  				  <td>{NB_TOTAL_MATCH_BONUS}</td>
+  				  <td>1</td>
+  				  <td>{TOTAL_PTS_BONUS}</td>
+  			  </tr>
+  		 	  <tr>
+  				  <td></td>
+  				  <td></td>
+  				  <td></td>
+  				  <td></td>
+  				  <td>{TOTAL_PHASE}</td>
   			  </tr>
       	</table>
         <br />
