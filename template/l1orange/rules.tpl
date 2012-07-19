@@ -40,6 +40,7 @@
         <span class="rule_subtitle">C. Synthèse des points par journée</span> :
         <table class="rules">
   			  <tr>
+				  <th>Type de match</th>
   				  <th>Pts "résultat match"</th>
   				  <th>Pts "score match"</th>
   				  <th>Total pts / match</th>
@@ -47,6 +48,7 @@
   				  <th>Total de pts / journée</th>
   			  </tr>
   		 	  <tr>
+				  <td>Classique</td>
   				  <td>{NB_PTS_RESULTAT}</td>
   				  <td>{NB_PTS_SCORE}</td>
   				  <td>{NB_TOTAL_MATCH}</td>
@@ -54,6 +56,7 @@
   				  <td>{TOTAL_PTS}</td>
   			  </tr>
   		 	  <tr>
+				  <td>Bonus</td>
   				  <td>{NB_PTS_RESULTAT_BONUS}</td>
   				  <td>{NB_PTS_SCORE_BONUS}</td>
   				  <td>{NB_TOTAL_MATCH_BONUS}</td>
@@ -61,6 +64,7 @@
   				  <td>{TOTAL_PTS_BONUS}</td>
   			  </tr>
   		 	  <tr>
+  				  <td></td>
   				  <td></td>
   				  <td></td>
   				  <td></td>
