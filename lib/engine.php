@@ -154,7 +154,7 @@ class Engine {
         $this->display();
     }
 
-    function loadRanking($instanceID = false) {
+    function loadRanking($userID, $instanceID = false) {
         $this->template->set_filenames(array('ranking' => 'ranking.tpl'));
 
         $instance = NULL;
@@ -217,10 +217,12 @@ class Engine {
                     $evol = "+" . $evol;
 
                 $bg_color = "";
-                if ($i <= 3) {
-                    $bg_color = " style=\"background-color:#daf1fe;\"";
+                if ($userID == $user['userID']) {
+                    $bg_color = " style=\"background-color:#FBD670;\"";
+                } elseif ($i <= 3) {
+                    $bg_color = " style=\"background-color:#FEECA5;\"";
                 } elseif ($i > ($nbTotalUsers - 3)) {
-                    $bg_color = " style=\"background-color:#FFD9D9;\"";
+                    $bg_color = " style=\"background-color:#FEECA5;\"";
                 }
 
                 $usersView[$k++] = array(
@@ -381,11 +383,11 @@ class Engine {
 
                 $bg_color = "";
                 if ($userID == $user['userID']) {
-                    $bg_color = " style=\"background-color:#FFEF99;\"";
+                    $bg_color = " style=\"background-color:#FBD670;\"";
                 } elseif ($i <= 3) {
-                    $bg_color = " style=\"background-color:#daf1fe;\"";
+                    $bg_color = " style=\"background-color:#FEECA5;\"";
                 } elseif ($i > ($nbTotalUsers - 3)) {
-                    $bg_color = " style=\"background-color:#FFD9D9;\"";
+                    $bg_color = " style=\"background-color:#FEECA5;\"";
                 }
 
                 $usersView[$k++] = array(
@@ -444,11 +446,11 @@ class Engine {
 
                 $bg_color = "";
                 if ($userID == $user['userID']) {
-                    $bg_color = " style=\"background-color:#FFDA9A;\"";
+                    $bg_color = " style=\"background-color:#FBD670;\"";
                 } elseif ($i <= 3) {
-                    $bg_color = " style=\"background-color:#daf1fe;\"";
+                    $bg_color = " style=\"background-color:#FEECA5;\"";
                 } elseif ($i > ($nbTotalUsers - 3)) {
-                    $bg_color = " style=\"background-color:#FFD9D9;\"";
+                    $bg_color = " style=\"background-color:#FEECA5;\"";
                 }
 
                 $usersView[$k++] = array(

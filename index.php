@@ -198,7 +198,7 @@ switch($op) {
         if(isset($_GET['instance'])) {
             $instanceID = $_GET['instance'];
         }
-        $engine->loadRanking($instanceID);
+        $engine->loadRanking($_SESSION['userID'], $instanceID);
         break;
 
     case "view_ranking_lcp":
@@ -323,7 +323,7 @@ switch($op) {
         break;
 
     default:
-        $engine->loadRanking();
+        $engine->loadRanking($_SESSION['userID']);
         break;
 }
 $engine->loadFooter(true);

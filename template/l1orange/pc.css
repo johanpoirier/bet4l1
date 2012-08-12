@@ -24,7 +24,7 @@ h2 {
 }
 
 h5 {
-	color: #0183AA;
+	color: #FE9408;
 	clear: both;
 	font: bold 120%/1em Arial, sans-serif;
 	letter-spacing: 0;
@@ -55,7 +55,7 @@ a img {
 }
 
 a {
-	color: #065066;
+	color: #F75B00;
 	text-decoration: none;
 }
 
@@ -66,9 +66,7 @@ a:hover {
 a:active {
 	text-decoration: underline;
 }
-a:visited {
-	color: #065066;
-}
+
 
 /************* FORM ***************/
 textarea	{
@@ -115,7 +113,7 @@ select {
 
 /************* DIVS ***************/
 #main {
-	background: #fff url("/template/l1orange/images/bg_container4.gif") repeat-y;
+	background: #fff url("/template/l1orange/images/bg_container5.gif") repeat-y;
 	font-size: 95%;
 	margin: 0 auto;
 	padding: 0 4px;
@@ -175,7 +173,7 @@ select {
 }
 
 #headline {
-  background: url("/template/l1orange/images/bg_headline7.gif"); 
+  background: url("/template/l1orange/images/bg_headline6.gif"); 
 	clear: both;
 	margin: 0;
 	border-style: solid;
@@ -220,11 +218,8 @@ select {
 .tag_cloud {
 	margin: 5px 0 0 0;
 	padding: 5px;
-	border-top: 2px solid #5c78a3;
-	border-bottom: 2px solid #5c78a3;
-	border-right: 2px solid #5c78a3;
-	border-left: 2px solid #5c78a3;
-	background: #ecf0f5;
+	border: 2px solid #FE9408;
+	background: #FEECA5;
 	text-align: left;
 }
 .tag_cloud span a {
