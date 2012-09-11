@@ -17,5 +17,16 @@ class Instances {
 
         return $instance;
     }
+
+    function getActiveOnes() {
+        // Main Query
+        $req = "SELECT *";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "instances";
+        $req .= " WHERE active = 1";
+
+        $instances = $this->parent->db->select_array($req, $nb_teams);
+
+        return $instances;
+    }
 }
 ?>

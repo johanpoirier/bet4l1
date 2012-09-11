@@ -286,8 +286,9 @@ class Games {
     }
 
     function saveResult($matchID, $team, $score) {
-        if ($score == "")
+        if ($score == "") {
             $score = 'NULL';
+        }
         $req = "UPDATE " . $this->parent->config['db_prefix'] . "matchs";
         $req .= " SET score" . $team . " =" . addslashes($score);
         $req .= " WHERE matchID=" . $matchID;
@@ -308,15 +309,17 @@ class Games {
         return $res ? 1 : 0;
     }
 
-    function getByTeamRssNames($teamAName, $teamBName) {
+    function getByTeamRssNames($instanceID, $teamAName, $teamBName) {
         // Main Query
         $req = "SELECT m.matchID, m.status, DATE_FORMAT(m.date,'%a %e %M à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, t2.teamID AS teamBid, t2.name AS teamBname";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "matchs m ";
+        $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "phases AS p ON(m.phaseID = p.phaseID)";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
-        $req .= " WHERE t1.rssName = '" . $teamAName . "'";
+        $req .= " WHERE p.instanceID = " . $instanceID;
+        $req .= " AND t1.rssName = '" . $teamAName . "'";
         $req .= " AND t2.rssName = '" . $teamBName . "'";
-        
+
         $match = $this->parent->db->select_line($req, $nb_teams);
 
         return $match;

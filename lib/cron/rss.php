@@ -21,15 +21,20 @@ $rss = fetch_rss($url);
 foreach ($rss->items as $item) {
     $content = $item['title'];
     if (preg_match("/^Ligue 1 : ([a-zA-Z\- ]*) - ([a-zA-Z\- ]*) \(score final : ([0-9])-([0-9])/", $content, $vars)) {
-        $match = $engine->games->getByTeamRssNames($vars[1], $vars[2]);
-        if($match) {
-            if($match['scoreMatchA'] == null) {
-                $engine->games->saveResult($match['matchID'], $match['teamAid'], $match[3]);
-                //echo "engine->games->saveResult(" . $match['matchID'] . ", " . $match['teamAid'] . ", ". $vars[3] . ");\n";
-            }
-            if($match['scoreMatchB'] == null) {
-                $engine->games->saveResult($match['matchID'], $match['teamBid'], $match[4]);
-                //echo "engine->games->saveResult(" . $match['matchID'] . ", " . $match['teamBid'] . ", ". $vars[4] . ");\n";
+        $instances = $engine->instances->getActiveOnes();
+        foreach ($instances as $instance) {
+            $match = $engine->games->getByTeamRssNames($instance['id'], $vars[1], $vars[2]);
+            if($match) {
+                echo $content . "\n";
+                if($match['scoreMatchA'] == null) {
+                    $engine->games->saveResult($match['matchID'], $match['teamAid'], $match[3]);
+                    echo "engine->games->saveResult(" . $match['matchID'] . ", " . $match['teamAid'] . ", ". $vars[3] . ");\n";    
+                }
+                
+                if($match['scoreMatchB'] == null) {
+                    $engine->games->saveResult($match['matchID'], $match['teamBid'], $match[4]);
+                    echo "engine->games->saveResult(" . $match['matchID'] . ", " . $match['teamBid'] . ", ". $vars[4] . ");\n";
+                }
             }
         }
     }
