@@ -31,7 +31,7 @@
       <!-- BEGIN bets -->
       {bets.DATE}
       <tr>
-  	  	<td width="5%" align="left" style="white-space:nowrap;font-size:7pt;" rowspan="2">{bets.IMG}</td>
+  	<td width="5%" align="left" style="white-space:nowrap;font-size:7pt;" rowspan="2">{bets.IMG}</td>
         <td id="m_{bets.MATCH_ID}_team_A" width="32%" rowspan="2" style="text-align: right;background-color: {bets.COLOR_A};">
           {bets.TEAM_NAME_A}
           <img src="{bets.TEAM_IMG_A}" alt="{bets.TEAM_NAME_A}" />
@@ -39,7 +39,7 @@
         <td width="12%" style="text-align:right;">
           <input type="number" min="0" max="99" size="2" name="iptScoreTeam_A_{bets.MATCH_ID}" id="iptScoreTeam_A_{bets.MATCH_ID}" value="{bets.SCORE_BET_A}" onchange="checkScore(this.id);"{bets.DISABLED} />
         </td>
-  	    <td width="7%" style="text-align:center; font-weight:300; font-size:9px; color:{bets.COLOR};" rowspan="2">
+  	<td width="7%" style="text-align:center; font-weight:300; font-size:9px; color:{bets.COLOR};" rowspan="2">
           {bets.POINTS}<br />
           <span style="color:grey;">
             {bets.DIFF}
@@ -61,11 +61,14 @@
         <td colspan="6">&nbsp;</td>
       </tr>
       <!-- END bets -->
+      <tr>
+        <td colspan="6">&nbsp;</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="5">{SUBMIT}</td>
+      </tr>
       </table>
-      <br />
-      <br />
-      <br />
-      {SUBMIT}
     </div>
     </form>
   </div>

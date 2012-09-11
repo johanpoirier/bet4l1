@@ -67,6 +67,10 @@ a:active {
 	text-decoration: underline;
 }
 
+a.logout {
+    font-size: 7pt;
+    margin-left: 15px;
+}
 
 /************* FORM ***************/
 textarea	{

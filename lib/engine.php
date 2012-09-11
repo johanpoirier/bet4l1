@@ -992,7 +992,7 @@ class Engine {
         $this->template->assign_vars(array(
             'TITLE' => $this->config['title'],
             'URL' => $this->config['url'],
-            'LOGOUT_LINK' => $connected ? '<br /><a href="/?op=logout" style="font-size:7pt;">Deconnexion</a>' : '',
+            'LOGOUT_LINK' => $connected ? '<br /><a href="/?op=logout" class="logout">Déconnexion</a>' : '',
             'LOGO' => $this->config['logo'],
             'TPL_WEB_PATH' => $this->template_web_location
         ));

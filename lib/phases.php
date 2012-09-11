@@ -247,7 +247,7 @@ class Phases {
     }
 
     function add($label) {
-        // Get lat phase
+        // Get last phase
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
         $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
@@ -255,8 +255,8 @@ class Phases {
         $phase = $this->parent->db->select_line($req, $nb_lines);
 
         // Add a new one
-        $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "phases (phaseID, instanceID, name, nb_matchs, nb_qualifies, phasePrecedente, nbPointsRes, nbPointsQualifie, nbPointsScore, multiplicateurMatchDuJour)";
-        $req .= " VALUES (" . ($phase['phaseID'] + 1) . ", " . $this->parent->config['current_instance'] . ", '$label', " . $phase['nb_matchs'] . ", " . $phase['nb_qualifies'] . ", " . $phase['phaseID'] . ", ";
+        $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "phases (instanceID, name, nb_matchs, nb_qualifies, phasePrecedente, nbPointsRes, nbPointsQualifie, nbPointsScore, multiplicateurMatchDuJour)";
+        $req .= " VALUES (" . $this->parent->config['current_instance'] . ", '$label', " . $phase['nb_matchs'] . ", " . $phase['nb_qualifies'] . ", " . $phase['phaseID'] . ", ";
         $req .= $phase['nbPointsRes'] . ", " . $phase['nbPointsQualifie'] . ", " . $phase['nbPointsScore'] . ", " . $phase['multiplicateurMatchDuJour'] . ")";
 
         return $this->parent->db->insert($req);

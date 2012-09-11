@@ -23,9 +23,10 @@ class Bets {
 
         $pronos = $this->parent->db->select_array($req, $nb_pronos);
 
-        if ($this->parent->debug)
+        if ($this->parent->debug) {
             array_show($pronos);
-
+        }
+        
         return $pronos;
     }
 

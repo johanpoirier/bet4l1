@@ -91,7 +91,7 @@ var fillMatch = function(response) {
 	selectListValue('month',  matchDatas[1]);
 	selectListValue('year',  matchDatas[2]);
 	$('#hour').val(matchDatas[3]);
-	$('minutes').val(matchDatas[4]);
+	$('#minutes').val(matchDatas[4]);
 	selectRadioValue('matchspecial', matchDatas[5]);
 	selectListValue('phase',  matchDatas[6]);
 	selectListValue('teamA',  matchDatas[7]);

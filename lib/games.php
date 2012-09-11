@@ -150,9 +150,10 @@ class Games {
         // Main Query
         $req = "SELECT *, tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname, DATE_FORMAT(date, 'le %e/%m à %Hh') as date_str, TIME_TO_SEC(TIMEDIFF(date, NOW())) as delay_sec";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "matchs m ";
+        $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "phases p ON (m.phaseID = p.phaseID)";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "teams tA ON (m.teamA = tA.teamID)";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "teams tB ON (m.teamB = tB.teamID)";
-        $req .= " WHERE date = (";
+        $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'] . " AND date = (";
         $req .= " SELECT MIN(date) ";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "matchs m ";
         $req .= " WHERE date > NOW()";
