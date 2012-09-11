@@ -26,14 +26,15 @@ foreach ($rss->items as $item) {
             $match = $engine->games->getByTeamRssNames($instance['id'], $vars[1], $vars[2]);
             if($match) {
                 echo $content . "\n";
+                
                 if($match['scoreMatchA'] == null) {
-                    $engine->games->saveResult($match['matchID'], $match['teamAid'], $match[3]);
                     echo "engine->games->saveResult(" . $match['matchID'] . ", " . $match['teamAid'] . ", ". $vars[3] . ");\n";    
+                    $engine->games->saveResult($match['matchID'], 'A', $vars[3]);
                 }
                 
                 if($match['scoreMatchB'] == null) {
-                    $engine->games->saveResult($match['matchID'], $match['teamBid'], $match[4]);
                     echo "engine->games->saveResult(" . $match['matchID'] . ", " . $match['teamBid'] . ", ". $vars[4] . ");\n";
+                    $engine->games->saveResult($match['matchID'], 'B', $vars[4]);
                 }
             }
         }
