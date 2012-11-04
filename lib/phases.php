@@ -266,7 +266,6 @@ class Phases {
         // Get max id
         $req = "SELECT MAX(phaseID) as maxId";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
-        $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
         return $this->parent->db->select_one($req);
     }
 
@@ -278,7 +277,7 @@ class Phases {
             // move phases after phase ref
             $nextPhase = null;
             $currentRef = $phaseIdRef;
-            $rootRef = $phaseIdRef + 1;
+            $rootRef = $this->getMaxId() + 1;
 
             // remove phase precedente for phase to move
             $req = "UPDATE " . $this->parent->config['db_prefix'] . "phases";
@@ -296,6 +295,7 @@ class Phases {
             }
             
             // move phases after ref
+            $nextId = $this->getMaxId() + 2;
             do {
                 $nextPhase = $this->getByDirectRoot($currentRef);
                 if(isset($nextPhase['phaseID']) && ($nextPhase['phaseID'] == $phaseIdToMove)) {
@@ -305,7 +305,7 @@ class Phases {
                     //echo " -> phase to move " . $nextPhase['phaseID'] . "<br/>";
 
                     // update phase id and previous phase
-                    $nextId = ($this->getMaxId() + 1);
+                    $nextId++;
                     //echo " -> phase to move : new id = " . $nextId . "<br/>";
                     $req = "UPDATE " . $this->parent->config['db_prefix'] . "phases";
                     $req .= " SET phaseID = " . $nextId;
