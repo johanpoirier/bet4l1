@@ -30,7 +30,7 @@
       <table width="100%">
       <!-- BEGIN bets -->
       {bets.DATE}
-      <tr>
+      <tr style="line-height: 18px;">
   	<td width="5%" align="left" style="white-space:nowrap;font-size:7pt;" rowspan="2">{bets.IMG}</td>
         <td id="m_{bets.MATCH_ID}_team_A" width="32%" rowspan="2" style="text-align: right;background-color: {bets.COLOR_A};">
           {bets.TEAM_NAME_A}

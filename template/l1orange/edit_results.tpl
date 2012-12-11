@@ -18,7 +18,7 @@
           <td id="m_{games.ID}_team_A" width="40%" style="text-align: right; background-color: {games.COLOR_A};">{games.TEAM_NAME_A} <img src="{TPL_WEB_PATH}/images/fanions/{games.TEAM_IMG_A}.png" alt="{games.TEAM_NAME_A}" /></td>
           <td width="10%" style="text-align:right;"><input type="number" min="0" max="99" size="2" name="iptScoreTeam_A_{games.ID}" id="scoreTeam_A_{games.ID}" value="{games.SCORE_A}" /></td>
           <td width="10%" style="text-align: left;"><input type="number" min="0" max="99" size="2" name="iptScoreTeam_B_{games.ID}" id="scoreTeam_B_{games.ID}" value="{games.SCORE_B}" /></td>
-          <td id="m_{games.ID}_team_B" width="40%" style="text-align: left; background-color: {games.COLOR_B};"><img src="{TPL_WEB_PATH}/images/fanions/{games.TEAM_IMG_B}.png" alt="<? echo $match['teamBname']; ?>" /> {games.TEAM_NAME_B}</td>
+          <td id="m_{games.ID}_team_B" width="40%" style="text-align: left; background-color: {games.COLOR_B};"><img src="{TPL_WEB_PATH}/images/fanions/{games.TEAM_IMG_B}.png" alt="{games.TEAM_NAME_B}" /> {games.TEAM_NAME_B}</td>
         </tr>
       <!-- END games -->
       </table>

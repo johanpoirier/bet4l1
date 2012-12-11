@@ -830,6 +830,8 @@ class Engine {
                 'TEAM_NAME_B' => $result['teamBname'],
                 'TEAM_IMG_A' => $this->template_web_location . '/images/fanions/' . formatImageFilename($result['teamAname']) . '.png',
                 'TEAM_IMG_B' => $this->template_web_location . '/images/fanions/' . formatImageFilename($result['teamBname']) . '.png',
+                'COLOR_A' => $result['COLOR_A'],
+                'COLOR_B' => $result['COLOR_B'],
                 'A_AVG' => $odds['A_AVG'],
                 'B_AVG' => $odds['B_AVG'],
                 'A_WINS' => $odds['A_WINS'],

@@ -270,9 +270,9 @@ class Games {
             $colorA = "transparent";
             $colorB = "transparent";
             if ($result['scoreMatchA'] > $result['scoreMatchB'])
-                $colorA = "#99FF99";
+                $colorA = "#FFBF46";
             else if ($result['scoreMatchA'] < $result['scoreMatchB'])
-                $colorB = "#99FF99";
+                $colorB = "#FFBF46";
             $result['COLOR_A'] = $colorA;
             $result['COLOR_B'] = $colorB;
             $result['SPECIAL'] = $result['status'];

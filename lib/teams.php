@@ -55,7 +55,7 @@ class Teams {
 
         // Coloration des qualifies
         for($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['style'] = "background-color:#FFEF99;";
+            $array_teams[$i]['style'] = "background-color:#FFBF46;";
         }
 
         return $array_teams;
@@ -107,7 +107,7 @@ class Teams {
 
         // Coloration des qualifies
         for($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['style'] = "background-color:#FFEF99;";
+            $array_teams[$i]['style'] = "background-color:#FFBF46;";
         }
 
         return $array_teams;

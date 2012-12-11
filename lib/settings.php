@@ -12,7 +12,8 @@ class Settings {
         // Main Query
         $req = "SELECT date";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
-        $req .= " WHERE name = 'LAST_GENERATE'";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND name = 'LAST_GENERATE'";
 
         $last_generate = $this->parent->db->select_one($req, null);
 
@@ -26,7 +27,8 @@ class Settings {
         // Main Query
         $req = "SELECT date";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
-        $req .= " WHERE name = 'LAST_TEAM_GENERATE'";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND name = 'LAST_TEAM_GENERATE'";
 
         $last_team_generate = $this->parent->db->select_one($req, null);
 
@@ -40,8 +42,9 @@ class Settings {
     function getSettingDate($name) {
         // Main Query
         $req = "SELECT date";
-        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings s";
-        $req .= " WHERE s.name = '" . $name . "'";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND name = '" . $name . "'";
 
         $myDate = $this->parent->db->select_one($req);
         if ($this->parent->debug)
@@ -53,8 +56,9 @@ class Settings {
     function getSettingValue($name) {
         // Main Query
         $req = "SELECT value";
-        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings s";
-        $req .= " WHERE s.name = '" . $name . "'";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND name = '" . $name . "'";
 
         $myValue = $this->parent->db->select_one($req);
         if ($this->parent->debug)
@@ -68,9 +72,10 @@ class Settings {
 
         // Main Query
         $req = "SELECT date, DATE_FORMAT(date, '%m') as month";
-        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings s";
-        $req .= " WHERE s.name = 'DATE_DEBUT' OR s.name = 'DATE_FIN'";
-        $req .= " ORDER BY s.date";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND name = 'DATE_DEBUT' OR name = 'DATE_FIN'";
+        $req .= " ORDER BY date";
 
         $months = array();
         $dates = $this->parent->db->select_array($req, $nb_res);
@@ -105,7 +110,8 @@ class Settings {
         // Main Query
         $req = "SELECT date, DATE_FORMAT(date, '%Y') as year";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "settings s";
-        $req .= " WHERE s.name = 'DATE_DEBUT' OR s.name = 'DATE_FIN'";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND s.name = 'DATE_DEBUT' OR s.name = 'DATE_FIN'";
         $req .= " ORDER BY s.date";
 
         $yearsInDB = $this->parent->db->select_array($req, $nb_res);
@@ -121,6 +127,7 @@ class Settings {
         // Main Query
         $req = "SELECT phaseID, nbPointsRes, nbPointsScore, multiplicateurMatchDuJour";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
         $req .= " ORDER BY phaseID ASC";
 
         $phases = $this->parent->db->select_array($req, $nb_teams);
@@ -143,8 +150,8 @@ class Settings {
         // Main Query
         $req = "REPLACE";
         $req .= " INTO " . $this->parent->config['db_prefix'] . "settings";
-        $req .= " (name,date)";
-        $req .= " VALUES ('" . $setting_name . "',NOW())";
+        $req .= " (instanceID, name, date)";
+        $req .= " VALUES (" . $this->parent->config['current_instance'] . ", '" . $setting_name . "', NOW())";
 
         $this->parent->db->exec_query($req);
 
@@ -160,14 +167,17 @@ class Settings {
         $req = "SELECT 1";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
         $req .= " WHERE name = '" . $setting_name . "'";
+        $req .= " AND instanceID = " . $this->parent->config['current_instance'];
         $req .= " AND DATE_FORMAT(date, '%m%e') <> DATE_FORMAT(NOW(), '%m%e')";
         $isLastGenerate = $this->parent->db->select_one($req, null);
 
         if ($isLastGenerate == 1) {
-            $req = "SELECT count(matchID) as nbMatchs";
-            $req .= " FROM " . $this->parent->config['db_prefix'] . "matchs";
-            $req .= " WHERE DATE_FORMAT(date, '%m%e') = DATE_FORMAT(NOW(), '%m%e')";
-            $req .= " AND scoreA IS NULL AND scoreB IS NULL";
+            $req = "SELECT count(m.matchID) as nbMatchs";
+            $req .= " FROM " . $this->parent->config['db_prefix'] . "matchs as m";
+            $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "phases as p ON (m.phaseID = p.phaseID)";
+            $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
+            $req .= " AND DATE_FORMAT(m.date, '%m%e') = DATE_FORMAT(NOW(), '%m%e')";
+            $req .= " AND m.scoreA IS NULL AND m.scoreB IS NULL";
             $nbMacths = $this->parent->db->select_one($req, null);
             return ($nbMacths == 0);
         }
@@ -242,7 +252,5 @@ class Settings {
 
         return $retour;
     }
-
 }
-
 ?>

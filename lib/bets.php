@@ -141,9 +141,9 @@ class Bets {
             $colorA = "transparent";
             $colorB = "transparent";
             if ($prono['scorePronoA'] > $prono['scorePronoB'])
-                $colorA = "#ffef99";
+                $colorA = "#FFBF46";
             else if ($prono['scorePronoA'] < $prono['scorePronoB'])
-                $colorB = "#ffef99";
+                $colorB = "#FFBF46";
             $prono['COLOR_A'] = $colorA;
             $prono['COLOR_B'] = $colorB;
             $prono['SPECIAL'] = $prono['status'];
