@@ -74,7 +74,7 @@ class Settings {
         $req = "SELECT date, DATE_FORMAT(date, '%m') as month";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
         $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
-        $req .= " AND name = 'DATE_DEBUT' OR name = 'DATE_FIN'";
+        $req .= " AND (name = 'DATE_DEBUT' OR name = 'DATE_FIN')";
         $req .= " ORDER BY date";
 
         $months = array();
@@ -109,10 +109,10 @@ class Settings {
     function getYears() {
         // Main Query
         $req = "SELECT date, DATE_FORMAT(date, '%Y') as year";
-        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings s";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
         $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
-        $req .= " AND s.name = 'DATE_DEBUT' OR s.name = 'DATE_FIN'";
-        $req .= " ORDER BY s.date";
+        $req .= " AND (name = 'DATE_DEBUT' OR name = 'DATE_FIN')";
+        $req .= " ORDER BY date";
 
         $yearsInDB = $this->parent->db->select_array($req, $nb_res);
         $years = array();
