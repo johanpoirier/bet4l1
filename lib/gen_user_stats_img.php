@@ -13,7 +13,6 @@ $engine = new Engine(false, $debug);
 
 if (isset($_GET['user'])) {
     $userID = $_GET['user'];
-    $user = $engine->users->getById($userID);
     $userStats = $engine->stats->getUserStats($userID);
 
     $type = $_GET['type'];
