@@ -17,13 +17,14 @@
                 </tr>
                 <tr>
                     <td colspan="4" align="left">
-                        <a onclick="changePhase({PREVIOUS_PHASE_ID})" style="float:left; cursor: pointer; visibility: {PREVIOUS_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/previous.gif" alt="previous" /></a>
-                        <select style="float:left;" name="sltPhase" onchange="changePhase(this.value)">
+                        <span>Après {NB_GAMES_PLAYED} matchs joués sur {NB_GAMES_TOTAL}</span>
+                        <a onclick="changePhase({NEXT_PHASE_ID})" style="float:right; cursor: pointer; visibility: {NEXT_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/next.gif" alt="next" /></a>
+                        <select style="float:right;" name="sltPhase" onchange="changePhase(this.value)">
                             <!-- BEGIN phases -->
                             <option value="{phases.PHASE_ID}" {phases.SELECTED}>{phases.NAME}</option>
                             <!-- END phases -->
                         </select>
-                        <a onclick="changePhase({NEXT_PHASE_ID})" style="float:left; cursor: pointer; visibility: {NEXT_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/next.gif" alt="next" /></a>
+                        <a onclick="changePhase({PREVIOUS_PHASE_ID})" style="float:right; cursor: pointer; visibility: {PREVIOUS_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/previous.gif" alt="previous" /></a>                        
                     </td>
                 </tr>
             </table>

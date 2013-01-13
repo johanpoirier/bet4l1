@@ -167,11 +167,9 @@ class Engine {
         }
         $users = $this->users->get($instanceID);
         $nbTotalUsers = $this->users->getNumberOf($instanceID);
-        $nbJoueursActifs = $this->users->getNumberOfActiveOnes($instanceID);
-
+        
         $infos = array(
-            'NB_PLAYERS' => $nbTotalUsers,
-            'NB_ACTIVE_PLAYERS' => $nbJoueursActifs,
+            'LAST_GENERATE_LABEL' => $this->settings->getLastGenerateLabel(),
             'INSTANCE_ID' => $instanceID,
             'INSTANCE_NAME' => ( $instance ? $instance['name'] : "" ),
             'GENERAL_CUP_LABEL' => $this->config['general_cup_label'],
@@ -543,6 +541,8 @@ class Engine {
         $this->template->set_filenames(array('ranking_phase' => 'ranking_phase.tpl'));
 
         $infos = array(
+            'NB_GAMES_PLAYED' => $this->games->getNbMatchsPlayedByPhase($phaseID),
+            'NB_GAMES_TOTAL' => $this->games->getNbMatchsByPhase($phaseID),
             'GENERAL_CUP_LABEL' => $this->config['general_cup_label'],
             'LCP_LABEL' => $this->config['lcp_label'],
             'PERFECT_CUP_LABEL' => $this->config['perfect_cup_label']
