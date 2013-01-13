@@ -813,6 +813,7 @@ class Engine {
             }
             $lastDate = $result['dateStr'];
             $odds = $this->bets->getOddsByGame($result['matchID']);
+            $nbOdds = ($odds['A_WINS'] + $odds['B_WINS'] + $odds['NUL']);
 
             $imageMatch = "";
             if ($result['SPECIAL'] == 1) {
@@ -833,15 +834,15 @@ class Engine {
                 'TEAM_IMG_B' => $this->template_web_location . '/images/fanions/' . formatImageFilename($result['teamBname']) . '.png',
                 'CLASS_A' => $result['CLASS_A'],
                 'CLASS_B' => $result['CLASS_B'],
-                'A_AVG' => $odds['A_AVG'],
-                'B_AVG' => $odds['B_AVG'],
-                'A_WINS' => $odds['A_WINS'],
-                'NUL' => $odds['NUL'],
-                'B_WINS' => $odds['B_WINS'],
-                'NB_EXACT_BETS' => $odds['NB_EXACT_BETS'],
-                'EXACT_BETS' => $odds['EXACT_BETS'],
-                'NB_GOOD_BETS' => $odds['NB_GOOD_BETS'],
-                'GOOD_BETS' => $odds['GOOD_BETS']
+                'A_AVG' => ($nbOdds > 3) ? $odds['A_AVG'] : '',
+                'B_AVG' => ($nbOdds > 3) ? $odds['B_AVG'] : '',
+                'A_WINS' => ($nbOdds > 3) ? $odds['A_WINS'] : '?',
+                'NUL' => ($nbOdds > 3) ? $odds['NUL'] : '?',
+                'B_WINS' => ($nbOdds > 3) ? $odds['B_WINS'] : '?',
+                'NB_EXACT_BETS' => ($nbOdds > 3) ? $odds['NB_EXACT_BETS'] : '',
+                'EXACT_BETS' => ($nbOdds > 3) ? $odds['EXACT_BETS'] : '',
+                'NB_GOOD_BETS' => ($nbOdds > 3) ? $odds['NB_GOOD_BETS'] : '',
+                'GOOD_BETS' => ($nbOdds > 3) ? $odds['GOOD_BETS'] : ''
             ));
         }
 
