@@ -189,7 +189,16 @@ select {
 <![endif]-->
 }
 
-
+/************* *****************/
+td.win {
+    background-color: #FFBF46;
+}
+td.tie {
+    background-color: #fff7ba;
+}
+td.loose {
+    background-color: transparent;
+}
 
 /************* CLASSES ***************/
 .maincontent {

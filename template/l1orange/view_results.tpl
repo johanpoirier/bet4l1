@@ -26,11 +26,11 @@
         {results.DATE}
         <tr>
           <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="5">{results.IMG}</td>
-          <td id="m_{results.MATCH_ID}_team_A" width="32%" rowspan="3" style="text-align: right;background-color: {results.COLOR_A}">{results.TEAM_NAME_A} <img src="{results.TEAM_IMG_A}" alt="{results.TEAM_NAME_A}" /></td>
+          <td id="m_{results.MATCH_ID}_team_A" width="32%" rowspan="3" style="text-align: right;" class="{results.CLASS_A}">{results.TEAM_NAME_A} <img src="{results.TEAM_IMG_A}" alt="{results.TEAM_NAME_A}" /></td>
           <td width="12%" style="text-align:center;font-weight:600;font-size:15px;">{results.SCORE_MATCH_A}</td>
           <td width="7%" style="text-align:center; font-weight:300; font-size:9px;" rowspan="2"></td>
           <td width="12%" style="text-align:center;font-weight:600;font-size:15px;">{results.SCORE_MATCH_B}</td>
-          <td id="m_{results.MATCH_ID}_team_B" width="32%" rowspan="3" style="text-align: left; background-color: {results.COLOR_B};"><img src="{results.TEAM_IMG_B}" alt="{results.TEAM_NAME_B}" /> {results.TEAM_NAME_B}</td>
+          <td id="m_{results.MATCH_ID}_team_B" width="32%" rowspan="3" style="text-align: left;" class="{results.CLASS_B}"><img src="{results.TEAM_IMG_B}" alt="{results.TEAM_NAME_B}" /> {results.TEAM_NAME_B}</td>
         </tr>
         <tr>
           <td style="text-align:center;color:blue;font-weight:300;font-size:9px;">{results.A_AVG}</td>

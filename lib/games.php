@@ -267,14 +267,18 @@ class Games {
         $resultsBdd = $this->parent->db->select_array($req, $nb_teams);
         foreach ($resultsBdd as $result) {
             // colors
-            $colorA = "transparent";
-            $colorB = "transparent";
-            if ($result['scoreMatchA'] > $result['scoreMatchB'])
-                $colorA = "#FFBF46";
-            else if ($result['scoreMatchA'] < $result['scoreMatchB'])
-                $colorB = "#FFBF46";
-            $result['COLOR_A'] = $colorA;
-            $result['COLOR_B'] = $colorB;
+            $classA = "tie";
+            $classB = "tie";
+            if ($result['scoreMatchA'] > $result['scoreMatchB']) {
+                $classA = "win";
+                $classB = "loose";
+            }
+            else if ($result['scoreMatchA'] < $result['scoreMatchB']) {
+                $classA = "loose";
+                $classB = "win";
+            }
+            $result['CLASS_A'] = $classA;
+            $result['CLASS_B'] = $classB;
             $result['SPECIAL'] = $result['status'];
 
             $results[] = $result;

@@ -32,7 +32,7 @@
       {bets.DATE}
       <tr style="line-height: 18px;">
   	<td width="5%" align="left" style="white-space:nowrap;font-size:7pt;" rowspan="2">{bets.IMG}</td>
-        <td id="m_{bets.MATCH_ID}_team_A" width="32%" rowspan="2" style="text-align: right;background-color: {bets.COLOR_A};">
+        <td id="m_{bets.MATCH_ID}_team_A" width="32%" rowspan="2" style="text-align: right;" class="{bets.CLASS_A}">
           {bets.TEAM_NAME_A}
           <img src="{bets.TEAM_IMG_A}" alt="{bets.TEAM_NAME_A}" />
         </td>
@@ -48,7 +48,7 @@
         <td width="12%" style="text-align:left;">
           <input type="number" min="0" max="99" size="2" name="iptScoreTeam_B_{bets.MATCH_ID}" id="iptScoreTeam_B_{bets.MATCH_ID}" value="{bets.SCORE_BET_B}" onchange="checkScore(this.id);"{bets.DISABLED} />
         </td>
-        <td id="m_{bets.MATCH_ID}_team_B" width="32%" rowspan="2" style="text-align: left; background-color: {bets.COLOR_B};">
+        <td id="m_{bets.MATCH_ID}_team_B" width="32%" rowspan="2" style="text-align: left;" class="{bets.CLASS_B}">
           <img src="{bets.TEAM_IMG_B}" alt="{bets.TEAM_NAME_B}" />
           {bets.TEAM_NAME_B}
         </td>

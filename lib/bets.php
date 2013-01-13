@@ -133,19 +133,23 @@ class Bets {
 
         // Phase
         $phase = $this->parent->phases->getById($phaseID);
-        $phasePoints = $this->parent->settings->getPointsRules();
+        //$phasePoints = $this->parent->settings->getPointsRules();
         $pronos = array();
         $pronosBdd = $this->parent->db->select_array($req, $nb_pronos);
         foreach ($pronosBdd as $prono) {
             // colors
-            $colorA = "transparent";
-            $colorB = "transparent";
-            if ($prono['scorePronoA'] > $prono['scorePronoB'])
-                $colorA = "#FFBF46";
-            else if ($prono['scorePronoA'] < $prono['scorePronoB'])
-                $colorB = "#FFBF46";
-            $prono['COLOR_A'] = $colorA;
-            $prono['COLOR_B'] = $colorB;
+            $classA = "tie";
+            $classB = "tie";
+            if ($prono['scorePronoA'] > $prono['scorePronoB']) {
+                $classA = "win";
+                $classB = "loose";
+            }
+            else if ($prono['scorePronoA'] < $prono['scorePronoB']) {
+                $classA = "loose";
+                $classB = "win";
+            }
+            $prono['CLASS_A'] = $classA;
+            $prono['CLASS_B'] = $classB;
             $prono['SPECIAL'] = $prono['status'];
 
             //
