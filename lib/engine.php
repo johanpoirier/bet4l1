@@ -166,6 +166,7 @@ class Engine {
             $this->template->set_filenames(array('ranking' => 'ranking.tpl'));
         }
         $users = $this->users->get($instanceID);
+        $nbActiveUsers = $this->users->getNumberOfActiveOnes($instanceID);
         $nbTotalUsers = $this->users->getNumberOf($instanceID);
         
         $infos = array(
@@ -214,13 +215,13 @@ class Engine {
                 if ($evol > 0)
                     $evol = "+" . $evol;
 
-                $bg_color = "";
+                $class = "";
                 if ($userID == $user['userID']) {
-                    $bg_color = " style=\"background-color:#FBD670;\"";
+                    $class = "me";
                 } elseif ($i <= 3) {
-                    $bg_color = " style=\"background-color:#FEECA5;\"";
-                } elseif ($i > ($nbTotalUsers - 3)) {
-                    $bg_color = " style=\"background-color:#FEECA5;\"";
+                    $class = "first";
+                } elseif ($i > ($nbActiveUsers - 1)) {
+                    $class = "last";
                 }
 
                 $usersView[$k++] = array(
@@ -238,7 +239,7 @@ class Engine {
                     'LCP' => $user['lcp_points'] + $user['lcp_bonus'] + $user['lcp_match'],
                     'DIFF' => $user['diff'],
                     'TEAM' => $user['team'],
-                    'BG_COLOR' => $bg_color
+                    'CLASS' => $class
                 );
                 $last_user = $user;
                 $j++;
@@ -379,13 +380,13 @@ class Engine {
                 if ($evol > 0)
                     $evol = "+" . $evol;
 
-                $bg_color = "";
+                $class = "";
                 if ($userID == $user['userID']) {
-                    $bg_color = " style=\"background-color:#FBD670;\"";
+                    $class = "me";
                 } elseif ($i <= 3) {
-                    $bg_color = " style=\"background-color:#FEECA5;\"";
-                } elseif ($i > ($nbTotalUsers - 3)) {
-                    $bg_color = " style=\"background-color:#FEECA5;\"";
+                    $class = "first";
+                } elseif ($i > ($nbTotalUsers - 1)) {
+                    $class = "last";
                 }
 
                 $usersView[$k++] = array(
@@ -400,7 +401,7 @@ class Engine {
                     'LCP_BONUS' => $user['lcp_bonus'],
                     'LCP_MATCH' => $user['lcp_match'],
                     'TEAM' => $user['team'],
-                    'BG_COLOR' => $bg_color
+                    'CLASS' => $class
                 );
                 $last_user = $user;
                 $j++;
@@ -442,13 +443,13 @@ class Engine {
                     $i = $j + 1;
 
 
-                $bg_color = "";
+                $class = "";
                 if ($userID == $user['userID']) {
-                    $bg_color = " style=\"background-color:#FBD670;\"";
+                    $class = "me";
                 } elseif ($i <= 3) {
-                    $bg_color = " style=\"background-color:#FEECA5;\"";
-                } elseif ($i > ($nbTotalUsers - 3)) {
-                    $bg_color = " style=\"background-color:#FEECA5;\"";
+                    $class = "first";
+                } elseif ($i > ($nbTotalUsers - 1)) {
+                    $class = "last";
                 }
 
                 $usersView[$k++] = array(
@@ -461,7 +462,7 @@ class Engine {
                     'NBPRONOS' => $user['nbpronos'],
                     'SCORERATE' => round(($user['nbscores'] / $user['nbpronos']) * 100, 1) . " %",
                     'TEAM' => $user['team'],
-                    'BG_COLOR' => $bg_color
+                    'CLASS' => $class
                 );
                 $last_user = $user;
                 $j++;
@@ -855,7 +856,7 @@ class Engine {
                 'IMG' => $this->template_web_location . '/images/fanions/' . formatImageFilename($team['name']) . '.png',
                 'POINTS' => $team['points'],
                 'DIFF' => $team['diff'],
-                'STYLE' => isset($team['style']) ? ' style="' . $team['style'] . '"' : ''
+                'CLASS' => isset($team['class']) ? $team['class'] : ''
             ));
         }
 
@@ -941,7 +942,7 @@ class Engine {
                 'IMG' => $this->template_web_location . '/images/fanions/' . formatImageFilename($team['name']) . '.png',
                 'POINTS' => $team['points'],
                 'DIFF' => $team['diff'],
-                'STYLE' => isset($team['style']) ? ' style="' . $team['style'] . '"' : ''
+                'CLASS' => isset($team['class']) ? $team['class'] : ''
             ));
         }
 

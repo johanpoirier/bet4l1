@@ -26,7 +26,7 @@
 
         <!-- BEGIN users -->
         <div class="list_element">
-            <table{users.BG_COLOR}>
+            <table class="{users.CLASS}">
                 <tr>
                     <td width="45" style="font-size:80%;text-align:center;"><strong>{users.RANK}</strong></td>
                     <td width="215" style="font-size:70%">

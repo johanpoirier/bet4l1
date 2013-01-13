@@ -84,7 +84,7 @@
               <td width="80%"><b>Equipe</b></td><td width="10%"><b>Pts</b></td><td width="10%"><b>Diff</b></td>
             </tr>
             <!-- BEGIN teams -->
-            <tr{teams.STYLE}>
+            <tr class="{teams.CLASS}">
               <td id="team_{teams.ID}"><img width="15px" src="{teams.IMG}" alt="{teams.NAME}" /> {teams.NAME}</td>
               <td>{teams.POINTS}</td>
               <td>{teams.DIFF}</td>

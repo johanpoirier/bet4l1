@@ -321,30 +321,38 @@ class Bets {
         $pronos = array();
         foreach ($pronosBdd as $prono) {
             // colors
-            $colorA = "transparent";
-            $colorB = "transparent";
-            if ($prono['scorePronoA'] > $prono['scorePronoB'])
-                $colorA = "#99FF99";
-            else if ($prono['scorePronoA'] < $prono['scorePronoB'])
-                $colorB = "#99FF99";
-            $prono['COLOR_A'] = $colorA;
-            $prono['COLOR_B'] = $colorB;
+            $classA = "tie";
+            $classB = "tie";
+            if ($prono['scorePronoA'] > $prono['scorePronoB']) {
+                $classA = "win";
+                $classB = "loose";
+            }
+            else if ($prono['scorePronoA'] < $prono['scorePronoB']) {
+                $classA = "loose";
+                $classB = "win";
+            }
+            $prono['CLASS_A'] = $classA;
+            $prono['CLASS_B'] = $classB;
 
             // limite de temps
-            if (($prono['teamAid'] == NULL) || ($prono['teamBid'] == NULL))
+            if (($prono['teamAid'] == NULL) || ($prono['teamBid'] == NULL)) {
                 $disabled = ' disabled="disabled"';
+            }
             else {
-                if ($this->parent->games->getTimeBefore($prono['matchID']) < 900)
+                if ($this->parent->games->getTimeBefore($prono['matchID']) < 900) {
                     $disabled = ' disabled="disabled"';
-                else
+                }
+                else {
                     $disabled = "";
+                }
             }
             $prono['DISABLED'] = $disabled;
 
             $pronos[] = $prono;
         }
-        if ($this->parent->debug)
+        if ($this->parent->debug) {
             array_show($pronos);
+        }
 
         return $pronos;
     }

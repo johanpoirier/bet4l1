@@ -55,7 +55,10 @@ class Teams {
 
         // Coloration des qualifies
         for($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['style'] = "background-color:#FFBF46;";
+            $array_teams[$i]['class'] = "first";
+        }
+        for($i = sizeof($array_teams) - 1; $i > (sizeof($array_teams) - 4); $i--) {
+            $array_teams[$i]['class'] = "last";
         }
 
         return $array_teams;
@@ -107,9 +110,12 @@ class Teams {
 
         // Coloration des qualifies
         for($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['style'] = "background-color:#FFBF46;";
+            $array_teams[$i]['class'] = "first";
         }
-
+        for($i = sizeof($array_teams) - 1; $i > (sizeof($array_teams) - 4); $i--) {
+            $array_teams[$i]['class'] = "last";
+        }
+        
         return $array_teams;
     }
 

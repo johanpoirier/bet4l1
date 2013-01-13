@@ -190,7 +190,7 @@ select {
 }
 
 /************* *****************/
-td.win {
+td.win, tr.first {
     background-color: #FFBF46;
 }
 td.tie {
@@ -199,6 +199,18 @@ td.tie {
 td.loose {
     background-color: transparent;
 }
+
+table.first {
+    background-color: #FEECA5;
+}
+table.last, tr.last {
+    background-color: #ffaeae;
+}
+table.me {
+    background-color: #FBD670;
+}
+
+
 
 /************* CLASSES ***************/
 .maincontent {
