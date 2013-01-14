@@ -404,12 +404,11 @@ class Bets {
         return $nb_pronos;
     }
 
-    function getNumberOfPlayedOnesByPhase($phaseID) {
+    function getNumberOfPlayedOnesByGame($gameID) {
         // Main Query
         $req = "SELECT count(p.matchID)";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "pronos p";
-        $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "matchs m ON (p.matchID = m.matchID)";
-        $req .= " WHERE m.phaseID = " . $phaseID;
+        $req .= " WHERE p.matchID = " . $gameID;
         $req .= " AND (p.scoreA IS NOT NULL) AND (p.scoreB IS NOT NULL)";
 
         $nb_pronos = $this->parent->db->select_one($req);
