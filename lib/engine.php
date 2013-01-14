@@ -813,7 +813,7 @@ class Engine {
             }
             $lastDate = $result['dateStr'];
             $odds = $this->bets->getOddsByGame($result['matchID']);
-            $nbOdds = ($odds['A_WINS'] + $odds['B_WINS'] + $odds['NUL']);
+            $nbOdds = $this->bets->getNumberOfPlayedOnesByGame($result['matchID']);
 
             $imageMatch = "";
             if ($result['SPECIAL'] == 1) {
