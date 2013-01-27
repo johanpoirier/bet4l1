@@ -522,6 +522,10 @@ class Users {
         if ($is_rank_to_update) {
             $this->parent->settings->setLastGenerate();
         }
+        
+        // MaJ libelle etat classement
+        $this->parent->settings->setLastGenerateLabel();
+        
         return;
     }
 
