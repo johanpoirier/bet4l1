@@ -156,6 +156,25 @@ class Settings {
         return $rules;
     }
 
+    function setLastGenerateLabel() {
+        $setting_name = "LAST_GENERATE";
+       
+        // Last generate label
+        $currentPhaseId = $this->parent->phases->getPhaseIDActive();
+        $nbGamesPlayed = $this->parent->games->getNbMatchsPlayedByPhase($currentPhaseId);
+        $nbGamesTotal = $this->parent->games->getNbMatchsByPhase($currentPhaseId);
+        $currentPhase = $this->parent->phases->getById($currentPhaseId);
+        
+        $req = "UPDATE " . $this->parent->config['db_prefix'] . "settings";
+        $req .= " SET value = 'Après " . $nbGamesPlayed . " matchs sur " . $nbGamesTotal . " de la " . $currentPhase['name'] . "'";
+        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND name = '" . $setting_name . "'"; 
+
+        $this->parent->db->exec_query($req);
+
+        return;
+    }
+
     function setLastGenerate($lcp = false) {
         $setting_name = "LAST_GENERATE";
         if($lcp) {
@@ -170,21 +189,6 @@ class Settings {
 
         $this->parent->db->exec_query($req);
 
-        
-        // Last generate label
-        $currentPhaseId = $this->parent->phases->getPhaseIDActive();
-        $nbGamesPlayed = $this->parent->games->getNbMatchsPlayedByPhase($currentPhaseId);
-        $nbGamesTotal = $this->parent->games->getNbMatchsByPhase($currentPhaseId);
-        $currentPhase = $this->parent->phases->getById($currentPhaseId);
-        
-        $req = "UPDATE " . $this->parent->config['db_prefix'] . "settings";
-        $req .= " SET value = 'Après " . $nbGamesPlayed . " matchs sur " . $nbGamesTotal . " de la " . $currentPhase['name'] . "'";
-        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
-        $req .= " AND name = '" . $setting_name . "'"; 
-
-        $this->parent->db->exec_query($req);
-
-        
         return;
     }
 
