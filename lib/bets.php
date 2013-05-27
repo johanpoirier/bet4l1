@@ -156,10 +156,18 @@ class Bets {
             $resProno = $this->parent->settings->computeNbPtsProno($phase, $prono['status'], $prono['scoreMatchA'], $prono['scoreMatchB'], $prono['scorePronoA'], $prono['scorePronoB']);
             if ($resProno['points'] >= ($phase['nbPointsRes'] + $phase['nbPointsScore'] + $phase['nbPointsQualifie'])) {
                 $color = "green";
-                $points = "<strong>+" . $resProno['points'] . "pts</strong>";
+                $points = "<strong>+" . $resProno['points'] . "pt";
+                if($resProno['points'] > 1) {
+                    $points .= "s";
+                }
+                $points .= "</strong>";
+                
             } elseif ($resProno['points'] >= $phase['nbPointsRes']) {
                 $color = "green";
-                $points = "+" . $resProno['points'] . "pts";
+                $points = "+" . $resProno['points'] . "pt";
+                if($resProno['points'] > 1) {
+                    $points .= "s";
+                }
             } else {
                 $color = "red";
                 $points = $resProno['points'] . "pt";
