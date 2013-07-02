@@ -15,14 +15,14 @@ $config['forum_link'] = "http://clar.basket.free.fr/forum3/viewtopic.php?f=85&t=
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
-$config['title'] = "CLAR - Pronostics L1 2012/2013";
+$config['title'] = "CLAR - Pronostics L1 2013/2014";
 $config['logo'] = "logo.2012.jpg";
-$config['general_cup_label'] = "Bassine Bouli Cup";
-$config['lcp_label'] = "le vieux Cup";
+$config['general_cup_label'] = "Syl20 Cup";
+$config['lcp_label'] = "seven Cup";
 $config['lcp_short_label'] = "A l'envers";
 $config['perfect_cup_label'] = "yannou12 Cup";
 $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "Match_alenvers.png";
-$config['current_instance'] = "2";
+$config['current_instance'] = "4";
 ?>
