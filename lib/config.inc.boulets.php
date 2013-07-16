@@ -8,14 +8,14 @@ $config['support_email'] = "guillaume.besset@gmail.com";
 $config['support_team'] = "Pronos-L1";
 $config['email_simulation'] = false;
 $config['lang'] = "fr";
-$config['url'] = "http://pronos.l1.boulets.nirgal.org/";
+$config['url'] = "http://pronos.l1.boulets.jops-dev.com/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
 $config['forum_link'] = "#";
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
-$config['title'] = "Boulets - Pronostics L1 2012/2013";
+$config['title'] = "Boulets - Pronostics L1 2013/2014";
 $config['logo'] = "logo.boulets.gif";
 $config['general_cup_label'] = "Général";
 $config['lcp_label'] = "Raymond's Cup";
@@ -24,5 +24,5 @@ $config['perfect_cup_label'] = "Perfect Cup";
 $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "raymond.gif";
-$config['current_instance'] = "3";
+$config['current_instance'] = "5";
 ?>
