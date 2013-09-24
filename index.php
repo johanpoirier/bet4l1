@@ -225,12 +225,12 @@ switch($op) {
         $engine->users->updateRanking();
         //$engine->users->updateTeamRanking();
         $engine->users->updateRankingLCP();
-        $engine->loadRanking();
+        $engine->loadRanking($_SESSION['userID']);
         break;
 
     case "stats":
         $engine->stats->regenerateStats();
-        $engine->loadRanking();
+        $engine->loadRanking($_SESSION['userID']);
         break;
 
     case "my_profile":
