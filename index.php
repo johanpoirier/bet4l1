@@ -174,6 +174,39 @@ switch($op) {
 
         $op = "edit_users";
         break;
+
+    case "add_instance":
+        $name = $_POST['name'];
+        if(strlen($name) > 3) {
+            $parentId = $_POST['parentId'];
+            $copyData = 0;
+            if(isset($_POST['copyData'])) {
+                $copyData = $_POST['copyData'];
+            }
+            $engine->instances->add($name, $parentId, $copyData);
+        }
+
+        $op = "edit_instances";
+        break;
+
+    case "edit_instance":
+        $submit = $_POST['edit_instance'];
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+
+        if($submit == "Modifier" && strlen($name) > 3) {
+            $active = 0;
+            if(isset($_POST['active'])) {
+                $active = $_POST['active'];
+            }
+            $engine->instances->update($id, $name, $active);
+        }
+        else {
+            // delete instance
+        }
+
+        $op = "edit_instances";
+        break;
 }
 
 // page display
@@ -319,6 +352,12 @@ switch($op) {
         }
         else {
             $engine->loadForgotPassword();
+        }
+        break;
+
+    case "edit_instances":
+        if($engine->isAdmin()) {
+            $engine->loadEditInstances();
         }
         break;
 

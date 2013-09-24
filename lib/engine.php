@@ -1154,6 +1154,27 @@ class Engine {
         $this->blocks_loaded[] = 'edit_results';
     }
 
+    function loadEditInstances() {
+        $this->template->set_filenames(array('edit_instances' => 'edit_instances.tpl'));
+
+        // games
+        $instances = $this->instances->getWithDetails();
+        foreach ($instances as $instance) {
+            $this->template->assign_block_vars('instances', array(
+                'ID' => $instance['id'],
+                'NAME' => $instance['name'],
+                'STYLE' => $instance['active'] == 1 ? "style=\"font-weight:bold;\"":"",
+                'NB_PHASES' => $instance['nbPhases']
+            ));
+        }
+
+        $this->template->assign_vars(array(
+            'TPL_WEB_PATH' => $this->template_web_location
+        ));
+
+        $this->blocks_loaded[] = 'edit_instances';
+    }
+
     function loadGames() {
         $this->template->set_filenames(array('edit_games' => 'edit_games.tpl'));
 

@@ -86,7 +86,7 @@ function getGame(id) {
 }
 
 var fillMatch = function(response) {
-	matchDatas = response.split("|");
+    var matchDatas = response.split("|");
 	selectListValue('day',  matchDatas[0]);
 	selectListValue('month',  matchDatas[1]);
 	selectListValue('year',  matchDatas[2]);
@@ -109,7 +109,7 @@ function getUser(idUser) {
 }
 
 var fillUser = function(response) {
-	userDatas = response.split("|");
+	var userDatas = response.split("|");
 	$('#name').val(userDatas[0]);
 	$('#login').val(userDatas[1]);
 	$('#mail').val(userDatas[2]);
@@ -117,6 +117,21 @@ var fillUser = function(response) {
 	selectListValue('sltUserTeam', userDatas[4]);
 }
 
+function getInstance(id) {
+    $.ajax({
+        type: "GET",
+        url: "/lib/ajax.php",
+        data: "op=getInstance&id=" + id,
+        success: fillInstance
+    });
+}
+
+var fillInstance = function(response) {
+    var instanceDatas = response.split("|");
+    $('#newId').val(instanceDatas[0]);
+    $('#newName').val(instanceDatas[1]);
+    $('#active').attr('checked', (instanceDatas[4] == 1));
+}
 
 function loadInfos() {
 	$.ajax({

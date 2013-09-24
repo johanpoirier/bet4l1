@@ -12,9 +12,10 @@
   <!-- BEGIN admin_bar -->
   	<img src="{TPL_WEB_PATH}/images/admin_bar.png" usemap="#testbar7" border="0" alt="Menu" />
 	<map name="testbar7" id="testbar7">
-		<area shape="rect" coords="481,4,586,30" href="/?op=edit_users" alt="" />
-		<area shape="rect" coords="587,4,691,30" href="/?op=edit_results" alt="" />
-		<area shape="rect" coords="692,4,795,30" href="/?op=edit_games" alt="" />
+        <area shape="rect" coords="375,4,480,30" href="/?op=edit_instances" alt="Instances" />
+		<area shape="rect" coords="481,4,586,30" href="/?op=edit_users" alt="Users" />
+		<area shape="rect" coords="587,4,691,30" href="/?op=edit_results" alt="Results" />
+		<area shape="rect" coords="692,4,795,30" href="/?op=edit_games" alt="Games" />
 	</map>
   <!-- END admin_bar -->
 </div>

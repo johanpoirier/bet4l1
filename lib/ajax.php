@@ -43,6 +43,12 @@
       if(isset($user)) echo $user['name']."|".$user['login']."|".$user['email']."|".$user['status']."|".$user['userTeamID'];
       break;
 
+      case "getInstance":
+          $id = $_REQUEST['id'];
+          $instance = $engine->instances->getById($id);
+          if(isset($instance)) echo $instance['id']."|".$instance['name']."|".$instance['ownerID']."|".$instance['parentID']."|".$instance['active'];
+          break;
+
     case "getGame":
       $matchID = $_REQUEST['id'];
       $game = $engine->games->getById($matchID);
