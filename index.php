@@ -183,7 +183,7 @@ switch($op) {
             if(isset($_POST['copyData'])) {
                 $copyData = $_POST['copyData'];
             }
-            $engine->instances->add($name, $parentId, $copyData);
+            $engine->instances->add($name, $_SESSION['userID'], $parentId, $copyData);
         }
 
         $op = "edit_instances";

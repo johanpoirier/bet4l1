@@ -63,8 +63,29 @@ class Instances {
         return $this->parent->db->exec_query($req);
     }
 
-    function add($name, $parentId, $copyData) {
-        // TODO
+    function add($name, $ownerID, $parentId, $copyData) {
+        $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "instances (name, ownerID, parentID, active)";
+        $req .= " VALUES ('" . addslashes($name) . "', " . $ownerID . ", " . $parentId . ", 0)";
+        $ret = $this->parent->db->insert($req);
+
+        if($copyData == 1) {
+            // TODO
+        }
+
+        return $ret;
+    }
+
+    function delete($id) {
+        $req = "DELETE";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "instances";
+        $req .= " WHERE id = " . $id;
+
+        // TODO : Delete all datas related to the instance
+
+        // not ui safe yet
+        //$this->parent->db->exec_query($req);
+
+        return;
     }
 }
 ?>
