@@ -19,6 +19,17 @@ class Instances {
         return $instance;
     }
 
+    function getByName($name) {
+        // Main Query
+        $req = "SELECT *";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "instances";
+        $req .= " WHERE name = '" . $name . "'";
+
+        $instance = $this->parent->db->select_line($req, $this->max_results);
+
+        return $instance;
+    }
+
     function get() {
         // Main Query
         $req = "SELECT *";
@@ -68,8 +79,20 @@ class Instances {
         $req .= " VALUES ('" . addslashes($name) . "', " . $ownerID . ", " . $parentId . ", 0)";
         $ret = $this->parent->db->insert($req);
 
+        $newInstance = $this->getByName($name);
         if($copyData == 1) {
-            // TODO
+            // user teams
+            $user_teams = $this->parent->users->getTeamsByInstance($parentId);
+            foreach ($user_teams as $team) {
+                $this->parent->users->addTeam($team['name'], $newInstance['id']);
+            }
+
+            // users
+            $users = $this->parent->users->get($parentId);
+            foreach ($users as $user) {
+                $user_team = $this->parent->users->getTeamByNameAndInstance($user['team'], $newInstance['id']);
+                $this->parent->users->add($user['login'], $user['password'], $user['name'], "", $user['email'], $user_team['id'], $user['status'], true);
+            }
         }
 
         return $ret;

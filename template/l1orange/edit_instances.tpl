@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input type="checkbox" name="copyData" value="1" />
+                            <input type="checkbox" name="copyData" value="1" checked="checked" />
                             <label for="copyData">Copier les données de l'instance parente (joueurs, équipes, paramètres)</label>
                         </td>
                     </tr>

@@ -3,6 +3,7 @@
 class Users {
 
     var $parent;
+    var $max_size = 10000;
 
     function Users(&$parent) {
         $this->parent = $parent;
@@ -38,15 +39,14 @@ class Users {
         return $ret;
     }
 
-    function addTeam($name) {
-        if (false) {
-            // UPDATE ".$this->parent->config['db_prefix']."?
-        } else {
-            return $this->parent->db->insert("INSERT INTO  " . $this->parent->config['db_prefix'] . "user_teams (instanceID, name, lastRank) VALUES (" . $this->parent->config['current_instance'] . ", '" . addslashes($name) . "', 1)");
+    function addTeam($name, $instanceId = false) {
+        if(!$instanceId) {
+            $instanceId = $this->parent->config['current_instance'];
         }
+        return $this->parent->db->insert("INSERT INTO  " . $this->parent->config['db_prefix'] . "user_teams (instanceID, name, lastRank) VALUES (" . $instanceId . ", '" . addslashes($name) . "', 1)");
     }
 
-    function add($login, $pass, $name, $firstname, $email, $groupID, $status) {
+    function add($login, $pass, $name, $firstname, $email, $groupID, $status, $passEncrypted = false) {
         $login = trim($login);
         $email = trim($email);
         $name = trim($name);
@@ -63,9 +63,12 @@ class Users {
         if ($name == null || $name == "" || $login == null || $login == "") {
             return FIELDS_EMPTY;
         }
+        if(!$passEncrypted) {
+            $pass = md5($pass);
+        }
 
         $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "users (login, password, name, email, userTeamID, status, instanceID)";
-        $req .= " VALUES ('" . addslashes($login) . "', '" . md5($pass) . "', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ", " . $this->parent->config['current_instance'] . ")";
+        $req .= " VALUES ('" . addslashes($login) . "', '" . $pass . "', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ", " . $this->parent->config['current_instance'] . ")";
 
         return $this->parent->db->insert($req);
     }
@@ -175,7 +178,7 @@ class Users {
         $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
         $req .= " ORDER BY u.name ASC";
 
-        $users = $this->parent->db->select_array($req, $nbUsers);
+        $users = $this->parent->db->select_array($req, $this->max_size);
         if ($this->parent->debug) {
             array_show($users);
         }
@@ -196,7 +199,7 @@ class Users {
         $req .= " GROUP BY p.userID";
         $req .= " ORDER BY u.name ASC";
 
-        $users = $this->parent->db->select_array($req, $nbUsers);
+        $users = $this->parent->db->select_array($req, $this->max_size);
         if ($this->parent->debug)
             array_show($users);
 
@@ -220,7 +223,7 @@ class Users {
         $req .= " GROUP BY p.userID";
         $req .= " ORDER BY u.name ASC";
 
-        $users = $this->parent->db->select_array($req, $nb_teams);
+        $users = $this->parent->db->select_array($req, $this->max_size);
         if ($this->parent->debug)
             array_show($users);
 
@@ -247,7 +250,7 @@ class Users {
         }
         $req .= " ORDER BY u.name ASC";
 
-        $users = $this->parent->db->select_array($req, $nbUsers);
+        $users = $this->parent->db->select_array($req, $this->max_size);
         if ($this->parent->debug) {
             array_show($users);
         }
@@ -261,7 +264,7 @@ class Users {
         $req .= " WHERE LOWER(email) = '" . strtolower($email) . "'";
         $req .= " AND instanceID = " . $this->parent->config['current_instance'];
 
-        $user = $this->parent->db->select_line($req, $nbUsers);
+        $user = $this->parent->db->select_line($req, $this->max_size);
 
         return $user;
     }
@@ -300,7 +303,7 @@ class Users {
         $req .= " WHERE u.userId = " . $id;
         $req .= " AND u.instanceID = " . $this->parent->config['current_instance'];
 
-        $user = $this->parent->db->select_line($req, $nb_teams);
+        $user = $this->parent->db->select_line($req, $this->max_size);
 
         return $user;
     }
@@ -312,11 +315,38 @@ class Users {
         $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
         $req .= " ORDER BY $orderby $sens";
 
-        $userTeams = $this->parent->db->select_array($req, $nb_teams);
+        $userTeams = $this->parent->db->select_array($req, $this->max_size);
         if ($this->parent->debug)
             array_show($userTeams);
 
         return $userTeams;
+    }
+
+    function getTeamsByInstance($instanceId) {
+        // Main Query
+        $req = "SELECT *";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "user_teams";
+        $req .= " WHERE instanceID = " . $instanceId;
+        $req .= " ORDER BY name ASC";
+
+        $userTeams = $this->parent->db->select_array($req, $this->max_size);
+        if ($this->parent->debug) {
+            array_show($userTeams);
+        }
+
+        return $userTeams;
+    }
+
+    function getTeamByNameAndInstance($name, $instanceId) {
+        // Main Query
+        $req = "SELECT *";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "user_teams";
+        $req .= " WHERE name = '" . $name . "'";
+        $req .= " AND instanceID = " . $instanceId;
+
+        $user_team = $this->parent->db->select_line($req, $this->max_size);
+
+        return $user_team;
     }
 
     function getNumberOf($instanceID = false) {
@@ -679,7 +709,7 @@ class Users {
         $req .= " SELECT m.matchID FROM l1__matchs AS m";
         $req .= " WHERE DATEDIFF(m.date, NOW()) >= 0 AND DATEDIFF(m.date, NOW()) <= " . $nbDays . "))";
 
-        $users = $this->parent->db->select_array($req, $nbUsers);
+        $users = $this->parent->db->select_array($req, $this->max_size);
         if ($this->parent->debug) {
             array_show($users);
         }
