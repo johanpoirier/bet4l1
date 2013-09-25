@@ -3,6 +3,7 @@
 class Phases {
 
     var $parent;
+    var $max_results = 1000;
 
     function Phases(&$parent) {
         $this->parent = $parent;
@@ -25,7 +26,7 @@ class Phases {
             $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
             $req .= " AND m.scoreA is NOT NULL GROUP BY p.phaseID";
             $req .= " ORDER BY mdate DESC";
-            $lastPhasesId = $this->parent->db->select_array($req, $nb_lines);
+            $lastPhasesId = $this->parent->db->select_array($req, $this->max_results);
             if($lastPhasesId && (sizeof($lastPhasesId) > 0)) {
                 $phaseIDactive = $lastPhasesId[0]['phaseID'];
             }
@@ -95,7 +96,7 @@ class Phases {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
         $req .= " WHERE p.phaseID = " . $id;
 
-        $phase = $this->parent->db->select_line($req, $nb_lines);
+        $phase = $this->parent->db->select_line($req, $this->max_results);
 
         return $phase;
     }
@@ -107,7 +108,7 @@ class Phases {
         $req .= " WHERE p.name = " . $name;
         $req .= " AND p.instanceID = " . $this->parent->config['current_instance'];
 
-        $phase = $this->parent->db->select_line($req, $nb_lines);
+        $phase = $this->parent->db->select_line($req, $this->max_results);
 
         return $phase;
     }
@@ -120,7 +121,7 @@ class Phases {
         $req .= " GROUP BY p.phaseID HAVING nb_matchs_filled < 10";
         $req .= " ORDER BY p.phaseID ASC LIMIT 0,1";
 
-        $phase = $this->parent->db->select_line($req, $nb_lines);
+        $phase = $this->parent->db->select_line($req, $this->max_results);
 
         return $phase;
     }
@@ -135,7 +136,7 @@ class Phases {
         $req .= " GROUP BY (p.phaseID) HAVING nbMatchs > 0";
         $req .= " ORDER BY p.phaseID $order";
 
-        $phases = $this->parent->db->select_array($req, $nb_phases);
+        $phases = $this->parent->db->select_array($req, $this->max_results);
         if($this->parent->debug)
             array_show($phases);
 
@@ -173,7 +174,7 @@ class Phases {
         $req .= " GROUP BY (p.phaseID) HAVING nbMatchs > 0";
         $req .= " ORDER BY m.date DESC";
 
-        $phases = $this->parent->db->select_array($req, $nb_phases);
+        $phases = $this->parent->db->select_array($req, $this->max_results);
         if($this->parent->debug) {
             array_show($phases);
         }
@@ -187,7 +188,7 @@ class Phases {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
         $req .= " WHERE p.phasePrecedente = " . $id;
  
-        return $this->parent->db->select_line($req, $nb_phases);
+        return $this->parent->db->select_line($req, $this->max_results);
     }
 
     function getFinalPlayedOnes() {
@@ -200,7 +201,7 @@ class Phases {
         $req .= " GROUP BY (p.phaseID) HAVING nbMatchs > 0";
         $req .= " ORDER BY p.phaseID DESC";
 
-        $phases = $this->parent->db->select_array($req, $nb_phases);
+        $phases = $this->parent->db->select_array($req, $this->max_results);
         if($this->parent->debug)
             array_show($phases);
 
@@ -212,7 +213,7 @@ class Phases {
         $req = "SELECT DISTINCT phasePrecedente";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
         $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
-        $idsPre = $this->parent->db->select_col($req, $nb_cols);
+        $idsPre = $this->parent->db->select_col($req, $this->max_results);
 
         $finalPhases = array();
         $phases = $this->getPhases();
@@ -221,7 +222,7 @@ class Phases {
                 $req = "SELECT *";
                 $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
                 $req .= " WHERE p.phaseID = " . $phase['phaseID'];
-                $phase = $this->parent->db->select_array($req, $nb_phases);
+                $phase = $this->parent->db->select_array($req, $this->max_results);
                 foreach($phase as $maPhase) {
                     $finalPhases[] = $maPhase;
                 }
@@ -238,7 +239,7 @@ class Phases {
         $req .= " WHERE p.instanceID = " . ( $instanceID ? $instanceID : $this->parent->config['current_instance']);
         $req .= " ORDER BY phaseID " . $order;
 
-        $phases = $this->parent->db->select_array($req, $nb_teams);
+        $phases = $this->parent->db->select_array($req, $this->max_results);
         if($this->parent->debug) {
             array_show($phases);
         }
@@ -252,12 +253,30 @@ class Phases {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
         $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
         $req .= " ORDER BY phaseID DESC LIMIT 0,1";
-        $phase = $this->parent->db->select_line($req, $nb_lines);
+        $phase = $this->parent->db->select_line($req, $this->max_results);
+
+        $nbMatchs = 10;
+        $nbQualifies = 10;
+        $nbPointsScore = 1;
+        $nbPointsRes = 1;
+        $nbPointsQualifie = 0;
+        $multiplicateurMatchDuJour = 2;
+        $parentId = 'NULL';
+
+        if($phase != null) {
+            $nbMatchs = $phase['nb_matchs'];
+            $nbQualifies = $phase['nb_qualifies'];
+            $nbPointsScore = $phase['nbPointsScore'];
+            $nbPointsRes = $phase['nbPointsRes'];
+            $nbPointsQualifie = $phase['nbPointsQualifie'];
+            $multiplicateurMatchDuJour = $phase['multiplicateurMatchDuJour'];
+            $parentId = $phase['phaseID'];
+        }
 
         // Add a new one
         $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "phases (phaseID, instanceID, name, nb_matchs, nb_qualifies, phasePrecedente, nbPointsRes, nbPointsQualifie, nbPointsScore, multiplicateurMatchDuJour)";
-        $req .= " VALUES (" . ($this->getMaxId() + 1) . ", " . $this->parent->config['current_instance'] . ", '$label', " . $phase['nb_matchs'] . ", " . $phase['nb_qualifies'] . ", " . $phase['phaseID'] . ", ";
-        $req .= $phase['nbPointsRes'] . ", " . $phase['nbPointsQualifie'] . ", " . $phase['nbPointsScore'] . ", " . $phase['multiplicateurMatchDuJour'] . ")";
+        $req .= " VALUES (" . ($this->getMaxId() + 1) . ", " . $this->parent->config['current_instance'] . ", '$label', " . $nbMatchs . ", " . $nbQualifies . ", " . $parentId . ", ";
+        $req .= $nbPointsRes . ", " . $nbPointsQualifie . ", " . $nbPointsScore . ", " . $multiplicateurMatchDuJour . ")";
 
         return $this->parent->db->insert($req);
     }
@@ -272,7 +291,6 @@ class Phases {
     function move($phaseIdToMove, $phaseIdRef) {
         if($phaseIdToMove != $phaseIdRef) {
             $phaseToMove = $this->getById($phaseIdToMove);
-            //echo "move phase " . $phaseIdToMove . " after phase " . $phaseIdRef . "<br/>";
 
             // move phases after phase ref
             $nextPhase = null;
@@ -302,21 +320,17 @@ class Phases {
                     $nextPhase = $this->getByDirectRoot($nextPhase['phaseID']);
                 }
                 if(isset($nextPhase['phaseID'])) {
-                    //echo " -> phase to move " . $nextPhase['phaseID'] . "<br/>";
 
                     // update phase id and previous phase
                     $nextId++;
-                    //echo " -> phase to move : new id = " . $nextId . "<br/>";
                     $req = "UPDATE " . $this->parent->config['db_prefix'] . "phases";
                     $req .= " SET phaseID = " . $nextId;
                     $req .= ", phasePrecedente = " . $rootRef;
                     $req .= " WHERE phaseID = " . $nextPhase['phaseID'];
-                    //echo "req to move phase : " . $req . "<br/>";
                     $this->parent->db->exec_query($req);
 
                     // update games
                     $req = "UPDATE " . $this->parent->config['db_prefix'] . "matchs SET phaseID = " . $nextId . " WHERE phaseID = " . $nextPhase['phaseID'];
-                    //echo "req to update games : " . $req . "<br/>";
                     $this->parent->db->exec_query($req);
 
                     // prepare next phase

@@ -80,7 +80,7 @@ class Instances {
         $ret = $this->parent->db->insert($req);
 
         $newInstance = $this->getByName($name);
-        if($copyData == 1) {
+        if($copyData == 1 && $parentId != 0) {
             // user teams
             $user_teams = $this->parent->users->getTeamsByInstance($parentId);
             foreach ($user_teams as $team) {
@@ -90,8 +90,20 @@ class Instances {
             // users
             $users = $this->parent->users->get($parentId);
             foreach ($users as $user) {
-                $user_team = $this->parent->users->getTeamByNameAndInstance($user['team'], $newInstance['id']);
-                $this->parent->users->add($user['login'], $user['password'], $user['name'], "", $user['email'], $user_team['id'], $user['status'], true);
+                $user_team = $this->parent->users->getTeamByNameAndInstance($user['team'], $parentId);
+                $this->parent->users->add($user['login'], $user['password'], $user['name'], "", $user['email'], $user_team ? $user_team['userTeamID'] : 'NULL', $user['status'], $newInstance['id'], true);
+            }
+
+            // settings
+            $settings = $this->parent->settings->getByInstance($parentId);
+            foreach ($settings as $setting) {
+                $this->parent->settings->add($newInstance['id'], $setting['name'], $setting['value'], $setting['date']);
+            }
+
+            // teams
+            $teams = $this->parent->teams->get($parentId);
+            foreach ($teams as $team) {
+                $this->parent->teams->add($team['name'], $team['rssName'], $newInstance['id']);
             }
         }
 

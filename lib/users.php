@@ -9,12 +9,15 @@ class Users {
         $this->parent = $parent;
     }
 
-    function isExists($login) {
-        // Main Query
+    function isExists($login, $instanceId = false) {
+        if(!$instanceId) {
+            $instanceId = $this->parent->config['current_instance'];
+        }
+
         $req = "SELECT userID";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users ";
         $req .= " WHERE LOWER(login) = '" . strtolower($login) . "'";
-        $req .= " AND instanceID = " . $this->parent->config['current_instance'];
+        $req .= " AND instanceID = " . $instanceId;
 
         return $this->parent->db->select_one($req, null);
     }
@@ -46,18 +49,23 @@ class Users {
         return $this->parent->db->insert("INSERT INTO  " . $this->parent->config['db_prefix'] . "user_teams (instanceID, name, lastRank) VALUES (" . $instanceId . ", '" . addslashes($name) . "', 1)");
     }
 
-    function add($login, $pass, $name, $firstname, $email, $groupID, $status, $passEncrypted = false) {
+    function add($login, $pass, $name, $firstname, $email, $groupID, $status, $instanceId = false, $passEncrypted = false) {
         $login = trim($login);
         $email = trim($email);
         $name = trim($name);
         $firstname = trim($firstname);
+
+        if(!$instanceId) {
+            $instanceId = $this->parent->config['current_instance'];
+        }
         if (strlen($firstname) > 0) {
             $name = $firstname . " " . $name;
         }
         if (!stristr($email, '@')) {
+            echo "INCORRECT_EMAIL : " . $email;
             return INCORRECT_EMAIL;
         }
-        if ($this->isExists($login)) {
+        if ($this->isExists($login, $instanceId)) {
             return LOGIN_ALREADY_EXISTS;
         }
         if ($name == null || $name == "" || $login == null || $login == "") {
@@ -68,7 +76,7 @@ class Users {
         }
 
         $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "users (login, password, name, email, userTeamID, status, instanceID)";
-        $req .= " VALUES ('" . addslashes($login) . "', '" . $pass . "', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ", " . $this->parent->config['current_instance'] . ")";
+        $req .= " VALUES ('" . addslashes($login) . "', '" . $pass . "', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ", " . $instanceId . ")";
 
         return $this->parent->db->insert($req);
     }
@@ -188,7 +196,7 @@ class Users {
 
     function get($instanceID = false) {
         // Main Query
-        $req = "SELECT u.userID, u.name, u.login, u.password, u.points, u.nbresults, u.nbscores, u.bonus, u.diff, u.last_rank";
+        $req = "SELECT u.userID, u.name, u.login, u.password, u.email, u.status, u.points, u.nbresults, u.nbscores, u.bonus, u.diff, u.last_rank";
         $req .= ", u.userTeamID, t.name AS team, count(p.userID) AS nbpronos";
         $req .= ", (u.lcp_points + u.lcp_bonus + u.lcp_match) AS lcp_total, u.lcp_points, u.lcp_bonus, u.lcp_match, u.last_rank_lcp";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
@@ -200,17 +208,20 @@ class Users {
         $req .= " ORDER BY u.name ASC";
 
         $users = $this->parent->db->select_array($req, $this->max_size);
-        if ($this->parent->debug)
+        if ($this->parent->debug) {
             array_show($users);
+        }
 
         return $users;
     }
 
     function getByPhase($phaseID = false) {
-        if (!$phaseID)
+        if (!$phaseID) {
             $phaseID = PHASE_ID_ACTIVE - 1;
-        if ($phaseID < 0)
+        }
+        if ($phaseID < 0) {
             $phaseID = 0;
+        }
 
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.userTeamID, t.name AS team, count(p.userID) AS nbpronos";
@@ -224,8 +235,9 @@ class Users {
         $req .= " ORDER BY u.name ASC";
 
         $users = $this->parent->db->select_array($req, $this->max_size);
-        if ($this->parent->debug)
+        if ($this->parent->debug) {
             array_show($users);
+        }
 
         return $users;
     }

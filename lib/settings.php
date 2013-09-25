@@ -3,9 +3,25 @@
 class Settings {
 
     var $parent;
+    var $max_results = 1000;
 
     function Settings(&$parent) {
         $this->parent = $parent;
+    }
+
+    function add($instanceId, $name, $value, $date) {
+        $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "settings (instanceID, name, value, date)";
+        $req .= " VALUES (" . $instanceId . ", '" . addslashes($name) . "', '" . $value . "', '" . $date . "')";
+
+        return $this->parent->db->insert($req);
+    }
+
+    function getByInstance($instanceId) {
+        $req = "SELECT *";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
+        $req .= " WHERE instanceID = " . $instanceId;
+
+        return $this->parent->db->select_array($req, $this->max_results);
     }
 
     function getLastGenerate() {

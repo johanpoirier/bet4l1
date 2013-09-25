@@ -14,6 +14,7 @@
                         <td><input type="text" size="40" name="name" id="name"/></td>
                         <td>
                             <select name="parentId" id="parentId">
+                                <option value="0"></option>
                                 <!-- BEGIN instances -->
                                 <option value="{instances.ID}">{instances.NAME}</option>
                                 <!-- END instances -->

@@ -68,8 +68,9 @@ class Engine {
     }
 
     function display() {
-        foreach ($this->blocks_loaded as $block)
+        foreach ($this->blocks_loaded as $block) {
             $this->template->pparse($block);
+        }
     }
 
     function login($login, $pass) {

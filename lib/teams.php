@@ -3,6 +3,7 @@
 class Teams {
 
     var $parent;
+    var $max_results = 1000;
 
     function Teams(&$parent) {
         $this->parent = $parent;
@@ -153,13 +154,31 @@ class Teams {
         return $teamsQualified;
     }
 
+    function get($instanceId = false) {
+        if(!$instanceId) {
+            $instanceId = $this->parent->config['current_instance'];
+        }
+
+        $req = "SELECT *";
+        $req .= " FROM " . $this->parent->config['db_prefix'] . "teams";
+        $req .= " WHERE instanceID = " . $instanceId;
+        $req .= " ORDER BY name ASC";
+
+        $teams = $this->parent->db->select_array($req, $this->max_results);
+        if($this->parent->debug) {
+            array_show($teams);
+        }
+
+        return $teams;
+    }
+
     function getByPhase($phaseID) {
         $req = "SELECT DISTINCT t.teamID, t.name";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "matchs m";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "teams AS t ON(m.teamA = t.teamID)";
         $req .= " WHERE m.phaseID = " . $phaseID;
 
-        $teams = $this->parent->db->select_array($req, $nb_teams);
+        $teams = $this->parent->db->select_array($req, $this->max_results);
         if($this->parent->debug)
             array_show($teams);
 
@@ -172,25 +191,28 @@ class Teams {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "teams t";
         $req .= " WHERE t.teamID = " . $teamID;
 
-        $team = $this->parent->db->select_line($req, $null);
+        $team = $this->parent->db->select_line($req, $this->max_results);
         if($this->parent->debug)
             array_show($team);
 
         return $team;
     }
 
-    function get() {
-        // Main Query
-        $req = "SELECT *";
-        $req .= " FROM " . $this->parent->config['db_prefix'] . "teams t";
-        $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
-        $req .= " ORDER BY name ASC";
+    function add($name, $rssName, $instanceId = false) {
+        if(!$instanceId) {
+            $instanceId = $this->parent->config['current_instance'];
+        }
 
-        $teams = $this->parent->db->select_array($req, $nb_teams);
-        if($this->parent->debug)
-            array_show($teams);
+        $rssName = trim($rssName);
+        $name = trim($name);
+        if ($name == null || $name == "") {
+            return FIELDS_EMPTY;
+        }
 
-        return $teams;
+        $req = "INSERT INTO " . $this->parent->config['db_prefix'] . "teams (instanceID, name, rssName)";
+        $req .= " VALUES (" . $instanceId . ", '" . addslashes($name) . "', '" . $rssName . "')";
+
+        return $this->parent->db->insert($req);
     }
 }
 ?>
