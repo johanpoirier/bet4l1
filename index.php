@@ -270,6 +270,10 @@ switch($op) {
         $engine->loadMyProfile($_SESSION['userID']);
         break;
 
+    case "palmares":
+        $engine->loadPalmares();
+        break;
+
     case "update_profile":
         $message = "";
         $pwd = "";

@@ -12,6 +12,7 @@ $config['url'] = "http://pronos-l1.jops-dev.com/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
 $config['forum_link'] = "http://clar.basket.free.fr/forum3/viewtopic.php?f=85&t=1441";
+$config['palmares_url'] = "http://pronos-l1.jops-dev.com/palmares.jpg";
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */

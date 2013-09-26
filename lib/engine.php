@@ -495,6 +495,17 @@ class Engine {
         $this->blocks_loaded[] = 'my_profile';
     }
 
+    function loadPalmares() {
+        $this->template->set_filenames(array('palmares' => 'palmares.tpl'));
+
+        $infos = array(
+            'IMAGE' => $this->config['palmares_url']
+        );
+        $this->template->assign_vars($infos);
+
+        $this->blocks_loaded[] = 'palmares';
+    }
+
     function loadLogin($message = "") {
         $this->template->set_filenames(array('login' => 'login.tpl'));
 
