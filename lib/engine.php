@@ -252,6 +252,119 @@ class Engine {
         $this->blocks_loaded[] = 'ranking';
     }
 
+    function loadRankingVisual($userID, $instanceID = false) {
+        $this->template->set_filenames(array('ranking_visual' => 'ranking_visual.tpl'));
+
+        if(!$instanceID) {
+            $instanceID = $this->config['current_instance'];
+        }
+        $instance = $this->instances->getById($instanceID);
+        $users = $this->users->get($instanceID);
+        $nbActiveUsers = $this->users->getNumberOfActiveOnes($instanceID);
+        $nbTotalUsers = $this->users->getNumberOf($instanceID);
+
+        $infos = array(
+            'LAST_GENERATE_LABEL' => $this->settings->getLastGenerateLabel(),
+            'INSTANCE_ID' => $instanceID,
+            'INSTANCE_NAME' => ( $instance ? $instance['name'] : "" ),
+            'GENERAL_CUP_LABEL' => $this->config['general_cup_label'],
+            'LCP_LABEL' => $this->config['lcp_label'],
+            'LCP_SHORT_LABEL' => $this->config['lcp_short_label'],
+            'PERFECT_CUP_LABEL' => $this->config['perfect_cup_label'],
+            'TPL_WEB_PATH' => $this->template_web_location
+        );
+        $this->template->assign_vars($infos);
+
+        if (($nbTotalUsers > 0) && (sizeof($users) > 0)) {
+            usort($users, "compare_users");
+            $nbMatchs = $this->games->getNbMatchsByPhase($this->phases->getNextPhaseIdToBet($instanceID));
+
+            $i = 1;
+            $j = 0;
+            $k = 0;
+            $last_user = $users[0];
+
+            foreach ($users as $user) {
+                if ($user['nbpronos'] == 0) {
+                    $nbTotalUsers--;
+                    continue;
+                }
+                if (compare_users($user, $last_user) != 0) {
+                    $i = $j + 1;
+                }
+                $nbPronosPlayed = $this->bets->getNumberOfPlayedOnesByUserAndPhase($user['userID'], $this->phases->getNextPhaseIdToBet());
+
+                $evol = $user['last_rank'] - $i;
+
+                if ($evol == 0)
+                    $img = "egal.png";
+                elseif ($evol > 5)
+                    $img = "arrow_up2.png";
+                elseif ($evol > 0)
+                    $img = "arrow_up1.png";
+                elseif ($evol < -5)
+                    $img = "arrow_down2.png";
+                elseif ($evol < 0)
+                    $img = "arrow_down1.png";
+                if ($evol > 0)
+                    $evol = "+" . $evol;
+
+                $class = "";
+                if ($userID == $user['userID']) {
+                    $class = "me";
+                } elseif ($i <= 3) {
+                    $class = "first";
+                } elseif ($i > ($nbActiveUsers - 1)) {
+                    $class = "last";
+                }
+
+                $usersView[$k++] = array(
+                    'RANK' => $i,
+                    'ID' => $user['userID'],
+                    'NAME' => $user['name'],
+                    'LOGIN' => $user['login'],
+                    'POINTS' => $user['points'],
+                    'CLASS' => $class
+                );
+                $last_user = $user;
+                $j++;
+            }
+
+            $noUserView =  array(
+                'RANK' => "-",
+                'ID' => "",
+                'NAME' => "",
+                'LOGIN' => "",
+                'POINTS' => "",
+                'CLASS' => ""
+            );
+            $users_points_gap = $usersView[0]['POINTS'] - $usersView[$k - 1]['POINTS'];
+            $index_user = 0;
+            for($i = $usersView[0]['POINTS']; $i >= $usersView[$k - 1]['POINTS']; $i--) {
+                $user = null;
+                for($j = $index_user; $j < sizeof($usersView); $j++) {
+                    while($usersView[$j]['POINTS'] == $i) {
+                        if($user == null) {
+                            $user = $usersView[$j];
+                        }
+                        else {
+                            $user['LOGIN'] .= "&nbsp;&nbsp;&gt;&nbsp;&nbsp;" . $usersView[$j]['LOGIN'];
+                        }
+                        $j++;
+                        $index_user = $j;
+                    }
+                }
+                if($user == null) {
+                    $user = $noUserView;
+                    $user['POINTS'] = $i;
+                }
+                $this->template->assign_block_vars('users', $user);
+            }
+        }
+
+        $this->blocks_loaded[] = 'ranking_visual';
+    }
+
     function loadUserTeamRanking() {
         $userTeams = $this->getUserTeams("lastRank");
         $userTeamsView = array();
@@ -499,7 +612,9 @@ class Engine {
         $this->template->set_filenames(array('palmares' => 'palmares.tpl'));
 
         $infos = array(
-            'IMAGE' => $this->config['palmares_url']
+            'PALMARES_1' => $this->config['palmares1_url'],
+            'PALMARES_2' => $this->config['palmares2_url'],
+            'PODIUMS' => $this->config['podiums_url']
         );
         $this->template->assign_vars($infos);
 

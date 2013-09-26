@@ -3,6 +3,7 @@
 class Tags {
 
     var $parent;
+    var $max_results = 5000;
 
     function Tags(&$parent) {
         $this->parent = $parent;
@@ -22,7 +23,7 @@ class Tags {
         if ($limit != false)
             $req .= " LIMIT " . $start . "," . $limit . "";
 
-        $tags = $this->parent->db->select_array($req, $nb_teams);
+        $tags = $this->parent->db->select_array($req, $this->max_results);
 
         if ($this->parent->debug)
             array_show($tags);
@@ -53,7 +54,7 @@ class Tags {
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "users u ON (u.userID = t.userID)";
         $req .= " WHERE tagID = " . $tagID;
 
-        $tag = $this->parent->db->select_line($req, $null);
+        $tag = $this->parent->db->select_line($req, $this->max_results);
 
         if ($this->parent->debug)
             array_show($tag);

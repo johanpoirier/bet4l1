@@ -3,7 +3,7 @@
         <div id="headline">
             <table width="100%">
                 <tr>
-                    <td width="55%"><h1>{INSTANCE_NAME}</h1>{NB_ACTIVE_PLAYERS} parieurs</td>
+                    <td width="55%"><h1>{INSTANCE_NAME}</h1></td>
                 </tr>
             </table>
         </div>

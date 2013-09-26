@@ -254,6 +254,10 @@ switch($op) {
         $engine->loadRankingPerfectByPhase($phaseID);
         break;
 
+    case "view_ranking_visual":
+        $engine->loadRankingVisual($_SESSION['userID']);
+        break;
+
     case "update_ranking":
         $engine->users->updateRanking();
         //$engine->users->updateTeamRanking();
