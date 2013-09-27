@@ -348,7 +348,7 @@ class Engine {
                             $user = $usersView[$j];
                         }
                         else {
-                            $user['LOGIN'] .= "&nbsp;&nbsp;&gt;&nbsp;&nbsp;" . $usersView[$j]['LOGIN'];
+                            $user['LOGIN'] .= "&nbsp;&nbsp;-&nbsp;&nbsp;" . $usersView[$j]['LOGIN'];
                         }
                         $j++;
                         $index_user = $j;
@@ -650,11 +650,93 @@ class Engine {
         $user = $this->users->getById($userID);
         $types = array(1 => "Classement", 2 => "Nb de points par journée", 3 => "Total de pts / Nb de résultats / Nb de perfects");
 
+        $userStats = $this->stats->getUserStats($userID);
         foreach ($types as $id => $type) {
-            $this->template->assign_block_vars('stats', array(
-                'TYPE' => $type,
-                'ID' => $id
-            ));
+            if($id == 1) {
+                $xSerie = "[";
+                $data = "[";
+                $nbJournee = 1;
+                foreach ($userStats as $stat) {
+                    $data .= " [ $nbJournee, " . $stat['rank'] . "], ";
+                    $xSerie .= " [ $nbJournee, '" . $stat['label']. "'], ";
+                    $nbJournee++;
+                }
+                $data .= " ]";
+                $xSerie .= " ]";
+
+                $this->template->assign_block_vars('stats', array(
+                    'TYPE' => $type,
+                    'ID' => $id,
+                    'DATA' => '[ ' . $data . ' ]',
+                    'XSERIE' => $xSerie,
+                    'YMIN' => 1,
+                    'YMAX' => $this->users->getNumberOfActiveOnes(),
+                    'YTICKS' => 2,
+                    'INVERSE' => 'transform: function (v) { return -v; }, inverseTransform: function (v) { return -v; },'
+                ));
+            }
+            else if($id == 2) {
+                $xSerie = "[";
+                $data = "[";
+                $nbJournee = 1;
+                $last_stat = null;
+                foreach ($userStats as $stat) {
+                    if($last_stat == null) {
+                        $points = $stat['points'];
+                    }
+                    else {
+                        $points =($stat['points'] - $last_stat['points']);
+                    }
+
+                    $data .= " [ $nbJournee, " . $points . "], ";
+                    $xSerie .= " [ $nbJournee, '" . $stat['label']. "'], ";
+
+                    $nbJournee++;
+                    $last_stat = $stat;
+                }
+                $data .= " ]";
+                $xSerie .= " ]";
+
+                $this->template->assign_block_vars('stats', array(
+                    'TYPE' => $type,
+                    'ID' => $id,
+                    'DATA' => '[ ' . $data . ' ]',
+                    'XSERIE' => $xSerie,
+                    'YMIN' => 0,
+                    'YMAX' => 16,
+                    'YTICKS' => 2
+                ));
+            }
+            else if($id == 3) {
+                $xSerie = "[";
+                $data1 = "[";
+                $data2 = "[";
+                $data3 = "[";
+                $nbJournee = 1;
+
+                foreach ($userStats as $stat) {
+                    $data1 .= " [ $nbJournee, " . $stat['points'] . "], ";
+                    $data2 .= " [ $nbJournee, " . $stat['nbresults'] . "], ";
+                    $data3 .= " [ $nbJournee, " . $stat['nbscores'] . "], ";
+                    $xSerie .= " [ $nbJournee, '" . $stat['label']. "'], ";
+
+                    $nbJournee++;
+                }
+                $data3 .= " ]";
+                $data2 .= " ]";
+                $data1 .= " ]";
+                $xSerie .= " ]";
+
+                $this->template->assign_block_vars('stats', array(
+                    'TYPE' => $type,
+                    'ID' => $id,
+                    'DATA' => '[ ' . $data1 . ', ' . $data2 . ', ' . $data3 . ' ]',
+                    'XSERIE' => $xSerie,
+                    'YMIN' => 0,
+                    'YMAX' => $this->stats->getUserStatsMaxOf("points"),
+                    'YTICKS' => 5
+                ));
+            }
         }
 
         $this->template->assign_vars(array(

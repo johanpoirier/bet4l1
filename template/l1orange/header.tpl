@@ -5,12 +5,13 @@
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <link type="text/css" rel="stylesheet" href="{TPL_WEB_PATH}/pc.css" />
         <script type="text/javascript" src="/js/jquery.js"> </script>
+        <script type="text/javascript" src="/js/jquery.flot.min.js"> </script>
         <script type="text/javascript" src="/js/main.js"> </script>
         <!-- BEGIN load_infos -->
         <script type="text/javascript">
-            $(window).load(function(){
-            loadInfos();
-        });
+                $(window).load(function(){
+                loadInfos();
+            });
         </script>
         <!-- END load_infos -->
     </head>

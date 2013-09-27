@@ -3,7 +3,7 @@
         <div id="headline">
             <table width="100%">
                 <tr>
-                    <td width="55%"><h1>Classement Général {INSTANCE_NAME}</h1>{LAST_GENERATE_LABEL}</td>
+                    <td width="55%"><a href="/?op=view_ranking_visual" title="Voir le classement en relief"><h1>Classement Général</h1></a>{LAST_GENERATE_LABEL}</td>
                     <td align="center" width="15%"><a href="/?op=view_ranking"><strong>{GENERAL_CUP_LABEL}</strong></a></td>
                     <td align="center" width="15%"><a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a></td>
                     <td align="center" width="15%"><a href="/?op=view_ranking_lcp">{LCP_LABEL}</a></td>

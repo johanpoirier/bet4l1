@@ -3,7 +3,10 @@
         <div id="headline">
             <table width="100%">
                 <tr>
-                    <td width="55%"><h1>Classement en relief {INSTANCE_NAME}</h1></td>
+                    <td width="55%"><a href="/?op=view_ranking" title="Revenir au classement général"><h1>Classement en Relief</h1></a></td>
+                    <td align="center" width="15%"><a href="/?op=view_ranking">{GENERAL_CUP_LABEL}</a></td>
+                    <td align="center" width="15%"><a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a></td>
+                    <td align="center" width="15%"><a href="/?op=view_ranking_lcp">{LCP_LABEL}</a></td>
                 </tr>
             </table>
         </div>
@@ -30,4 +33,22 @@
         </div>
         <!-- END users -->
     </div>
+
+    <div id="rightcolumn">
+        <div class="tag_cloud">
+            <div class="rightcolumn_headline"><h1 style="color:black;">ChatBoard</h1></div>
+            <div id="tag_0" styAle="text-align:center;"><br />
+                <form onsubmit="return saveTag(-1);">
+                    <input type="text" id="tag" value="" size="20" /><br />
+                    <span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
+                </form>
+            </div>
+            <div id="tags">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        getTags();
+    </script>
 </div>
