@@ -658,7 +658,7 @@ class Engine {
                 $nbJournee = 1;
                 foreach ($userStats as $stat) {
                     $data .= " [ $nbJournee, " . $stat['rank'] . "], ";
-                    $xSerie .= " [ $nbJournee, '" . $stat['label']. "'], ";
+                    $xSerie .= " [ $nbJournee, '" . (($totalJournees > 17) ? "J" . $nbJournee : $stat['label']). "'], ";
                     $nbJournee++;
                 }
                 $data .= " ]";
@@ -689,7 +689,7 @@ class Engine {
                     }
 
                     $data .= " [ $nbJournee, " . $points . "], ";
-                    $xSerie .= " [ $nbJournee, '" . $stat['label']. "'], ";
+                    $xSerie .= " [ $nbJournee, '" . (($totalJournees > 17) ? "J" . $nbJournee : $stat['label']). "'], ";
 
                     $nbJournee++;
                     $last_stat = $stat;
@@ -704,7 +704,7 @@ class Engine {
                     'XSERIE' => $xSerie,
                     'YMIN' => 0,
                     'YMAX' => 16,
-                    'YTICKS' => 2
+                    'YTICKS' => 1
                 ));
             }
             else if($id == 3) {
@@ -718,7 +718,7 @@ class Engine {
                     $data1 .= " [ $nbJournee, " . $stat['points'] . "], ";
                     $data2 .= " [ $nbJournee, " . $stat['nbresults'] . "], ";
                     $data3 .= " [ $nbJournee, " . $stat['nbscores'] . "], ";
-                    $xSerie .= " [ $nbJournee, '" . $stat['label']. "'], ";
+                    $xSerie .= " [ $nbJournee, '" . (($totalJournees > 17) ? "J" . $nbJournee : $stat['label']). "'], ";
 
                     $nbJournee++;
                 }
@@ -734,7 +734,7 @@ class Engine {
                     'XSERIE' => $xSerie,
                     'YMIN' => 0,
                     'YMAX' => $this->stats->getUserStatsMaxOf("points"),
-                    'YTICKS' => 5
+                    'YTICKS' => 10
                 ));
             }
         }
