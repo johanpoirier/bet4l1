@@ -49,6 +49,10 @@ p {
 	font: normal 95%/1.4em Verdana, sans-serif;
 }
 
+input[type='number'] {
+	text-align: center;
+	width: 36px;
+}
 
 a img {
 	border: 0;
