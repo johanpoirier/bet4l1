@@ -18,7 +18,7 @@ $config['podiums_url'] = "http://pronos-l1.jops-dev.com/Podiums_Pronos_L1_CLAR.j
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
-$config['title'] = "CLAR - Pronostics L1 2013/2014";
+$config['title'] = "CLAR - Pronostics L1 2014/2015";
 $config['logo'] = "logo.2012.jpg";
 $config['general_cup_label'] = "Syl20 Cup";
 $config['lcp_label'] = "seven Cup";
@@ -27,5 +27,5 @@ $config['perfect_cup_label'] = "yannou12 Cup";
 $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "Match_alenvers.png";
-$config['current_instance'] = "4";
+$config['current_instance'] = "9";
 ?>

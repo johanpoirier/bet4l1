@@ -94,16 +94,16 @@ class Instances {
                 $this->parent->users->add($user['login'], $user['password'], $user['name'], "", $user['email'], $user_team ? $user_team['userTeamID'] : 'NULL', $user['status'], $newInstance['id'], true);
             }
 
-            // settings
-            $settings = $this->parent->settings->getByInstance($parentId);
-            foreach ($settings as $setting) {
-                $this->parent->settings->add($newInstance['id'], $setting['name'], $setting['value'], $setting['date']);
-            }
-
             // teams
             $teams = $this->parent->teams->get($parentId);
             foreach ($teams as $team) {
                 $this->parent->teams->add($team['name'], $team['rssName'], $newInstance['id']);
+            }
+
+            // settings
+            $settings = $this->parent->settings->getByInstance($parentId);
+            foreach ($settings as $setting) {
+                $this->parent->settings->add($newInstance['id'], $setting['name'], $setting['value'], $setting['date']);
             }
         }
 
