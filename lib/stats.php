@@ -44,10 +44,12 @@ class Stats {
     $phases = $this->parent->phases->getPlayedOnes('ASC');
     $globalUsersRanking = array();
     foreach($phases as $phase) {
-      $globalUsersRanking = $this->addPhaseRanksToGlobalRanking($globalUsersRanking, $this->parent->users->getRankingByPhase($phase['phaseID']));
-      usort($globalUsersRanking, "compare_users");
+      $users = $this->parent->users->getRankingByPhase($phase['phaseID']);
+      $globalUsersRanking = $this->addPhaseRanksToGlobalRanking($globalUsersRanking, $users);
+      $rankedUsers = $globalUsersRanking;
+      usort($rankedUsers, "compare_users");
       $rank = 0;
-      foreach($globalUsersRanking as $user) {
+      foreach($rankedUsers as $user) {
         $rank++;
         $req = $reqBase." (".$user['userID'].", '".$phase['name']."', $rank, ".$user['points'].", ".$user['nbresults'].", ".$user['nbscores'].", ".$user['diff'].")";
         $this->parent->db->insert($req);
@@ -62,11 +64,15 @@ class Stats {
       $usersRanking = $ranksToAdd;
     }
     else {
-      for($i = 0; $i < sizeof($usersRanking); $i++) {
-        $usersRanking[$i]['points'] += $ranksToAdd[$usersRanking[$i]['userID']]['points'];
-        $usersRanking[$i]['nbresults'] += $ranksToAdd[$usersRanking[$i]['userID']]['nbresults'];
-        $usersRanking[$i]['nbscores'] += $ranksToAdd[$usersRanking[$i]['userID']]['nbscores'];
-        $usersRanking[$i]['diff'] += $ranksToAdd[$usersRanking[$i]['userID']]['diff'];
+      foreach($ranksToAdd as $rank) {
+        $id = $rank['userID'];
+        if(!isset($usersRanking[$id])) {
+          $usersRanking[$id]['userID'] = $id;
+        }
+        $usersRanking[$id]['points'] += $rank['points'];
+        $usersRanking[$id]['nbresults'] += $rank['nbresults'];
+        $usersRanking[$id]['nbscores'] += $rank['nbscores'];
+        $usersRanking[$id]['diff'] += $rank['diff'];
       }
     }
     return $usersRanking;
