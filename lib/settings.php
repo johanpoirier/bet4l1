@@ -218,7 +218,7 @@ class Settings {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "settings";
         $req .= " WHERE name = '" . $setting_name . "'";
         $req .= " AND instanceID = " . $this->parent->config['current_instance'];
-        $req .= " AND DATE_FORMAT(date, '%m%e') <> DATE_FORMAT(NOW(), '%m%e')";
+        $req .= " AND ( (DATE_FORMAT(date, '%m%e') <> DATE_FORMAT(NOW(), '%m%e')) OR (date IS NULL) )";
         $isLastGenerate = $this->parent->db->select_one($req, null);
 
         if ($isLastGenerate == 1) {
