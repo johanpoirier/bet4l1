@@ -657,8 +657,9 @@ class Engine {
                 $data = "[";
                 $nbJournee = 1;
                 foreach ($userStats as $stat) {
+                    preg_match('/(\d*)/', $stat['label'], $nbJourneeMatches);
                     $data .= " [ $nbJournee, " . $stat['rank'] . "], ";
-                    $xSerie .= " [ $nbJournee, '" . (($totalJournees > 17) ? "J" . $nbJournee : $stat['label']). "'], ";
+                    $xSerie .= " [ $nbJournee, 'J" . $nbJourneeMatches[1] . "'], ";
                     $nbJournee++;
                 }
                 $data .= " ]";
@@ -688,8 +689,10 @@ class Engine {
                         $points =($stat['points'] - $last_stat['points']);
                     }
 
+                    preg_match('/(\d*)/', $stat['label'], $nbJourneeMatches);
+
                     $data .= " [ $nbJournee, " . $points . "], ";
-                    $xSerie .= " [ $nbJournee, '" . (($totalJournees > 17) ? "J" . $nbJournee : $stat['label']). "'], ";
+                    $xSerie .= " [ $nbJournee, 'J" . $nbJourneeMatches[1] . "'], ";
 
                     $nbJournee++;
                     $last_stat = $stat;
@@ -715,10 +718,12 @@ class Engine {
                 $nbJournee = 1;
 
                 foreach ($userStats as $stat) {
+                    preg_match('/(\d*)/', $stat['label'], $nbJourneeMatches);
+
                     $data1 .= " [ $nbJournee, " . $stat['points'] . "], ";
                     $data2 .= " [ $nbJournee, " . $stat['nbresults'] . "], ";
                     $data3 .= " [ $nbJournee, " . $stat['nbscores'] . "], ";
-                    $xSerie .= " [ $nbJournee, '" . (($totalJournees > 17) ? "J" . $nbJournee : $stat['label']). "'], ";
+                    $xSerie .= " [ $nbJournee, 'J" . $nbJourneeMatches[1] . "'], ";
 
                     $nbJournee++;
                 }
