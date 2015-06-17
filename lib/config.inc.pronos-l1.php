@@ -12,9 +12,9 @@ $config['url'] = "http://pronos-l1.jops-dev.com/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
 $config['forum_link'] = "http://clar.basket.free.fr/forum3/viewtopic.php?f=85&t=1441";
-$config['palmares1_url'] = "http://pronos-l1.jops-dev.com/Palmares_Pronos_L1_CLAR.jpg";
-$config['palmares2_url'] = "http://pronos-l1.jops-dev.com/Palmares2_Pronos_L1_CLAR.jpg";
-$config['podiums_url'] = "http://pronos-l1.jops-dev.com/Podiums_Pronos_L1_CLAR.jpg";
+$config['palmares1_url'] = "/palmares/Palmares_Pronos_L1_CLAR.png";
+$config['palmares2_url'] = "/palmares/Palmares2_Pronos_L1_CLAR.png";
+$config['podiums_url'] = "/palmares/Podiums_Pronos_L1_CLAR.png";
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
