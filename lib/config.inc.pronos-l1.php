@@ -4,7 +4,7 @@ $config = array();
 
 /* MAIN INFORMATIONS */
 $config['author'] = "JoPs";
-$config['support_email'] = "johan.poirier@gmail.com";
+$config['support_email'] = "johan.poirier+l1clar@gmail.com";
 $config['support_team'] = "Pronos-L1";
 $config['email_simulation'] = false;
 $config['lang'] = "fr";
@@ -18,14 +18,14 @@ $config['podiums_url'] = "/palmares/Podiums_Pronos_L1_CLAR.png";
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
-$config['title'] = "CLAR - Pronostics L1 2014/2015";
+$config['title'] = "CLAR - Pronostics L1 2015/2016";
 $config['logo'] = "logo.2012.jpg";
-$config['general_cup_label'] = "Cyril 17 Cup";
-$config['lcp_label'] = "Macintorche Cup";
+$config['general_cup_label'] = "Yo Cup";
+$config['lcp_label'] = "le vieux Cup";
 $config['lcp_short_label'] = "A l'envers";
-$config['perfect_cup_label'] = "PapiStephBouli Cup";
+$config['perfect_cup_label'] = "Bassine Bouli Cup";
 $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "Match_alenvers.png";
-$config['current_instance'] = "9";
+$config['current_instance'] = "11";
 ?>
