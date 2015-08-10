@@ -15,7 +15,7 @@ $config['forum_link'] = "#";
 $config['db_prefix'] = "l1__";
 
 /* SITE TUNING */
-$config['title'] = "Boulets - Pronostics L1 2014/2015";
+$config['title'] = "Boulets - Pronostics L1 2015/2016";
 $config['logo'] = "logo.boulets.gif";
 $config['general_cup_label'] = "Général";
 $config['lcp_label'] = "Raymond's Cup";
@@ -24,5 +24,5 @@ $config['perfect_cup_label'] = "Perfect Cup";
 $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "raymond.gif";
-$config['current_instance'] = "10";
+$config['current_instance'] = "12";
 ?>
