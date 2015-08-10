@@ -90,7 +90,7 @@ var fillMatch = function (response) {
     selectListValue('teamA', matchDatas[7]);
     selectListValue('teamB', matchDatas[8]);
     $('#idMatch').val(matchDatas[9]);
-}
+};
 
 function getUser(idUser) {
     $.ajax({
@@ -108,7 +108,7 @@ var fillUser = function (response) {
     $('#mail').val(userDatas[2]);
     $('#admin').attr('checked', (userDatas[3] == 1));
     selectListValue('sltUserTeam', userDatas[4]);
-}
+};
 
 function getInstance(id) {
     $.ajax({
@@ -124,7 +124,7 @@ var fillInstance = function (response) {
     $('#newId').val(instanceDatas[0]);
     $('#newName').val(instanceDatas[1]);
     $('#active').attr('checked', (instanceDatas[4] == 1));
-}
+};
 
 function loadInfos() {
     $.ajax({
