@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# version 1
+
+CACHE:
+js/jquery-2.1.4.min.js
+js/jquery.flot.min.js
+template/l1orange/images/arrow_down1.png
+template/l1orange/images/bg_container5.gif
+template/l1orange/images/del.png
+template/l1orange/images/login.gif
+template/l1orange/images/logo.2012.jpg
+template/l1orange/images/stats.gif
+
+NETWORK:
+*

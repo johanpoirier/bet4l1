@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Bets {
 
@@ -483,5 +483,3 @@ class Bets {
     }
 
 }
-
-?>

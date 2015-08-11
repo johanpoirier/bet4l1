@@ -1,4 +1,4 @@
-<?
+<?php
 	define('WEB_PATH', "/");
 	define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
 	define('URL_PATH', "/");
@@ -36,4 +36,3 @@
     }
     @mail("johan.poirier@gmail.com", $objet, stripslashes($contenu), $headers);
   }
-?>

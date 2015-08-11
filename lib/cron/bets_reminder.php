@@ -1,5 +1,5 @@
 #!/usr/local/bin/php
-<?
+<?php
 
 header("Content-Type: text/plain; charset=utf-8");
 
@@ -24,4 +24,3 @@ if ($engine->games->getNbMatchsInTheNextNDays($nbDaysToCheck) > 0) {
 else {
     echo "No games\n";
 }
-?>

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Phases {
 
@@ -355,4 +355,3 @@ class Phases {
         }
     }
 }
-?>

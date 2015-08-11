@@ -1,4 +1,4 @@
-<?
+<?php
 class Stats {
 	var $parent;
 
@@ -78,4 +78,3 @@ class Stats {
     return $usersRanking;
   }
 }
-?>

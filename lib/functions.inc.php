@@ -1,4 +1,4 @@
-<?
+<?php
 	function redirect($url)
 	{
 		if(substr($url,0,1) == "/")
@@ -404,4 +404,3 @@
   	if($simulation) return true;
   	else return(mail($email, $subject, $content, $headers)); 
   }
-?>

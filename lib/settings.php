@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Settings {
 
@@ -303,4 +303,3 @@ class Settings {
         return $retour;
     }
 }
-?>

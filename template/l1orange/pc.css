@@ -1,4 +1,12 @@
 /** GENERAL **/
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+html, body {
+    height: 100%;
+}
+
 body {
     background-color: #FBD670;
     font: normal small Verdana, Arial, sans-serif;
@@ -120,7 +128,9 @@ select {
 
 /************* DIVS ***************/
 #main {
-    background: #fff url("/template/l1orange/images/bg_container5.gif") repeat-y;
+    background-color: #ffffff;
+    border-left: 2px solid #FE9408;
+    border-right: 2px solid #FE9408;
     font-size: 95%;
     margin: 0 auto;
     padding: 0 4px;
@@ -135,11 +145,62 @@ select {
     float: left;
 }
 
-#nav_area {
-    height: 35px;
-    /*position: relative;*/
-    margin-bottom: 10px;
+nav {
+    background-color: #70808C;
     clear: both;
+    color: #ffffff;
+    display: flex;
+    flex-flow: row wrap;
+    min-height: 35px;
+    margin: 0.5rem 0;
+    padding: 0;
+    width: 100%;
+}
+
+nav a, nav a:visited {
+    color: #ffffff;
+}
+
+.nav-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-group:first-child {
+    padding-left: 1rem;
+}
+
+.nav-group:last-child {
+    padding-right: 1rem;
+}
+
+.nav-group-item {
+    border-left: 1px dashed white;
+    height: 100%;
+    text-align: center;
+    flex-grow: 1;
+    line-height: 35px;
+    min-width: 100px;
+}
+
+.nav-group-item:last-child {
+    border-right: 1px dashed white;
+}
+
+.admin .nav-group-item {
+    background-color: #816E7B;
+}
+
+.nav-group-item a {
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 
 #mainarea {

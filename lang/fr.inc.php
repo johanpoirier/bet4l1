@@ -1,4 +1,4 @@
-<?
+<?php
 unset($lang);
 $lang=array();
 
@@ -46,4 +46,3 @@ $lang['messages'][CHANGE_ACCOUNT_OK] = "Vos informations ont bien été modifié
 $lang['messages'][EMAIL_ALREADY_EXISTS] = "Cet email existe déjà.";
 $lang['messages'][USERNAME_ALREADY_EXISTS] = "Ce nom d'utilisateur existe déjà.";
 $lang['messages'][UNKNOWN_ERROR] = "Erreur inconnue, contactez l'administrateur.";
-?>

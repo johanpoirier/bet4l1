@@ -474,5 +474,3 @@ class Template {
 	}
 
 }
-
-?>

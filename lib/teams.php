@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Teams {
 
@@ -215,4 +215,3 @@ class Teams {
         return $this->parent->db->insert($req);
     }
 }
-?>

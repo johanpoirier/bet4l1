@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" manifest="/manifest.appcache">
     <head>
         <title>{TITLE}</title>
 
@@ -8,7 +8,7 @@
 
         <link type="text/css" rel="stylesheet" href="{TPL_WEB_PATH}/pc.css" />
 
-        <script type="text/javascript" src="/js/jquery.js"> </script>
+        <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
         <script type="text/javascript" src="/js/jquery.flot.min.js"> </script>
         <script type="text/javascript" src="/js/main.js"> </script>
         <!-- BEGIN load_infos -->
@@ -28,5 +28,3 @@
                 </div>
                 <div id="infos"></div>
             </div>
-            <br />
-

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Tags {
 
@@ -86,4 +86,3 @@ class Tags {
         return;
     }
 }
-?>

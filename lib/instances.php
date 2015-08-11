@@ -1,4 +1,4 @@
-<?
+<?php
 class Instances {
 
     var $parent;
@@ -123,4 +123,3 @@ class Instances {
         return;
     }
 }
-?>

@@ -1,4 +1,4 @@
-<?
+<?php
 unset($config);
 $config = array();
 
@@ -28,4 +28,3 @@ $config['perfect_cup_short_label'] = "Perfect";
 $config['bonus_game_img'] = "bonus.jpg";
 $config['lcp_game_img'] = "Match_alenvers.png";
 $config['current_instance'] = "11";
-?>

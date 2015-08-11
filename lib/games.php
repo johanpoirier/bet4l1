@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Games {
 
@@ -329,5 +329,3 @@ class Games {
         return $match;
     }
 }
-
-?>

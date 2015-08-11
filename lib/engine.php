@@ -1,4 +1,4 @@
-<?
+<?php
 
 include_once(BASE_PATH . 'lib/define.inc.php');
 include_once(BASE_PATH . 'lib/config.inc.php');
@@ -1496,4 +1496,3 @@ class Engine {
     }
 
 }
-?>

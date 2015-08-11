@@ -1,4 +1,4 @@
-<?
+<?php
 define('HIDE_STATUS', 2);
 define('SHOW_STATUS', 0);
 
@@ -18,4 +18,3 @@ define('CHANGE_ACCOUNT_OK',-21);
 define('EMAIL_ALREADY_EXISTS',-22);
 define('USERNAME_ALREADY_EXISTS',-24);
 define('UNKNOWN_ERROR',-99);
-?>

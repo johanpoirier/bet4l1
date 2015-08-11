@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Users {
 
@@ -729,5 +729,3 @@ class Users {
     }
 
 }
-
-?>
