@@ -16,7 +16,8 @@ include_once(BASE_PATH . 'lib/tags.php');
 include_once(BASE_PATH . 'lib/teams.php');
 include_once(BASE_PATH . 'lib/users.php');
 
-class Engine {
+class Engine
+{
 
     var $db;
     var $debug;
@@ -39,7 +40,8 @@ class Engine {
     /*  CONTRUCTOR	  */
     /*     * *************** */
 
-    function Engine($admin = false, $debug = false) {
+    function Engine($admin = false, $debug = false)
+    {
         global $config;
         global $lang;
 
@@ -67,13 +69,15 @@ class Engine {
         $this->users = new Users($this);
     }
 
-    function display() {
+    function display()
+    {
         foreach ($this->blocks_loaded as $block) {
             $this->template->pparse($block);
         }
     }
 
-    function login($login, $pass) {
+    function login($login, $pass)
+    {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->config['db_prefix'] . "users ";
@@ -82,32 +86,31 @@ class Engine {
         $req .= " AND instanceID = " . $this->config['current_instance'];
         $req .= " AND status >= 0";
 
-        $user = $this->db->select_line($req, $nb_user);
+        $user = $this->db->select_line($req);
 
-        if ($nb_user == 1) {
-            $_SESSION['username'] = $user['name'];
-            $_SESSION['nom_joueur'] = $user['name'];
-            $_SESSION['login'] = $user['login'];
-            $_SESSION['userID'] = $user['userID'];
-            $_SESSION['status'] = $user['status'];
-            if ($user['status'] == 1) {
-                $this->admin = true;
-            }
-            return true;
-        } else {
-            return false;
+        $_SESSION['username'] = $user['name'];
+        $_SESSION['nom_joueur'] = $user['name'];
+        $_SESSION['login'] = $user['login'];
+        $_SESSION['userID'] = $user['userID'];
+        $_SESSION['status'] = $user['status'];
+        if ($user['status'] == 1) {
+            $this->admin = true;
         }
+        return true;
     }
 
-    function isLogged() {
+    function isLogged()
+    {
         return (isset($_SESSION['userID']));
     }
 
-    function isAdmin() {
+    function isAdmin()
+    {
         return (isset($_SESSION['status']) && $_SESSION['status'] == 1);
     }
 
-    function loadTags($userTeamID = -1, $start = false) {
+    function loadTags($userTeamID = -1, $start = false)
+    {
         $this->template->set_filenames(array('tags' => 'tags.tpl'));
 
         $start = $start ? $start : 0;
@@ -155,25 +158,25 @@ class Engine {
         $this->display();
     }
 
-    function loadRanking($userID, $instanceID = false) {
+    function loadRanking($userID, $instanceID = false)
+    {
         $this->template->set_filenames(array('ranking' => 'ranking.tpl'));
 
         $instance = NULL;
-        if($instanceID) {
+        if ($instanceID) {
             $instance = $this->instances->getById($instanceID);
             $this->template->set_filenames(array('ranking' => 'ranking_simple.tpl'));
-        }
-        else {
+        } else {
             $this->template->set_filenames(array('ranking' => 'ranking.tpl'));
         }
         $users = $this->users->get($instanceID);
         $nbActiveUsers = $this->users->getNumberOfActiveOnes($instanceID);
         $nbTotalUsers = $this->users->getNumberOf($instanceID);
-        
+
         $infos = array(
             'LAST_GENERATE_LABEL' => $this->settings->getLastGenerateLabel(),
             'INSTANCE_ID' => $instanceID,
-            'INSTANCE_NAME' => ( $instance ? $instance['name'] : "" ),
+            'INSTANCE_NAME' => ($instance ? $instance['name'] : ""),
             'GENERAL_CUP_LABEL' => $this->config['general_cup_label'],
             'LCP_LABEL' => $this->config['lcp_label'],
             'LCP_SHORT_LABEL' => $this->config['lcp_short_label'],
@@ -252,10 +255,11 @@ class Engine {
         $this->blocks_loaded[] = 'ranking';
     }
 
-    function loadRankingVisual($userID, $instanceID = false) {
+    function loadRankingVisual($userID, $instanceID = false)
+    {
         $this->template->set_filenames(array('ranking_visual' => 'ranking_visual.tpl'));
 
-        if(!$instanceID) {
+        if (!$instanceID) {
             $instanceID = $this->config['current_instance'];
         }
         $instance = $this->instances->getById($instanceID);
@@ -266,7 +270,7 @@ class Engine {
         $infos = array(
             'LAST_GENERATE_LABEL' => $this->settings->getLastGenerateLabel(),
             'INSTANCE_ID' => $instanceID,
-            'INSTANCE_NAME' => ( $instance ? $instance['name'] : "" ),
+            'INSTANCE_NAME' => ($instance ? $instance['name'] : ""),
             'GENERAL_CUP_LABEL' => $this->config['general_cup_label'],
             'LCP_LABEL' => $this->config['lcp_label'],
             'LCP_SHORT_LABEL' => $this->config['lcp_short_label'],
@@ -277,9 +281,8 @@ class Engine {
 
         if (($nbTotalUsers > 0) && (sizeof($users) > 0)) {
             usort($users, "compare_users");
-            $nbMatchs = $this->games->getNbMatchsByPhase($this->phases->getNextPhaseIdToBet($instanceID));
 
-            $i = 1;
+            $nbPoints = 1;
             $j = 0;
             $k = 0;
             $last_user = $users[0];
@@ -290,36 +293,20 @@ class Engine {
                     continue;
                 }
                 if (compare_users($user, $last_user) != 0) {
-                    $i = $j + 1;
+                    $nbPoints = $j + 1;
                 }
-                $nbPronosPlayed = $this->bets->getNumberOfPlayedOnesByUserAndPhase($user['userID'], $this->phases->getNextPhaseIdToBet());
-
-                $evol = $user['last_rank'] - $i;
-
-                if ($evol == 0)
-                    $img = "egal.png";
-                elseif ($evol > 5)
-                    $img = "arrow_up2.png";
-                elseif ($evol > 0)
-                    $img = "arrow_up1.png";
-                elseif ($evol < -5)
-                    $img = "arrow_down2.png";
-                elseif ($evol < 0)
-                    $img = "arrow_down1.png";
-                if ($evol > 0)
-                    $evol = "+" . $evol;
 
                 $class = "";
                 if ($userID == $user['userID']) {
                     $class = "me";
-                } elseif ($i <= 3) {
+                } elseif ($nbPoints <= 3) {
                     $class = "first";
-                } elseif ($i > ($nbActiveUsers - 1)) {
+                } elseif ($nbPoints > ($nbActiveUsers - 1)) {
                     $class = "last";
                 }
 
                 $usersView[$k++] = array(
-                    'RANK' => $i,
+                    'RANK' => $nbPoints,
                     'ID' => $user['userID'],
                     'NAME' => $user['name'],
                     'LOGIN' => $user['login'],
@@ -330,7 +317,7 @@ class Engine {
                 $j++;
             }
 
-            $noUserView =  array(
+            $noUserView = array(
                 'RANK' => "-",
                 'ID' => "",
                 'NAME' => "",
@@ -338,25 +325,24 @@ class Engine {
                 'POINTS' => "",
                 'CLASS' => ""
             );
-            $users_points_gap = $usersView[0]['POINTS'] - $usersView[$k - 1]['POINTS'];
-            $index_user = 0;
-            for($i = $usersView[0]['POINTS']; $i >= $usersView[$k - 1]['POINTS']; $i--) {
+            $indexUser = 0;
+            $nbUsers = sizeof($usersView);
+            for ($nbPoints = $usersView[0]['POINTS']; $nbPoints >= $usersView[$k - 1]['POINTS']; $nbPoints--) {
                 $user = null;
-                for($j = $index_user; $j < sizeof($usersView); $j++) {
-                    while($usersView[$j]['POINTS'] == $i) {
-                        if($user == null) {
+                for ($j = $indexUser; $j < $nbUsers; $j++) {
+                    while (($j < $nbUsers) && ($usersView[$j]['POINTS'] == $nbPoints)) {
+                        if ($user == null) {
                             $user = $usersView[$j];
-                        }
-                        else {
+                        } else {
                             $user['LOGIN'] .= "&nbsp;&nbsp;-&nbsp;&nbsp;" . $usersView[$j]['LOGIN'];
                         }
                         $j++;
-                        $index_user = $j;
+                        $indexUser = $j;
                     }
                 }
-                if($user == null) {
+                if ($user == null) {
                     $user = $noUserView;
-                    $user['POINTS'] = $i;
+                    $user['POINTS'] = $nbPoints;
                 }
                 $this->template->assign_block_vars('users', $user);
             }
@@ -365,7 +351,8 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_visual';
     }
 
-    function loadUserTeamRanking() {
+    function loadUserTeamRanking()
+    {
         $userTeams = $this->getUserTeams("lastRank");
         $userTeamsView = array();
 
@@ -410,7 +397,8 @@ class Engine {
         return $userTeamsView;
     }
 
-    function loadRankingInTeams($userTeamId) {
+    function loadRankingInTeams($userTeamId)
+    {
         $users = $this->users->getByTeam($userTeamId);
 
         if (sizeof($users) > 0) {
@@ -446,12 +434,12 @@ class Engine {
             }
 
             return $usersView;
-        }
-        else
+        } else
             return array();
     }
 
-    function loadRankingLCP($userID) {
+    function loadRankingLCP($userID)
+    {
         $this->template->set_filenames(array('ranking_lcp' => 'ranking_lcp.tpl'));
 
         $infos = array(
@@ -527,7 +515,8 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_lcp';
     }
 
-    function loadRankingPerfect($userID) {
+    function loadRankingPerfect($userID)
+    {
         $this->template->set_filenames(array('ranking_perfect' => 'ranking_perfect.tpl'));
 
         $infos = array(
@@ -588,7 +577,8 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_perfect';
     }
 
-    function loadMyProfile($userID, $message = "") {
+    function loadMyProfile($userID, $message = "")
+    {
         $this->template->set_filenames(array('my_profile' => 'my_profile.tpl'));
 
         $user = $this->users->getById($userID);
@@ -608,7 +598,8 @@ class Engine {
         $this->blocks_loaded[] = 'my_profile';
     }
 
-    function loadPalmares() {
+    function loadPalmares()
+    {
         $this->template->set_filenames(array('palmares' => 'palmares.tpl'));
 
         $infos = array(
@@ -621,7 +612,8 @@ class Engine {
         $this->blocks_loaded[] = 'palmares';
     }
 
-    function loadLogin($message = "") {
+    function loadLogin($message = "")
+    {
         $this->template->set_filenames(array('login' => 'login.tpl'));
 
         $infos = array(
@@ -633,7 +625,8 @@ class Engine {
         $this->blocks_loaded[] = 'login';
     }
 
-    function loadForgotIDs() {
+    function loadForgotIDs()
+    {
         $this->template->set_filenames(array('forgot_ids' => 'forgot_ids.tpl'));
 
         $this->template->assign_vars(array(
@@ -644,7 +637,8 @@ class Engine {
         $this->blocks_loaded[] = 'forgot_ids';
     }
 
-    function loadUserStats($userID) {
+    function loadUserStats($userID)
+    {
         $this->template->set_filenames(array('user_stats' => 'user_stats.tpl'));
 
         $user = $this->users->getById($userID);
@@ -652,7 +646,7 @@ class Engine {
 
         $userStats = $this->stats->getUserStats($userID);
         foreach ($types as $id => $type) {
-            if($id == 1) {
+            if ($id == 1) {
                 $xSerie = "[";
                 $data = "[";
                 $nbJournee = 1;
@@ -675,18 +669,16 @@ class Engine {
                     'YTICKS' => 2,
                     'INVERSE' => 'transform: function (v) { return -v; }, inverseTransform: function (v) { return -v; },'
                 ));
-            }
-            else if($id == 2) {
+            } else if ($id == 2) {
                 $xSerie = "[";
                 $data = "[";
                 $nbJournee = 1;
                 $last_stat = null;
                 foreach ($userStats as $stat) {
-                    if($last_stat == null) {
+                    if ($last_stat == null) {
                         $points = $stat['points'];
-                    }
-                    else {
-                        $points =($stat['points'] - $last_stat['points']);
+                    } else {
+                        $points = ($stat['points'] - $last_stat['points']);
                     }
 
                     preg_match('/(\d*)/', $stat['label'], $nbJourneeMatches);
@@ -709,8 +701,7 @@ class Engine {
                     'YMAX' => 16,
                     'YTICKS' => 1
                 ));
-            }
-            else if($id == 3) {
+            } else if ($id == 3) {
                 $xSerie = "[";
                 $data1 = "[";
                 $data2 = "[";
@@ -752,7 +743,8 @@ class Engine {
         $this->blocks_loaded[] = 'user_stats';
     }
 
-    function loadRankingByPhase($phaseID = false) {
+    function loadRankingByPhase($phaseID = false)
+    {
         $this->template->set_filenames(array('ranking_phase' => 'ranking_phase.tpl'));
 
         $infos = array(
@@ -836,7 +828,8 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_phase';
     }
 
-    function loadRankingLCPByPhase($phaseID = false) {
+    function loadRankingLCPByPhase($phaseID = false)
+    {
         $this->template->set_filenames(array('ranking_phase_lcp' => 'ranking_phase_lcp.tpl'));
 
         $infos = array(
@@ -916,7 +909,8 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_phase_lcp';
     }
 
-    function loadRankingPerfectByPhase($phaseID = false) {
+    function loadRankingPerfectByPhase($phaseID = false)
+    {
         $this->template->set_filenames(array('ranking_phase_perfect' => 'ranking_phase_perfect.tpl'));
 
         $infos = array(
@@ -996,7 +990,8 @@ class Engine {
         $this->blocks_loaded[] = 'ranking_phase_perfect';
     }
 
-    function loadResults($phaseID) {
+    function loadResults($phaseID)
+    {
         $this->template->set_filenames(array('view_results' => 'view_results.tpl'));
 
         // phases
@@ -1088,7 +1083,8 @@ class Engine {
         $this->blocks_loaded[] = 'view_results';
     }
 
-    function loadBets($userID, $phaseID, $mode) {
+    function loadBets($userID, $phaseID, $mode)
+    {
         $this->template->set_filenames(array('edit_bets' => 'edit_bets.tpl'));
 
         // phases
@@ -1177,7 +1173,8 @@ class Engine {
         $this->blocks_loaded[] = 'edit_bets';
     }
 
-    function loadRules() {
+    function loadRules()
+    {
         $this->template->set_filenames(array('rules' => 'rules.tpl'));
 
         $phase = $this->phases->getById(PHASE_ID_ACTIVE);
@@ -1198,7 +1195,8 @@ class Engine {
         $this->blocks_loaded[] = 'rules';
     }
 
-    function loadHeader($connected = false) {
+    function loadHeader($connected = false)
+    {
         $this->template->set_filenames(array(
             'header' => 'header.tpl'
         ));
@@ -1218,7 +1216,8 @@ class Engine {
         $this->blocks_loaded[] = 'header';
     }
 
-    function loadMenu() {
+    function loadMenu()
+    {
         $this->template->set_filenames(array(
             'menu' => 'menu.tpl'
         ));
@@ -1233,7 +1232,8 @@ class Engine {
         $this->blocks_loaded[] = 'menu';
     }
 
-    function loadFooter($private = false) {
+    function loadFooter($private = false)
+    {
         if ($private) {
             $this->template->set_filenames(array('footer' => 'footer_private.tpl'));
         } else {
@@ -1248,7 +1248,8 @@ class Engine {
         $this->blocks_loaded[] = 'footer';
     }
 
-    function loadInfos($userID) {
+    function loadInfos($userID)
+    {
         $this->template->set_filenames(array('infos' => 'infos.tpl'));
 
         // Next games
@@ -1294,7 +1295,8 @@ class Engine {
         $this->display();
     }
 
-    function loadRegister($warning) {
+    function loadRegister($warning)
+    {
         $this->template->set_filenames(array('register' => 'register.tpl'));
 
         $this->template->assign_vars(array(
@@ -1305,7 +1307,8 @@ class Engine {
         $this->blocks_loaded[] = 'register';
     }
 
-    function loadUsers() {
+    function loadUsers()
+    {
         $this->template->set_filenames(array('users' => 'users.tpl'));
 
         // user & teams
@@ -1328,11 +1331,11 @@ class Engine {
         }
 
 
-
         $this->blocks_loaded[] = 'users';
     }
 
-    function loadEditResults() {
+    function loadEditResults()
+    {
         $this->template->set_filenames(array('edit_results' => 'edit_results.tpl'));
 
         // games
@@ -1368,7 +1371,8 @@ class Engine {
         $this->blocks_loaded[] = 'edit_results';
     }
 
-    function loadEditInstances() {
+    function loadEditInstances()
+    {
         $this->template->set_filenames(array('edit_instances' => 'edit_instances.tpl'));
 
         // games
@@ -1377,7 +1381,7 @@ class Engine {
             $this->template->assign_block_vars('instances', array(
                 'ID' => $instance['id'],
                 'NAME' => $instance['name'],
-                'STYLE' => $instance['active'] == 1 ? "style=\"font-weight:bold;\"":"",
+                'STYLE' => $instance['active'] == 1 ? "style=\"font-weight:bold;\"" : "",
                 'NB_PHASES' => $instance['nbPhases']
             ));
         }
@@ -1389,7 +1393,8 @@ class Engine {
         $this->blocks_loaded[] = 'edit_instances';
     }
 
-    function loadGames() {
+    function loadGames()
+    {
         $this->template->set_filenames(array('edit_games' => 'edit_games.tpl'));
 
         $dateCourante = getdate();
@@ -1470,7 +1475,8 @@ class Engine {
         $this->blocks_loaded[] = 'edit_games';
     }
 
-    function sendIDs($email) {
+    function sendIDs($email)
+    {
         if ($email) {
             $user = $this->users->getByEmail($email);
             if ($user) {

@@ -1,16 +1,19 @@
 <?php
 
-class Users {
+class Users
+{
 
     var $parent;
     var $max_size = 10000;
 
-    function Users(&$parent) {
+    function Users(&$parent)
+    {
         $this->parent = $parent;
     }
 
-    function isExists($login, $instanceId = false) {
-        if(!$instanceId) {
+    function isExists($login, $instanceId = false)
+    {
+        if (!$instanceId) {
             $instanceId = $this->parent->config['current_instance'];
         }
 
@@ -22,7 +25,8 @@ class Users {
         return $this->parent->db->select_one($req, null);
     }
 
-    function updateProfile($userID, $name, $email, $pwd, $email_preferences) {
+    function updateProfile($userID, $name, $email, $pwd, $email_preferences)
+    {
         $req = "UPDATE " . $this->parent->config['db_prefix'] . "users SET";
         if (strlen($email_preferences) == 2) {
             $req .= " email_preferences = '" . $email_preferences . "'";
@@ -42,20 +46,22 @@ class Users {
         return $ret;
     }
 
-    function addTeam($name, $instanceId = false) {
-        if(!$instanceId) {
+    function addTeam($name, $instanceId = false)
+    {
+        if (!$instanceId) {
             $instanceId = $this->parent->config['current_instance'];
         }
         return $this->parent->db->insert("INSERT INTO  " . $this->parent->config['db_prefix'] . "user_teams (instanceID, name, lastRank) VALUES (" . $instanceId . ", '" . addslashes($name) . "', 1)");
     }
 
-    function add($login, $pass, $name, $firstname, $email, $groupID, $status, $instanceId = false, $passEncrypted = false) {
+    function add($login, $pass, $name, $firstname, $email, $groupID, $status, $instanceId = false, $passEncrypted = false)
+    {
         $login = trim($login);
         $email = trim($email);
         $name = trim($name);
         $firstname = trim($firstname);
 
-        if(!$instanceId) {
+        if (!$instanceId) {
             $instanceId = $this->parent->config['current_instance'];
         }
         if (strlen($firstname) > 0) {
@@ -71,7 +77,7 @@ class Users {
         if ($name == null || $name == "" || $login == null || $login == "") {
             return FIELDS_EMPTY;
         }
-        if(!$passEncrypted) {
+        if (!$passEncrypted) {
             $pass = md5($pass);
         }
 
@@ -81,7 +87,8 @@ class Users {
         return $this->parent->db->insert($req);
     }
 
-    function addOrUpdate($login, $pass, $name, $email, $groupID, $status) {
+    function addOrUpdate($login, $pass, $name, $email, $groupID, $status)
+    {
         $login = trim($login);
         $name = trim($name);
         $email = trim($email);
@@ -107,7 +114,8 @@ class Users {
         }
     }
 
-    function delete($login) {
+    function delete($login)
+    {
         // Main Query
         $req = "DELETE";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users";
@@ -119,7 +127,8 @@ class Users {
         return;
     }
 
-    function getRanks() {
+    function getRanks()
+    {
         $users = $this->get();
         $ranks = array();
         usort($users, "compare_users");
@@ -141,7 +150,8 @@ class Users {
         return $ranks;
     }
 
-    function getRanksLCP() {
+    function getRanksLCP()
+    {
         $users = $this->get();
         $ranks = array();
         usort($users, "compare_users_lcp");
@@ -163,7 +173,8 @@ class Users {
         return $ranks;
     }
 
-    function getTeamsRank() {
+    function getTeamsRank()
+    {
         $userTeams = $this->getTeams();
         $teamRanks = array();
         usort($userTeams, "compare_user_teams");
@@ -181,7 +192,8 @@ class Users {
         return $teamRanks;
     }
 
-    function getAll() {
+    function getAll()
+    {
         $req = "SELECT * FROM " . $this->parent->config['db_prefix'] . "users u";
         $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
         $req .= " ORDER BY u.name ASC";
@@ -194,7 +206,8 @@ class Users {
         return $users;
     }
 
-    function get($instanceID = false) {
+    function get($instanceID = false)
+    {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.password, u.email, u.status, u.points, u.nbresults, u.nbscores, u.bonus, u.diff, u.last_rank";
         $req .= ", u.userTeamID, t.name AS team, count(p.userID) AS nbpronos";
@@ -202,7 +215,7 @@ class Users {
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "pronos AS p ON(p.userID = u.userID)";
         $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "user_teams AS t ON(t.userTeamID = u.userTeamID)";
-        $req .= " WHERE u.instanceID = " . ( $instanceID ? $instanceID : $this->parent->config['current_instance'] );
+        $req .= " WHERE u.instanceID = " . ($instanceID ? $instanceID : $this->parent->config['current_instance']);
         $req .= " AND (p.scoreA IS NOT null) AND (p.scoreB IS NOT null) AND u.status >= 0";
         $req .= " GROUP BY p.userID";
         $req .= " ORDER BY u.name ASC";
@@ -215,7 +228,8 @@ class Users {
         return $users;
     }
 
-    function getByPhase($phaseID = false) {
+    function getByPhase($phaseID = false)
+    {
         if (!$phaseID) {
             $phaseID = PHASE_ID_ACTIVE - 1;
         }
@@ -242,7 +256,8 @@ class Users {
         return $users;
     }
 
-    function getByTeam($userTeamID, $all_users = false) {
+    function getByTeam($userTeamID, $all_users = false)
+    {
         $req = "SELECT DISTINCT(u.userID), u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, t.name AS team";
         if (!$all_users) {
             $req .= ", COUNT(p.userID) AS nbpronos";
@@ -270,7 +285,8 @@ class Users {
         return $users;
     }
 
-    function getByEmail($email) {
+    function getByEmail($email)
+    {
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
         $req .= " WHERE LOWER(email) = '" . strtolower($email) . "'";
@@ -281,7 +297,8 @@ class Users {
         return $user;
     }
 
-    function getNumberByTeam($userTeamID) {
+    function getNumberByTeam($userTeamID)
+    {
         // Main Query
         $req = "SELECT COUNT(u.userID)";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
@@ -295,7 +312,8 @@ class Users {
         return $nb_users;
     }
 
-    function getNbActivesUsersByUserTeam($userTeamID) {
+    function getNbActivesUsersByUserTeam($userTeamID)
+    {
         $users = $this->getUsersByUserTeam($userTeamID, true);
         $nbUsersActifs = 0;
         $nbMatchsPlayed = $this->getNbMatchsPlayed();
@@ -307,7 +325,8 @@ class Users {
         return $nbUsersActifs;
     }
 
-    function getById($id) {
+    function getById($id)
+    {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.password, u.email, u.email_preferences, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.status, u.userTeamID, t.name AS team";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
@@ -320,7 +339,8 @@ class Users {
         return $user;
     }
 
-    function getTeams($orderby = "name", $sens = "ASC") {
+    function getTeams($orderby = "name", $sens = "ASC")
+    {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "user_teams";
@@ -334,7 +354,8 @@ class Users {
         return $userTeams;
     }
 
-    function getTeamsByInstance($instanceId) {
+    function getTeamsByInstance($instanceId)
+    {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "user_teams";
@@ -349,7 +370,8 @@ class Users {
         return $userTeams;
     }
 
-    function getTeamByNameAndInstance($name, $instanceId) {
+    function getTeamByNameAndInstance($name, $instanceId)
+    {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "user_teams";
@@ -361,7 +383,8 @@ class Users {
         return $user_team;
     }
 
-    function getNumberOf($instanceID = false) {
+    function getNumberOf($instanceID = false)
+    {
         // Main Query
         $req = "SELECT count(DISTINCT u.userID)";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
@@ -373,7 +396,8 @@ class Users {
         return $nb_users;
     }
 
-    function getNumberOfActiveOnes($instanceID = false) {
+    function getNumberOfActiveOnes($instanceID = false)
+    {
         // Main Query
         $req = "SELECT count(DISTINCT u.userID)";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "users u";
@@ -386,7 +410,8 @@ class Users {
         return $nb_users;
     }
 
-    function updateTeamRanking() {
+    function updateTeamRanking()
+    {
         $userTeams = $this->getTeams();
         $userTeamsView = array();
         $teamRanks = $this->getTeamsRank();
@@ -435,7 +460,8 @@ class Users {
         }
     }
 
-    function updateRankingLCP() {
+    function updateRankingLCP()
+    {
         $phasesPlayed = $this->parent->phases->getPlayedOnes();
         $users = array();
         $ranks = $this->getRanksLCP();
@@ -460,19 +486,22 @@ class Users {
                         $users[$userID]['lcp_bonus'] = 0;
                         $users[$userID]['lcp_match'] = 0;
                         $users[$userID]['rank_lcp'] = 'NULL';
-                        if ($ranks[$userID])
+                        if (isset($ranks[$userID])) {
                             $users[$userID]['rank_lcp'] = $ranks[$userID];
+                        }
                     }
 
                     // Points LCP
-                    if ($userPhase['points'] > $lastNbPoints)
+                    if ($userPhase['points'] > $lastNbPoints) {
                         $cptRank--;
-                    if ($cptRank == 3)
+                    }
+                    if ($cptRank == 3) {
                         $users[$userID]['lcp_points'] += 3;
-                    elseif ($cptRank == 2)
+                    } elseif ($cptRank == 2) {
                         $users[$userID]['lcp_points'] += 2;
-                    elseif ($cptRank == 1)
+                    } elseif ($cptRank == 1) {
                         $users[$userID]['lcp_points'] += 1;
+                    }
                     $lastNbPoints = $userPhase['points'];
                 }
 
@@ -481,21 +510,23 @@ class Users {
                     $userID = $userPhase['userID'];
                     if (isset($userID)) {
                         // Bonus LCP
-                        if ($userPhase['points'] == 0)
+                        if ($userPhase['points'] == 0) {
                             $users[$userID]['lcp_bonus'] += 5;
-                        elseif ($userPhase['points'] == 1)
+                        } elseif ($userPhase['points'] == 1) {
                             $users[$userID]['lcp_bonus'] += 3;
-                        elseif ($userPhase['points'] == 2)
+                        } elseif ($userPhase['points'] == 2) {
                             $users[$userID]['lcp_bonus'] += 2;
-                        elseif ($userPhase['points'] == 3)
+                        } elseif ($userPhase['points'] == 3) {
                             $users[$userID]['lcp_bonus'] += 1;
+                        }
 
                         // Match LCP
                         $pronoLCP = $this->parent->bets->getLCPBetsByPhase($userID, $phase['phaseID']);
                         if ($pronoLCP != null) {
                             $resPronoLCP = $this->parent->settings->computeNbPtsProno($phase, $pronoLCP['status'], $pronoLCP['scoreMatchA'], $pronoLCP['scoreMatchB'], $pronoLCP['scorePronoA'], $pronoLCP['scorePronoB']);
-                            if ($resPronoLCP['res'] == 0)
+                            if ($resPronoLCP['res'] == 0) {
                                 $users[$userID]['lcp_match'] += 1;
+                            }
                         }
                     }
                 }
@@ -517,7 +548,8 @@ class Users {
         return;
     }
 
-    function updateRanking() {
+    function updateRanking()
+    {
         $matchs = $this->parent->games->get();
         $users = array();
         $ranks = $this->getRanks();
@@ -537,8 +569,9 @@ class Users {
                     $users[$prono['userID']]['diff'] = 0;
                     $users[$prono['userID']]['nbresults'] = 0;
                     $users[$prono['userID']]['rank'] = 'NULL';
-                    if ($ranks[$prono['userID']])
+                    if (isset($ranks[$prono['userID']])) {
                         $users[$prono['userID']]['rank'] = $ranks[$prono['userID']];
+                    }
                 }
 
                 if (($prono['scorePronoA'] != NULL) && ($prono['scorePronoB'] != NULL) && ($match['scoreMatchA'] != NULL) && ($match['scoreMatchB'] != NULL)) {
@@ -564,14 +597,15 @@ class Users {
         if ($is_rank_to_update) {
             $this->parent->settings->setLastGenerate();
         }
-        
+
         // MaJ libelle etat classement
         $this->parent->settings->setLastGenerateLabel();
-        
+
         return;
     }
 
-    function getRankingByPhase($phaseID = false) {
+    function getRankingByPhase($phaseID = false)
+    {
         if (!$phaseID)
             $phaseID = PHASE_ID_ACTIVE - 1;
         if ($phaseID < 0)
@@ -618,7 +652,8 @@ class Users {
         return $users;
     }
 
-    function getRankingLCPByPhase($phaseID = false) {
+    function getRankingLCPByPhase($phaseID = false)
+    {
         if (!$phaseID)
             $phaseID = PHASE_ID_ACTIVE - 1;
         if ($phaseID < 0)
@@ -692,7 +727,8 @@ class Users {
         return $users;
     }
 
-    function setNewPassword($userID) {
+    function setNewPassword($userID)
+    {
         $user = $this->getById($userID);
         if (!$user) {
             return false;
@@ -710,7 +746,8 @@ class Users {
         }
     }
 
-    function getActiveUsersWhoHaveNotBet($nbDays) {
+    function getActiveUsersWhoHaveNotBet($nbDays)
+    {
         $req = "SELECT DISTINCT u.userID, u.login, u.name, u.email FROM l1__users AS u";
         $req .= " RIGHT JOIN l1__pronos AS b ON(u.userID = b.userID)";
         $req .= " WHERE instanceID = " . $this->parent->config['current_instance'];
