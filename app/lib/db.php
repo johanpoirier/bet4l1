@@ -44,7 +44,7 @@ class DB {
         }
 
         if (!$this->cnx) {
-            $this->cnx = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname, $this->username, $this->password);
+            $this->cnx = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname, $this->username, $this->password, [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
         }
         if (!$this->cnx) {
             return $this->error_query("Echec Connexion MySql", $this->cnx);
