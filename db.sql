@@ -1,18 +1,5 @@
--- phpMyAdmin SQL Dump
--- version OVH
--- http://www.phpmyadmin.net
---
--- Client: mysql5-13.60gp
--- Généré le : Lun 25 Mars 2013 à 16:54
--- Version du serveur: 5.0.90
--- Version de PHP: 5.3.8
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
---
--- Base de données: `nirgal`
---
 
 -- --------------------------------------------------------
 

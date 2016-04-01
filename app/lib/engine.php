@@ -86,7 +86,8 @@ class Engine
         $req .= " AND instanceID = " . $this->config['current_instance'];
         $req .= " AND status >= 0";
 
-        $user = $this->db->select_line($req);
+        $nbUsers = 0;
+        $user = $this->db->select_line($req, $nbUsers);
 
         $_SESSION['username'] = $user['name'];
         $_SESSION['nom_joueur'] = $user['name'];
