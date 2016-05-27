@@ -1,11 +1,11 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 
 header("Content-Type: text/plain; charset=utf-8");
 
-define('WEB_PATH', "/");
-define('BASE_PATH', "../../");
-define('URL_PATH', "/");
+define('BASE_PATH', dirname(__FILE__) . '/../../');
+define('WEB_PATH', '/');
+define('URL_PATH', '/');
 
 require( BASE_PATH . 'lib/engine.php');
 
