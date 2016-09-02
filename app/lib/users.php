@@ -130,7 +130,7 @@ class Users
     function getRanks()
     {
         $users = $this->get();
-        $ranks = array();
+        $ranks = [];
         usort($users, "compare_users");
         $i = 1;
         $j = 0;
@@ -153,7 +153,7 @@ class Users
     function getRanksLCP()
     {
         $users = $this->get();
-        $ranks = array();
+        $ranks = [];
         usort($users, "compare_users_lcp");
         $i = 1;
         $j = 0;
@@ -176,7 +176,7 @@ class Users
     function getTeamsRank()
     {
         $userTeams = $this->getTeams();
-        $teamRanks = array();
+        $teamRanks = [];
         usort($userTeams, "compare_user_teams");
         $i = 1;
         $j = 0;
@@ -413,7 +413,7 @@ class Users
     function updateTeamRanking()
     {
         $userTeams = $this->getTeams();
-        $userTeamsView = array();
+        $userTeamsView = [];
         $teamRanks = $this->getTeamsRank();
         $nbMatchsPlayed = $this->parent->games->getNumberOfPlayedOnes();
 
@@ -463,7 +463,7 @@ class Users
     function updateRankingLCP()
     {
         $phasesPlayed = $this->parent->phases->getPlayedOnes();
-        $users = array();
+        $users = [];
         $ranks = $this->getRanksLCP();
 
         // Phases
@@ -480,7 +480,7 @@ class Users
                 foreach ($usersPhase as $userPhase) {
                     $userID = $userPhase['userID'];
                     if (!isset($users[$userPhase['userID']])) {
-                        $users[$userID] = array();
+                        $users[$userID] = [];
                         $users[$userID]['userID'] = $userID;
                         $users[$userID]['lcp_points'] = 0;
                         $users[$userID]['lcp_bonus'] = 0;
@@ -551,7 +551,7 @@ class Users
     function updateRanking()
     {
         $matchs = $this->parent->games->get();
-        $users = array();
+        $users = [];
         $ranks = $this->getRanks();
 
         // Points pr les matchs
@@ -561,7 +561,7 @@ class Users
 
             foreach ($pronos as $prono) {
                 if (!isset($users[$prono['userID']])) {
-                    $users[$prono['userID']] = array();
+                    $users[$prono['userID']] = [];
                     $users[$prono['userID']]['userID'] = $prono['userID'];
                     $users[$prono['userID']]['points'] = 0;
                     $users[$prono['userID']]['nbscores'] = 0;
@@ -574,7 +574,7 @@ class Users
                     }
                 }
 
-                if (($prono['scorePronoA'] != NULL) && ($prono['scorePronoB'] != NULL) && ($match['scoreMatchA'] != NULL) && ($match['scoreMatchB'] != NULL)) {
+                if (($prono['scorePronoA'] !== NULL) && ($prono['scorePronoB'] !== NULL) && ($match['scoreMatchA'] !== NULL) && ($match['scoreMatchB'] !== NULL)) {
                     $resProno = $this->parent->settings->computeNbPtsProno($phase, $prono['status'], $match['scoreMatchA'], $match['scoreMatchB'], $prono['scorePronoA'], $prono['scorePronoB']);
                     $users[$prono['userID']]['nbresults'] += $resProno['res'];
                     $users[$prono['userID']]['points'] += $resProno['points'];
@@ -613,7 +613,7 @@ class Users
 
         $games = $this->parent->games->getByPhase($phaseID);
         $phase = $this->parent->phases->getById($phaseID);
-        $users = array();
+        $users = [];
 
         // points for games
         foreach ($games as $game) {
@@ -622,7 +622,7 @@ class Users
             foreach ($bets as $bet) {
                 if (!isset($users[$bet['userID']])) {
                     $user = $this->getById($bet['userID']);
-                    $users[$bet['userID']] = array();
+                    $users[$bet['userID']] = [];
                     $users[$bet['userID']]['userID'] = $bet['userID'];
                     $users[$bet['userID']]['points'] = 0;
                     $users[$bet['userID']]['nbscores'] = 0;
@@ -638,7 +638,7 @@ class Users
                     $users[$bet['userID']]['team'] = $user['team'];
                 }
 
-                if (($bet['scorePronoA'] != NULL) && ($bet['scorePronoB'] != NULL) && ($game['scoreMatchA'] != NULL) && ($game['scoreMatchB'] != NULL)) {
+                if (($bet['scorePronoA'] !== NULL) && ($bet['scorePronoB'] !== NULL) && ($game['scoreMatchA'] !== NULL) && ($game['scoreMatchB'] !== NULL)) {
                     $resProno = $this->parent->settings->computeNbPtsProno($phase, $bet['status'], $game['scoreMatchA'], $game['scoreMatchB'], $bet['scorePronoA'], $bet['scorePronoB']);
                     $users[$bet['userID']]['points'] += $resProno['points'];
                     $users[$bet['userID']]['nbresults'] += $resProno['res'];
@@ -663,7 +663,7 @@ class Users
 
         $usersPhase = $this->getRankingByPhase($phase['phaseID']);
         $nbUsersPhase = sizeof($usersPhase);
-        $users = array();
+        $users = [];
 
         if ($nbUsersPhase > 0) {
             usort($usersPhase, "compare_users_simple_reverse");
@@ -674,7 +674,7 @@ class Users
             foreach ($usersPhase as $userPhase) {
                 $userID = $userPhase['userID'];
                 if (!isset($users[$userPhase['userID']])) {
-                    $users[$userID] = array();
+                    $users[$userID] = [];
                     $users[$userID]['userID'] = $userID;
                     $users[$userID]['name'] = $userPhase['name'];
                     $users[$userID]['login'] = $userPhase['login'];
