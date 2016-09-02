@@ -47,16 +47,20 @@ class Engine
 
         $time = time();
         $this->start_time = get_moment();
-        $this->db = new DB();
-        $this->db->set_debug($debug);
+
         $this->debug = $debug;
         $this->config = $config;
+
         $this->lang = $lang;
+        
+        $this->db = new MySQL_DB();
+        $this->db->set_debug($debug);
+        
         $this->step = 0;
         $this->template_location = BASE_PATH . "template/" . $config['template'];
         $this->template_web_location = WEB_PATH . "template/" . $config['template'];
         $this->template = new Template($this->template_location);
-        $this->blocks_loaded = array();
+        $this->blocks_loaded = [];
 
         $this->bets = new Bets($this);
         $this->games = new Games($this);
@@ -355,7 +359,7 @@ class Engine
     function loadUserTeamRanking()
     {
         $userTeams = $this->getUserTeams("lastRank");
-        $userTeamsView = array();
+        $userTeamsView = [];
 
         $diffRank = 0;
         foreach ($userTeams as $userTeam) {
@@ -436,7 +440,7 @@ class Engine
 
             return $usersView;
         } else
-            return array();
+            return [];
     }
 
     function loadRankingLCP($userID)
@@ -1203,7 +1207,7 @@ class Engine
         ));
 
         if ($connected) {
-            $this->template->assign_block_vars('load_infos', array());
+            $this->template->assign_block_vars('load_infos', []);
         }
 
         $this->template->assign_vars(array(
@@ -1224,9 +1228,9 @@ class Engine
         ));
 
         if ($this->isLogged()) {
-            $this->template->assign_block_vars('user_bar', array());
+            $this->template->assign_block_vars('user_bar', []);
             if ($this->isAdmin()) {
-                $this->template->assign_block_vars('admin_bar', array());
+                $this->template->assign_block_vars('admin_bar', []);
             }
         }
 
@@ -1257,7 +1261,7 @@ class Engine
         $nextGames = $this->games->getNextOnes();
         $nbGames = sizeof($nextGames);
         if ($nbGames > 0) {
-            $this->template->assign_block_vars('games_infos', array());
+            $this->template->assign_block_vars('games_infos', []);
             foreach ($nextGames as $game) {
                 $delay_str = format_delay($game['delay_sec']);
                 $this->template->assign_block_vars('games_infos.games', array(
@@ -1288,7 +1292,7 @@ class Engine
                 ));
             }
             if (sizeof($bets) > 2) {
-                $this->template->assign_block_vars('bets', array());
+                $this->template->assign_block_vars('bets', []);
             }
         }
 

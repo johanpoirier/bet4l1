@@ -2,20 +2,23 @@
 
 include(BASE_PATH . 'lib/protect/params.inc');
 
-class DB {
-
+class MySQL_DB
+{
     var $cnx;
     var $error;
     var $nbQueries;
     var $DBTime;
     var $host;
+    var $port;
     var $dbname;
     var $username;
     var $password;
 
-    function DB($host="localhost", $dbname="", $username="", $password="") {
+    public function __construct($host = "localhost", $dbname = "", $port = "", $username = "", $password = "")
+    {
         global $host;
         global $dbname;
+        global $port;
         global $username;
         global $password;
 
@@ -24,17 +27,19 @@ class DB {
         $this->nb_queries = 0;
         $this->exec_time = 0;
         $this->host = $host;
+        $this->port = $port;
         $this->dbname = $dbname;
         $this->username = $username;
         $this->password = $password;
         $this->debug = false;
     }
 
-    function set_debug($debug) {
+    function set_debug($debug)
+    {
         $this->debug = $debug;
     }
 
-    function exec_query($req) {
+    function exec_query($req, $params = []) {
         // Start Time
         $startTime = get_moment();
         $this->nb_queries++;
@@ -44,14 +49,20 @@ class DB {
         }
 
         if (!$this->cnx) {
-            $this->cnx = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname, $this->username, $this->password, [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
+            $this->cnx = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname, $this->username, $this->password, [
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET lc_time_names='fr_FR',NAMES utf8"
+            ]);
+
         }
         if (!$this->cnx) {
             return $this->error_query("Echec Connexion MySql", $this->cnx);
         }
 
+        $this->cnx->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
         try {
-            $result = $this->cnx->query($req, PDO::FETCH_ASSOC);
+            $statement = $this->cnx->prepare($req);
+            $statement->execute($params);
         } catch(PDOException $e) {
             return $e;
         }
@@ -64,7 +75,7 @@ class DB {
 
         $this->exec_time += $elapsed_time;
 
-        return $result;
+        return $statement;
     }
 
     function select_one($req) {
@@ -88,6 +99,15 @@ class DB {
         return $statement->fetch();
     }
 
+    function selectLine($req, $params = [], &$nbLines) {
+        $statement = $this->exec_query($req, $params);
+        if ($this->test_error($statement)) {
+            return $statement;
+        }
+        $nbLines = $statement->rowCount();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
     function select_col($req, &$nbCols) {
         $statement = $this->exec_query($req);
         $resultSet = [];
@@ -97,7 +117,7 @@ class DB {
             $nbCols = $statement->rowCount();
             for ($i = 0; $i < $nbCols; $i++) {
                 $tmpResultSet = $statement->fetch();
-                $resultSet[$i] = $tmpResultSet[0];
+                $resultSet[$i] = array_shift($tmpResultSet);
             }
         }
         return $resultSet;
@@ -115,72 +135,55 @@ class DB {
                 $resultSet[$i] = $statement->fetch();
             }
         }
+
         return $resultSet;
     }
 
-    function select_line_o($req, &$NbLig) {
-        $ret_id = $this->exec_query($req);
-        if ($this->test_error($ret_id))
-            return $ret_id;
-        else {
-            $NbLig = mysql_num_rows($ret_id);
-            $resultset = $NbLig ? mysql_fetch_object($ret_id) : "";
-        }
-        return $resultset;
-    }
+    function selectArray($req, $params = [], &$nbLines) {
+        $statement = $this->exec_query($req, $params);
 
-    function select_col_o($req, &$NbCol) {
-        $ret_id = $this->exec_query($req);
-        if ($this->test_error($ret_id))
-            return $ret_id;
-        else {
-            $NbCol = mysql_num_rows($ret_id);
-            for ($i = 0; $i < $NbCol; $i++) {
-                $tmp_resultset = mysql_fetch_object($ret_id);
-                $resultset[$i] = $tmp_resultset[0];
-            }
+        if ($this->test_error($statement)) {
+            return $statement;
         }
-        return $resultset;
-    }
+        else {
+            $nbLines = $statement->rowCount();
+            $resultSet = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
 
-    function select_array_o($req, &$NbLig) {
-        $ret_id = $this->exec_query($req);
-        $resultset = array();
-        if ($this->test_error($ret_id))
-            return $ret_id;
-        else {
-            $NbLig = mysql_num_rows($ret_id);
-            for ($i = 0; $i < $NbLig; $i++)
-                $resultset[$i] = mysql_fetch_object($ret_id);
-        }
-        return $resultset;
+        return $resultSet;
     }
 
     // Fonction req sans retour
-    function select_null($req) {
+    function select_null($req)
+    {
         return $this->exec_query($req);
     }
 
     // Insert returning
     function insert($req) {
-        return $this->exec_query($req);
+        $this->exec_query($req);
+        return $this->cnx->lastInsertId();
     }
 
     // Procédure d'erreur
-    function error_query($msg, $req) {
-        if ($this->error)
+    function error_query($msg, $req)
+    {
+        if ($this->error) {
             $this->display_error($msg, $req);
-        if ($this->error != 2)
+        }
+        if ($this->error != 2) {
             return chr(31) . $msg;
+        }
         exit;
     }
 
-    function test_error($result) {
+    function test_error($result)
+    {
         return $result === false;
     }
 
-    // Envoi mail, écriture log, affichage...
-    function display_error($msg, $req) {
+    function display_error($msg, $req)
+    {
         echo "<b><i>" . $msg . "</i></b>&nbsp";
         echo " généré par la requête : <i>\"" . $req . "\"</i><br>";
     }
