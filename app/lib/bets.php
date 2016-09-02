@@ -94,7 +94,7 @@ class Bets {
         $odds['B_WINS'] = round(($nb_bets + 1) / ($odds['B_WINS'] + 1), 2);
         $odds['NUL'] = round(($nb_bets + 1) / ($odds['NUL'] + 1), 2);
 
-        if (isset($prono) && ($prono['scoreMatchA'] != NULL) && ($prono['scoreMatchB'] != NULL)) {
+        if (isset($prono) && ($prono['scoreMatchA'] !== NULL) && ($prono['scoreMatchB'] !== NULL)) {
             if ($nb_exact_bets == 0)
                 $odds['NB_EXACT_BETS'] = "aucun score exact";
             elseif ($nb_exact_bets == 1)
@@ -177,7 +177,7 @@ class Bets {
             $prono['POINTS'] = 0;
             $prono['COLOR'] = "transparent";
             $prono['DIFF'] = 0;
-            if (($prono['scoreMatchA'] != NULL) && ($prono['scoreMatchB'] != NULL)) {
+            if (($prono['scoreMatchA'] !== NULL) && ($prono['scoreMatchB'] !== NULL)) {
                 $prono['POINTS'] = $points;
                 $prono['COLOR'] = $color;
                 $prono['DIFF'] = $diff;
@@ -186,7 +186,7 @@ class Bets {
             if ($phase['aller_retour'] == 1) {
                 // match aller
                 $matchAller = $this->getMatchByTeamsAndPhase($prono['teamBid'], $prono['teamAid'], $prono['phaseID']);
-                if ($matchAller != NULL) {
+                if ($matchAller !== NULL) {
                     $prono['SCORE_ALLER_A'] = $matchAller['scoreA'];
                     $prono['SCORE_ALLER_B'] = $matchAller['scoreB'];
                     if (($prono['scorePronoA'] != $matchAller['scoreA']) || ($prono['scorePronoB'] != $matchAller['scoreB'])) {

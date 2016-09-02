@@ -274,6 +274,7 @@ footer {
 /************* *****************/
 td.win, table.first {
     background-color: #FFBF46;
+    text-align: left;
 }
 
 td.tie {

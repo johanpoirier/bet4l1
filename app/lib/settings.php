@@ -249,7 +249,7 @@ class Settings {
         $resProno = 'y';
 
         // Real winner
-        if (($scoreMatchA != NULL) && ($scoreMatchB != NULL)) {
+        if (($scoreMatchA !== NULL) && ($scoreMatchB !== NULL)) {
             if ($scoreMatchA > $scoreMatchB) {
                 $winnerMatch = 'A';
                 $resMatch = 'A';
@@ -262,7 +262,7 @@ class Settings {
         }
 
         // Prono winner
-        if (($scorePronoA != NULL) && ($scorePronoB != NULL)) {
+        if (($scorePronoA !== NULL) && ($scorePronoB !== NULL)) {
             if ($scorePronoA > $scorePronoB) {
                 $winnerProno = 'A';
                 $resProno = 'A';

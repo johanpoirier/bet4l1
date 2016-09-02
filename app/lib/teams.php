@@ -134,7 +134,7 @@ class Teams {
 
     function getQualifiedTeamsByPhase($phase, $type='Match', $userID=0) {
         $teamsQualified = array();
-        if($phase['phasePrecedente'] != NULL) {
+        if($phase['phasePrecedente'] !== NULL) {
             $phasePrecedente = $this->phases->getPhase($phase['phasePrecedente']);
             $indic = $phase['nb_qualifies'];
             if($indic > 0)

@@ -785,7 +785,7 @@ class Engine
         $phaseConsultee = $this->phases->getById($phaseID);
         $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
         $phasePrecedente = NULL;
-        if ($phaseConsultee['phasePrecedente'] != NULL) {
+        if ($phaseConsultee['phasePrecedente'] !== NULL) {
             $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
@@ -868,7 +868,7 @@ class Engine
         $phaseConsultee = $this->phases->getById($phaseID);
         $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
         $phasePrecedente = NULL;
-        if ($phaseConsultee['phasePrecedente'] != NULL) {
+        if ($phaseConsultee['phasePrecedente'] !== NULL) {
             $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
@@ -949,7 +949,7 @@ class Engine
         $phaseConsultee = $this->phases->getById($phaseID);
         $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
         $phasePrecedente = NULL;
-        if ($phaseConsultee['phasePrecedente'] != NULL) {
+        if ($phaseConsultee['phasePrecedente'] !== NULL) {
             $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
@@ -1013,7 +1013,7 @@ class Engine
         // get previous and next phases
         $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
         $phasePrecedente = NULL;
-        if ($phaseConsultee['phasePrecedente'] != NULL) {
+        if ($phaseConsultee['phasePrecedente'] !== NULL) {
             $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
@@ -1107,7 +1107,7 @@ class Engine
         $phaseConsultee = $this->phases->getById($phaseID);
         $phaseSuivante = $this->phases->getByDirectRoot($phaseID);
         $phasePrecedente = NULL;
-        if ($phaseConsultee['phasePrecedente'] != NULL) {
+        if ($phaseConsultee['phasePrecedente'] !== NULL) {
             $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
