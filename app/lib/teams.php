@@ -55,11 +55,17 @@ class Teams {
         }
 
         // Coloration des qualifies
-        for($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['class'] = "first";
-        }
-        for($i = sizeof($array_teams) - 1; $i > (sizeof($array_teams) - 4); $i--) {
-            $array_teams[$i]['class'] = "last";
+        for($i = 0; $i < sizeof($array_teams); $i++) {
+            $array_teams[$i]['rank'] = $i + 1;
+            if ($i < 4) {
+                $array_teams[$i]['class'] = "first";
+            }
+            if ($i === sizeof($array_teams) - 3) {
+                $array_teams[$i]['class'] = "penultimate";
+            }
+            if ($i > sizeof($array_teams) - 3) {
+                $array_teams[$i]['class'] = "last";
+            }
         }
 
         return $array_teams;
@@ -110,11 +116,17 @@ class Teams {
         usort($array_teams, "compare_pronoteams_1to1");
 
         // Coloration des qualifies
-        for($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['class'] = "first";
-        }
-        for($i = sizeof($array_teams) - 1; $i > (sizeof($array_teams) - 4); $i--) {
-            $array_teams[$i]['class'] = "last";
+        for($i = 0; $i < sizeof($array_teams); $i++) {
+            $array_teams[$i]['rank'] = $i + 1;
+            if ($i < 4) {
+                $array_teams[$i]['class'] = "first";
+            }
+            if ($i === sizeof($array_teams) - 3) {
+                $array_teams[$i]['class'] = "penultimate";
+            }
+            if ($i > sizeof($array_teams) - 3) {
+                $array_teams[$i]['class'] = "last";
+            }
         }
         
         return $array_teams;

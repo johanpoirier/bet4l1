@@ -1067,6 +1067,7 @@ class Engine
         foreach ($ranked_teams as $team) {
             $this->template->assign_block_vars('teams', array(
                 'ID' => $team['teamID'],
+                'RANK' => $team['rank'],
                 'NAME' => $team['name'],
                 'IMG' => $this->template_web_location . '/images/fanions/' . formatImageFilename($team['name']) . '.png',
                 'POINTS' => $team['points'],
@@ -1154,6 +1155,7 @@ class Engine
         foreach ($ranked_teams as $team) {
             $this->template->assign_block_vars('teams', array(
                 'ID' => $team['teamID'],
+                'RANK' => $team['rank'],
                 'NAME' => $team['name'],
                 'IMG' => $this->template_web_location . '/images/fanions/' . formatImageFilename($team['name']) . '.png',
                 'POINTS' => $team['points'],

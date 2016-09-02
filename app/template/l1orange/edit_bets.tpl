@@ -69,10 +69,14 @@
         <div id="pool_{POOL_NAME}_ranking">
           <table style="font-size:9px;">
             <tr>
-              <td width="80%"><b>Equipe</b></td><td width="10%"><b>Pts</b></td><td width="10%"><b>Diff</b></td>
+              <td width="10%"></td>
+              <td width="70%"><b>Equipe</b></td>
+              <td width="10%"><b>Pts</b></td>
+              <td width="10%"><b>Diff</b></td>
             </tr>
             <!-- BEGIN teams -->
-            <tr class="{teams.CLASS}">
+            <tr>
+              <td class="{teams.CLASS}">{teams.RANK}</td>
               <td id="team_{teams.ID}"><img width="15px" src="{teams.IMG}" alt="{teams.NAME}" /> {teams.NAME}</td>
               <td>{teams.POINTS}</td>
               <td>{teams.DIFF}</td>
