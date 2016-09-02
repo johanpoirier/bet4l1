@@ -1246,7 +1246,6 @@ class Engine
         }
         $this->template->assign_vars(array(
             'TPL_WEB_PATH' => $this->template_web_location,
-            'FORUM_LINK' => $this->config['forum_link'],
             'CONTACT_EMAIL' => $this->config['support_email']
         ));
 

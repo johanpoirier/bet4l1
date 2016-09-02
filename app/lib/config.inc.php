@@ -11,7 +11,6 @@ $config['lang'] = "fr";
 $config['url'] = "http://localhost/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
-$config['forum_link'] = "#";
 $config['db_prefix'] = "bet4l1__";
 
 /* SITE TUNING */
