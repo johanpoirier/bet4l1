@@ -424,7 +424,7 @@ ul.rules > li {
 /************* media queries ******************/
 @media (min-width: 850px) {
     body {
-        background: url(images/background.jpg) top center #00b34e;
+        background: url(images/background.jpg) top center fixed;
         background-size: cover;
     }
 
