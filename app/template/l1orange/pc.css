@@ -8,9 +8,12 @@ html, body {
 }
 
 body {
-    background-color: #FBD670;
+    background: url(images/background.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
     font: normal small Verdana, Arial, sans-serif;
     margin: 0;
+    min-height: 100vh;
     padding: 0;
 }
 
@@ -127,12 +130,22 @@ select {
 }
 
 /************* DIVS ***************/
-#main {
+main {
     background-color: #ffffff;
     border-left: 2px solid #FE9408;
     border-right: 2px solid #FE9408;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     font-size: 95%;
     margin: 0 auto;
+    min-height: 100vh;
     padding: 0 4px;
     text-align: left;
     width: 855px;
@@ -219,13 +232,12 @@ nav a, nav a:visited {
     width: 183px;
 }
 
-#footer {
+footer {
     border-top: 1px dashed #000000;
-    clear: both;
-    font-size: 90%;
+    font-size: 0.7rem;
     line-height: 1.6em;
-    margin: 0;
-    padding: 8px 17px 20px 17px;
+    margin: auto 0 0 0;
+    padding: 0.6rem;
 }
 
 #logo {
@@ -406,6 +418,19 @@ ul.rules > li {
 .bonus {
     font-style: italic;
     color: grey;
+}
+
+
+/************* media queries ******************/
+@media (min-width: 850px) {
+    body {
+        background: url(images/background.jpg) top center #00b34e;
+        background-size: cover;
+    }
+
+    main {
+        box-shadow: 0 0 6rem #000000;
+    }
 }
 
 @media (max-width: 700px) {

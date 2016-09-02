@@ -20,7 +20,7 @@
         <!-- END load_infos -->
     </head>
     <body>
-        <div id="main">
+        <main>
             <div id="head1">
                 <div id="logo">
                     <a href="index.php"><img src="{TPL_WEB_PATH}/images/{LOGO}" alt="Logo" border="0" /></a>

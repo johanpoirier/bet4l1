@@ -11,12 +11,12 @@ use bets;
 
 CREATE TABLE IF NOT EXISTS `bet4l1__instances` (
   `id` int(6) NOT NULL,
-  `name` varchar(255) collate utf8_bin NOT NULL,
+  `name` varchar(255) collate utf8_general_ci NOT NULL,
   `ownerID` int(6) NOT NULL,
   `parentID` int(6) NOT NULL,
   `active` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__matchs` (
   `phaseID` int(10) unsigned NOT NULL default '1',
   `status` int(11) NOT NULL default '0',
   PRIMARY KEY  (`matchID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1084 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1084 ;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__matchs` (
 
 CREATE TABLE IF NOT EXISTS `bet4l1__phases` (
   `phaseID` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(20) collate utf8_bin NOT NULL default '',
+  `name` varchar(20) collate utf8_general_ci NOT NULL default '',
   `aller_retour` int(1) unsigned NOT NULL default '0',
   `nb_matchs` int(6) unsigned NOT NULL default '0',
   `nb_qualifies` int(3) NOT NULL default '1',
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__phases` (
   `multiplicateurMatchDuJour` int(6) unsigned NOT NULL default '1',
   `instanceID` int(6) NOT NULL default '1',
   PRIMARY KEY  (`phaseID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=203 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=203 ;
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__pronos` (
   `pnyB` int(5) default NULL,
   `status` int(2) NOT NULL default '0',
   PRIMARY KEY  (`userID`,`matchID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -89,12 +89,12 @@ CREATE TABLE IF NOT EXISTS `bet4l1__pronos` (
 
 CREATE TABLE IF NOT EXISTS `bet4l1__settings` (
   `instanceID` int(9) NOT NULL default '0',
-  `name` varchar(35) collate utf8_bin NOT NULL default '',
-  `value` varchar(255) collate utf8_bin default NULL,
+  `name` varchar(35) collate utf8_general_ci NOT NULL default '',
+  `value` varchar(255) collate utf8_general_ci default NULL,
   `date` datetime default NULL,
   `status` int(2) NOT NULL default '0',
   PRIMARY KEY  (`name`,`instanceID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -104,14 +104,14 @@ CREATE TABLE IF NOT EXISTS `bet4l1__settings` (
 
 CREATE TABLE IF NOT EXISTS `bet4l1__stats_user` (
   `userID` int(9) NOT NULL default '0',
-  `label` varchar(30) collate utf8_bin NOT NULL,
+  `label` varchar(30) collate utf8_general_ci NOT NULL,
   `rank` int(5) unsigned NOT NULL default '0',
   `points` int(9) unsigned NOT NULL default '0',
   `nbresults` int(5) unsigned NOT NULL default '0',
   `nbscores` int(5) unsigned NOT NULL default '0',
   `diff` int(5) NOT NULL default '0',
   KEY `userID` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -125,9 +125,9 @@ CREATE TABLE IF NOT EXISTS `bet4l1__tags` (
   `userID` int(5) NOT NULL default '0',
   `userTeamID` int(6) NOT NULL default '-1',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `tag` text collate utf8_bin NOT NULL,
+  `tag` text collate utf8_general_ci NOT NULL,
   PRIMARY KEY  (`tagID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=439 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=439 ;
 
 -- --------------------------------------------------------
 
@@ -137,12 +137,12 @@ CREATE TABLE IF NOT EXISTS `bet4l1__tags` (
 
 CREATE TABLE IF NOT EXISTS `bet4l1__teams` (
   `teamID` int(11) NOT NULL auto_increment,
-  `name` varchar(50) collate utf8_bin NOT NULL default '',
-  `rssName` varchar(50) collate utf8_bin default NULL,
+  `name` varchar(50) collate utf8_general_ci NOT NULL default '',
+  `rssName` varchar(50) collate utf8_general_ci default NULL,
   `instanceID` int(6) unsigned NOT NULL default '1',
   `status` int(5) NOT NULL default '0',
   PRIMARY KEY  (`teamID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=61 ;
 
 -- --------------------------------------------------------
 
@@ -153,11 +153,11 @@ CREATE TABLE IF NOT EXISTS `bet4l1__teams` (
 CREATE TABLE IF NOT EXISTS `bet4l1__users` (
   `userID` int(9) unsigned NOT NULL auto_increment,
   `instanceID` int(6) NOT NULL default '1',
-  `name` varchar(40) collate utf8_bin NOT NULL default '',
-  `login` varchar(30) collate utf8_bin NOT NULL default '',
-  `password` varchar(32) collate utf8_bin NOT NULL,
-  `email` varchar(255) collate utf8_bin default NULL,
-  `email_preferences` varchar(8) collate utf8_bin NOT NULL default '11',
+  `name` varchar(40) collate utf8_general_ci NOT NULL default '',
+  `login` varchar(30) collate utf8_general_ci NOT NULL default '',
+  `password` varchar(32) collate utf8_general_ci NOT NULL,
+  `email` varchar(255) collate utf8_general_ci default NULL,
+  `email_preferences` varchar(8) collate utf8_general_ci NOT NULL default '11',
   `points` int(9) unsigned NOT NULL default '0',
   `nbresults` int(5) unsigned NOT NULL default '0',
   `nbscores` int(5) unsigned NOT NULL default '0',
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__users` (
   `userTeamID` int(11) unsigned default NULL,
   `status` int(9) NOT NULL default '0',
   PRIMARY KEY  (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -181,14 +181,14 @@ CREATE TABLE IF NOT EXISTS `bet4l1__users` (
 
 CREATE TABLE IF NOT EXISTS `bet4l1__user_teams` (
   `userTeamID` int(10) unsigned NOT NULL auto_increment,
-  `instanceID` varchar(6) collate utf8_bin NOT NULL default '1',
+  `instanceID` varchar(6) collate utf8_general_ci NOT NULL default '1',
   `name` varchar(100) character set latin1 collate latin1_general_ci NOT NULL default '',
   `avgPoints` float unsigned NOT NULL default '0',
   `totalPoints` int(6) unsigned NOT NULL default '0',
   `maxPoints` int(6) unsigned NOT NULL default '0',
   `lastRank` int(6) unsigned NOT NULL default '1',
   PRIMARY KEY  (`userTeamID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=32 ;
 
 
 
@@ -208,7 +208,7 @@ INSERT INTO `bet4l1__settings` (`instanceID`, `name`, `value`, `date`, `status`)
 
 INSERT INTO `bet4l1__users` (`userID`, `instanceID`, `name`, `login`, `email`, `password`, `status`) VALUES
   (1, 1, 'John Foo', 'admin', 'admin@bet4l1.fr', 'f71dbe52628a3f83a77ab494817525c6', 1),
-  (2, 1, 'George Weah', 'weah', 'george@weah.com', 'f71dbe52628a3f83a77ab494817525c6', 1);
+  (2, 1, 'George Weah', 'weah', 'george@weah.com', 'f71dbe52628a3f83a77ab494817525c6', 0);
 
 INSERT INTO `bet4l1__teams` (`teamID`, `name`, `rssName`, `instanceID`, `status`) VALUES
   (1, 'Olympique Lyonnais', 'OL', 1, 1),
