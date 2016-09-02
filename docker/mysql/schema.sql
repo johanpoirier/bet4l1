@@ -175,9 +175,6 @@ CREATE TABLE IF NOT EXISTS `bet4l1__users` (
 
 -- --------------------------------------------------------
 
-INSERT INTO `bet4l1__users` (`userID`, `instanceID`, `name`, `login`, `email`, `password`, `status`) VALUES (1, 1, 'John Foo', 'admin', 'admin@bet4l1.fr', 'f71dbe52628a3f83a77ab494817525c6', 1);
-
-
 --
 -- Structure de la table `bet4l1__user_teams`
 --
@@ -192,3 +189,43 @@ CREATE TABLE IF NOT EXISTS `bet4l1__user_teams` (
   `lastRank` int(6) unsigned NOT NULL default '1',
   PRIMARY KEY  (`userTeamID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=32 ;
+
+
+
+--
+-- Contenu pour les tables exportées
+--
+
+INSERT INTO `bet4l1__settings` (`instanceID`, `name`, `value`, `date`, `status`) VALUES
+  (14, 'DATE_DEBUT', '', '2016-08-12 20:00:00', 0),
+  (14, 'DATE_FIN', '', '2017-05-14 20:00:00', 0),
+  (14, 'LAST_GENERATE', 'Après 10 matchs sur 10 de la 1ème journée', '2016-08-28 22:30:28', 0),
+  (14, 'LAST_GENERATE_LCP', NULL, '2016-08-28 22:30:28', 0),
+  (14, 'LAST_RESULT', '', '0000-00-00 00:00:00', 0),
+  (14, 'NB_MATCHS_PLAYED', '0', '0000-00-00 00:00:00', 0),
+  (14, 'NB_POINTS_NUL', '1', '0000-00-00 00:00:00', 0),
+  (14, 'NB_POINTS_VICTOIRE', '3', '0000-00-00 00:00:00', 0);
+
+INSERT INTO `bet4l1__users` (`userID`, `instanceID`, `name`, `login`, `email`, `password`, `status`) VALUES
+  (1, 1, 'John Foo', 'admin', 'admin@bet4l1.fr', 'f71dbe52628a3f83a77ab494817525c6', 1),
+  (2, 1, 'George Weah', 'weah', 'george@weah.com', 'f71dbe52628a3f83a77ab494817525c6', 1);
+
+INSERT INTO `bet4l1__teams` (`teamID`, `name`, `rssName`, `instanceID`, `status`) VALUES
+  (1, 'Olympique Lyonnais', 'OL', 1, 1),
+  (2, 'Paris SG', 'PSG', 1, 1),
+  (3, 'FC Lorient', 'Lorient', 1, 1),
+  (4, 'FC Metz', 'Metz', 1, 1);
+
+INSERT INTO `bet4l1__phases` (`phaseID`, `name`, `aller_retour`, `nb_matchs`, `nb_qualifies`, `phasePrecedente`, `nbPointsRes`, `nbPointsQualifie`, `nbPointsScore`, `multiplicateurMatchDuJour`, `instanceID`) VALUES
+  (1, '1ère journée', 0, 10, 10, NULL, 1, 0, 1, 2, 1),
+  (2, '2ème journée', 0, 10, 10, 1, 1, 0, 1, 2, 1),
+  (3, '3ème journée', 0, 10, 10, 2, 1, 0, 1, 2, 1),
+  (4, '4ème journée', 0, 10, 10, 3, 1, 0, 1, 2, 1);
+
+INSERT INTO `bet4l1__matchs` (`matchID`, `teamA`, `teamB`, `scoreA`, `scoreB`, `pnyA`, `pnyB`, `bonusA`, `bonusB`, `date`, `phaseID`, `status`) VALUES
+  (1, 1, 2, 2, 1, NULL, NULL, 0, 0, '2016-08-12 20:00:00', 1, 0),
+  (2, 4, 3, 1, 4, NULL, NULL, 0, 0, '2016-08-12 20:30:00', 1, 0);
+
+INSERT INTO `bet4l1__pronos` (`userID`, `matchID`, `scoreA`, `scoreB`, `pnyA`, `pnyB`, `status`) VALUES
+  (2, 1, 2, 0, NULL, NULL, 0),
+  (2, 2, 0, 3, NULL, NULL, 0);
