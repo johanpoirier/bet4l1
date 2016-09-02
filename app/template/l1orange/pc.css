@@ -272,7 +272,7 @@ footer {
 }
 
 /************* *****************/
-td.win {
+td.win, table.first {
     background-color: #FFBF46;
 }
 
