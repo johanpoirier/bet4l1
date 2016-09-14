@@ -1,3 +1,4 @@
+<!-- BEGIN logged_in -->
 <nav>
   <!-- BEGIN user_bar -->
 	<ul class="nav-group">
@@ -17,3 +18,4 @@
 	</ul>
   <!-- END admin_bar -->
 </nav>
+<!-- END logged_in -->

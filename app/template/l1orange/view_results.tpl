@@ -5,9 +5,9 @@
   }
 //-->
 </script>
-<div id="mainarea">
+<section id="mainarea">
   <div class="maincontent">
-    <div id="headline">
+    <div class="headline">
       <h1 style="float:left;">Résultats et Cotes</h1>
       <a onclick="changePhase({NEXT_PHASE_ID})" style="cursor: pointer; float:right; visibility: {NEXT_PHASE_VISIBILITY};"><img height="16" src="{TPL_WEB_PATH}/images/next.gif" alt="next" /></a>
       <select style="float:right;" name="sltPhase" onchange="changePhase(this.value)">
@@ -71,7 +71,7 @@
   <br />
   <br />
   <br />
-  <div id="rightcolumn">
+  <aside>
     <div class="tag_cloud">
       <div class="rightcolumn_headline"><h1 style="color:black;">Classement {COMPETITION_NAME}</h1></div>
       <div id="pool_{POOL_NAME}_ranking">
@@ -96,4 +96,4 @@
     <br />
     <br />
   </div>
-</div>
+</section>

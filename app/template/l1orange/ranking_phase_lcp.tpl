@@ -5,9 +5,9 @@
   }
 //-->
 </script>
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline">
+        <div class="headline">
             <table width="100%">
                 <tr>
                     <td width="55%"><h1>{LCP_LABEL} : {PHASE_NAME}</h1></td>
@@ -61,7 +61,7 @@
         <!-- END users -->
     </div>
 
-    <div id="rightcolumn">
+    <aside>
         <div class="tag_cloud">
             <div class="rightcolumn_headline"><h1 style="color:black;">ChatBoard</h1></div>
             <div id="tag_0" styAle="text-align:center;"><br />
@@ -80,4 +80,4 @@
             getTags();
     //-->
     </script>
-</div>
+</section>

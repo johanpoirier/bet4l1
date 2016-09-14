@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline">
+        <div class="headline">
             <table width="100%">
                 <tr>
                     <td width="55%"><h1>Palmarès</h1></td>
@@ -16,4 +16,4 @@
     <a href="{PALMARES_2}" target="_blank"><img src="{PALMARES_2}" alt="Palmarès" /></a>
     <br/><br/>
     <a href="{PODIUMS}" target="_blank"><img src="{PODIUMS}" alt="Podiums" /></a>
-</div>
+</section>

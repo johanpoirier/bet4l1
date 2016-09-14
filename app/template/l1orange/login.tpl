@@ -1,19 +1,39 @@
-<div id="mainarea">
-  <div class="maincontent">
-    <div id="headline"><h1>Connexion</h1></div>
-    <div class="ppp">
-            <h2>Connexion</h2>
-            <font color="#ff0000">{MESSAGE}</font>
-            <form method="post" action="/?op=login">
-                    <input type="hidden" name="login" value="1" />
-                    <input type="hidden" name="redirect" value="" />
-                    <br />
-                    <div class="formfield"><b>Nom d'utilisateur</b></div>
-                    <input type="text" name="login" value="" class="textinput" maxlength="100" /><br /><br />
-                    <div class="formfield"><b>Mot de passe</b></div>
-                    <input type="password" name="pass" class="textinput" maxlength="20" /><br /><br />
-                    <input class="imageinput" type="image" src="{IMG_PATH}/login.gif" value="log in" />
+<section id="mainarea">
+    <div class="maincontent login">
+        <h1>Bonjour !</h1>
+        <div class="login-content">
+            <form method="post" action="/?op=login" class="login-block login">
+                <input type="hidden" name="login" value="1" />
+                <input type="hidden" name="redirect" value="" />
+                <input type="hidden" name="uuid" value=""/>
+
+                <div class="formfield"><strong>Nom d'utilisateur</strong></div>
+                <input type="text" name="login" value="" autofocus required/>
+
+                <div class="formfield"><strong>Mot de passe</strong></div>
+                <input type="password" name="pass" required />
+
+                <div class="login-keep">
+                    <input type="checkbox" name="keep" value="true" id="input-keep" />
+                    <label for="input-keep">rester connecté</label>
+                </div>
+
+                <span class="error">{MESSAGE}</span>
+
+                <input type="submit" value="Connexion" />
             </form>
+
+            <div class="login-block signup">
+                <span>Pas encore de compte ?</span>
+                <a href="/?op=register">Je m'en crée un ici</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form.login').submit(function () {
+            $("input[name='uuid']").val(getUuid());
+        });
+    });
+</script>

@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
   <div class="maincontent">
-    <div id="headline"><h1>Matchs</h1></div>
+    <div class="headline"><h1>Matchs</h1></div>
 
     <div class="tag_cloud">
       <form id="add_phase" action="?op=add_phase" method="post">
@@ -114,4 +114,4 @@
   	</div>
     <br />
   </div>
-</div>
+</section>

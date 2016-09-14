@@ -1,70 +1,65 @@
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline">
-            <table width="100%">
-                <tr>
-                    <td width="55%"><a href="/?op=view_ranking_visual" title="Voir le classement en relief"><h1>Classement Général</h1></a>{LAST_GENERATE_LABEL}</td>
-                    <td align="center" width="15%"><a href="/?op=view_ranking"><strong>{GENERAL_CUP_LABEL}</strong></a></td>
-                    <td align="center" width="15%"><a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a></td>
-                    <td align="center" width="15%"><a href="/?op=view_ranking_lcp">{LCP_LABEL}</a></td>
-                </tr>
-            </table>
-        </div>
-    </div>
 
-    <div class="maincontent">
-        <table>
+        <div class="headline">
+            <div class="headline-title">
+                <h1>Classement général</h1> après {NB_MATCHES}
+            </div>
+            <div class="headline-menu">
+                <a href="/?op=view_ranking"><strong>{GENERAL_CUP_LABEL}</strong></a>
+                <a href="/?op=view_ranking_visual">Relief</a>
+                <a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a>
+                <a href="/?op=view_ranking_lcp">{LCP_LABEL}</a>
+            </div>
+        </div>
+
+        <table class="ranking">
             <tr>
-                <td width="45" style="font-size:80%;text-align:center;"><i>Rang</i></td>
-                <td width="200" style="font-size:80%"><i>Parieur</i></td>
-                <td width="70" style="font-size:80%;text-align:center;"><i>Equipe</i></td>
-                <td width="55" style="font-size:80%;text-align:center;"><i>Points</i></td>
-                <td width="55" style="font-size:80%;text-align:center;"><i>R&eacute;sultats</i></td>
-                <td width="55" style="font-size:80%;text-align:center;"><i>Perfects</i></td>
-                <td width="55" style="font-size:80%;text-align:center;"><i>Bonus</i></td>
-                <td width="55" style="font-size:80%;text-align:center;"><i>{LCP_SHORT_LABEL}</i></td>
+                <th width="10%"><i>Rang</i></th>
+                <th width="25%" class="aligned">Parieur</th>
+                <th width="15%"><i>Equipe</i></th>
+                <th width="10%"><i>Points</i></th>
+                <th width="10%"><i>Résultats</i></th>
+                <th width="10%"><i>Perfects</i></th>
+                <th width="10%"><i>Bonus</i></th>
+                <th width="10%"><i>{LCP_SHORT_LABEL}</i></th>
             </tr>
-        </table>
 
-        <!-- BEGIN users -->
-        <div class="list_element">
-            <table class="{users.CLASS}">
-                <tr>
-                    <td width="45" style="font-size:80%;text-align:center;"><strong>{users.RANK}</strong> {users.LAST_RANK}</td>
-                    <td width="200" style="font-size:70%">
-                        <strong>{users.VIEW_BETS}{users.LOGIN}</a></strong> {users.NB_BETS}
-                        &nbsp;&nbsp;
-                        <a href="?op=view_user_stats&user={users.ID}"><img src="{TPL_WEB_PATH}/images/stats.gif" alt="stats" /></a>
-                    </td>
-                    <td width="70" style="font-size:70%;text-align:center;">{users.TEAM}</td>
-                    <td width="55" style="font-size:70%;text-align:center;"><strong>{users.POINTS}</strong></td>
-                    <td width="55" style="font-size:70%;text-align:center;">{users.NBRESULTS}</td>
-                    <td width="55" style="font-size:70%;text-align:center;">{users.NBSCORES}</td>
-                    <td width="55" style="font-size:70%;text-align:center;">{users.BONUS}</td>
-                    <td width="55" style="font-size:70%;text-align:center;"><i>{users.LCP}</i></td>
-                </tr>
-            </table>
-        </div>
-        <!-- END users -->
+            <!-- BEGIN users -->
+            <tr class="{users.CLASS} list_element" id="user{users.ID}">
+                <td><strong>{users.RANK}</strong> {users.LAST_RANK}</td>
+                <td class="aligned">
+                    <strong>{users.VIEW_BETS}{users.LOGIN}</a></strong> {users.NB_BETS}
+                </td>
+                <td>{users.TEAM}</td>
+                <td><strong>{users.POINTS}</strong></td>
+                <td>{users.NBRESULTS}</td>
+                <td>{users.NBSCORES}</td>
+                <td>{users.BONUS}</td>
+                <td>{users.LCP}</td>
+            </tr>
+            <!-- END users -->
+        </table>
     </div>
 
-    <div id="rightcolumn">
-        <div class="tag_cloud">
-            <div class="rightcolumn_headline"><h1 style="color:black;">ChatBoard</h1></div>
-            <div id="tag_0" styAle="text-align:center;"><br />
-                <form onsubmit="return saveTag(-1);">
-                    <input type="text" id="tag" value="" size="20" /><br />
-                    <span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
+    <aside>
+        <div class="headline">
+            <div class="headline-title">
+                <h2>TagBoard</h2>
+            </div>
+        </div>
+        <div class="tag_cloud tagboard">
+            <div id="tag_0" class="tagboard-form">
+                <form onsubmit="return saveTag('');">
+                    <input type="text" id="tag" value="" size="18" />
+                    <span>(Entrée pour envoyer)</span>
                 </form>
             </div>
-            <div id="tags">
-                &nbsp;
-            </div>
+            <div id="tags"></div>
         </div>
-    </div>
+    </aside>
+
     <script type="text/javascript">
-    <!--
-          getTags();
-    //-->
+        getTags();
     </script>
-</div>
+</section>

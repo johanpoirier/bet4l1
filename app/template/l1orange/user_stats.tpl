@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline">
+        <div class="headline">
             <h1>Statistiques de {USER_LOGIN}</h1>
         </div>
     </div>
@@ -68,5 +68,5 @@
     <br/>
     <br/>
 
-    <div id="rightcolumn"></div>
-</div>
+    <aside></div>
+</section>

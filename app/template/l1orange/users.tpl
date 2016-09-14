@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline">
+        <div class="headline">
             <h1>Parieurs</h1>
         </div>
     </div>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="maincontent">
-        <div id="headline"><h1>Equipes</h1></div>
+        <div class="headline"><h1>Equipes</h1></div>
     </div>
 
     <div class="maincontent">
@@ -91,4 +91,4 @@
             </form>
         </div>
     </div>
-</div>
+</section>

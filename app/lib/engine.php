@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/vendor/autoload.php');
+
 include_once(BASE_PATH . 'lib/define.inc.php');
 include_once(BASE_PATH . 'lib/config.inc.php');
 include_once(BASE_PATH . 'lang/' . $config['lang'] . '.inc.php');
@@ -1230,9 +1232,10 @@ class Engine
         ));
 
         if ($this->isLogged()) {
-            $this->template->assign_block_vars('user_bar', []);
+            $this->template->assign_block_vars('logged_in', []);
+            $this->template->assign_block_vars('logged_in.user_bar', []);
             if ($this->isAdmin()) {
-                $this->template->assign_block_vars('admin_bar', []);
+                $this->template->assign_block_vars('logged_in.admin_bar', []);
             }
         }
 

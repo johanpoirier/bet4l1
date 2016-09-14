@@ -236,10 +236,10 @@ class Phases {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->parent->config['db_prefix'] . "phases p";
-        $req .= " WHERE p.instanceID = " . ( $instanceID ? $instanceID : $this->parent->config['current_instance']);
+        $req .= " WHERE p.instanceID = :instanceID";
         $req .= " ORDER BY phaseID " . $order;
 
-        $phases = $this->parent->db->select_array($req, $this->max_results);
+        $phases = $this->parent->db->selectArray($req, ['instanceID' => ( $instanceID ? $instanceID : $this->parent->config['current_instance'])], $this->max_results);
         if($this->parent->debug) {
             array_show($phases);
         }

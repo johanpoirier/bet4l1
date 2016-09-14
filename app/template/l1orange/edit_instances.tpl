@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline"><h1>Instances</h1></div>
+        <div class="headline"><h1>Instances</h1></div>
 
         <div class="tag_cloud">
             <form name="add_instance" action="/?op=add_instance" method="post">
@@ -69,4 +69,4 @@
             </table>
         </div>
     </div>
-</div>
+</section>

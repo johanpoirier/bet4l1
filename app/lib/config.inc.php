@@ -12,6 +12,7 @@ $config['url'] = "http://localhost/";
 $config['template'] = "l1orange";
 $config['tag_separator'] = "<br />";
 $config['db_prefix'] = "bet4l1__";
+$config['encoding'] = 'UTF8';
 
 /* SITE TUNING */
 $config['title'] = "Boulets - Pronostics L1 2016/2017";

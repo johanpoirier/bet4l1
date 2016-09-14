@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
   <div class="maincontent">
-    <div id="headline"><h1>Résultats</h1></div>
+    <div class="headline"><h1>Résultats</h1></div>
     <div id="update_ranking" class="headline"style="color:red;text-align:right;"><a href="/?op=stats">Générer les stats</a> - <a href="/?op=update_ranking">Mettre à jour le classement</a></div>
   
     <form action="/?op=save_results" method="post" name="formResults">
@@ -30,4 +30,4 @@
     </div>
     </form>
   </div>
-</div>
+</section>

@@ -1,6 +1,6 @@
-<div id="mainarea">
+<section id="mainarea">
 	<div class="maincontent">
-		<div id="headline">
+		<div class="headline">
 			<h1>Mon Compte</h1>
 		</div>
 	</div>
@@ -43,4 +43,4 @@
       </p>
     </div>
   </form>
-</div>
+</section>

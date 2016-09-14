@@ -1,54 +1,52 @@
-<div id="mainarea">
+<section id="mainarea">
     <div class="maincontent">
-        <div id="headline">
-            <table width="100%">
-                <tr>
-                    <td width="55%"><a href="/?op=view_ranking" title="Revenir au classement général"><h1>Classement en Relief</h1></a></td>
-                    <td align="center" width="15%"><a href="/?op=view_ranking">{GENERAL_CUP_LABEL}</a></td>
-                    <td align="center" width="15%"><a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a></td>
-                    <td align="center" width="15%"><a href="/?op=view_ranking_lcp">{LCP_LABEL}</a></td>
-                </tr>
-            </table>
+        <div class="headline">
+            <div class="headline-title">
+                <h1>Classement en relief</h1>
+            </div>
+            <div class="headline-menu">
+                <a href="/?op=view_ranking">{GENERAL_CUP_LABEL}</a>
+                <a href="/?op=view_ranking_visual"><strong>Relief</strong></a>
+                <a href="/?op=view_ranking_perfect">{PERFECT_CUP_LABEL}</a>
+                <a href="/?op=view_ranking_lcp">{LCP_LABEL}</a>
+            </div>
         </div>
-    </div>
 
-    <div class="maincontent">
-        <table>
+        <table class="ranking">
             <tr>
-                <td width="80" style="font-size:80%;text-align:center;"><i>Rang</i></td>
-                <td width="420" style="font-size:80%"><i>Parieur(s)</i></td>
-                <td width="120" style="font-size:80%;text-align:center;"><i>Nombre de points</i></td>
+                <th width="10%">Rang</th>
+                <th width="70%" class="aligned">Parieur(s)</th>
+                <th width="20%">Nombre de points</th>
             </tr>
-        </table>
 
-        <!-- BEGIN users -->
-        <div class="list_element">
-            <table class="{users.CLASS}">
-                <tr>
-                    <td width="80" style="font-size:80%;text-align:center;">{users.RANK}</td>
-                    <td width="420" style="font-size:80%"><strong>{users.LOGIN}</strong></td>
-                    <td width="120" style="font-size:70%;text-align:center;"><strong>{users.POINTS}</strong></td>
-                </tr>
-            </table>
-        </div>
-        <!-- END users -->
+            <!-- BEGIN users -->
+            <tr class="{users.CLASS} list_element">
+                <td>{users.RANK}</td>
+                <td class="user_visual aligned">{users.LOGIN}</td>
+                <td>{users.POINTS}</td>
+            </tr>
+            <!-- END users -->
+        </table>
     </div>
 
-    <div id="rightcolumn">
-        <div class="tag_cloud">
-            <div class="rightcolumn_headline"><h1 style="color:black;">ChatBoard</h1></div>
-            <div id="tag_0" styAle="text-align:center;"><br />
-                <form onsubmit="return saveTag(-1);">
-                    <input type="text" id="tag" value="" size="20" /><br />
-                    <span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
+    <aside>
+        <div class="headline">
+            <div class="headline-title">
+                <h2>TagBoard</h2>
+            </div>
+        </div>
+        <div class="tag_cloud tagboard">
+            <div id="tag_0" class="tagboard-form">
+                <form onsubmit="return saveTag('');">
+                    <input type="text" id="tag" value="" size="18" />
+                    <span>(Entrée pour envoyer)</span>
                 </form>
             </div>
-            <div id="tags">
-                &nbsp;
-            </div>
+            <div id="tags"></div>
         </div>
-    </div>
+    </aside>
+
     <script type="text/javascript">
         getTags();
     </script>
-</div>
+</section>

@@ -4,7 +4,7 @@
         <title>{TITLE}</title>
 
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=yes"/>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
 
         <link type="text/css" rel="stylesheet" href="{TPL_WEB_PATH}/pc.css" />
 
@@ -21,10 +21,10 @@
     </head>
     <body>
         <main>
-            <div id="head1">
+            <header>
                 <div id="logo">
                     <a href="index.php"><img src="{TPL_WEB_PATH}/images/{LOGO}" alt="Logo" border="0" /></a>
                     {LOGOUT_LINK}
                 </div>
                 <div id="infos"></div>
-            </div>
+            </header>

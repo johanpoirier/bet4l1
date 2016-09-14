@@ -1,5 +1,5 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+02:00";
 
 use bets;
 
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__instances` (
   `parentID` int(6) NOT NULL,
   `active` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__matchs` (
   `phaseID` int(10) unsigned NOT NULL default '1',
   `status` int(11) NOT NULL default '0',
   PRIMARY KEY  (`matchID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1084 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__phases` (
   `multiplicateurMatchDuJour` int(6) unsigned NOT NULL default '1',
   `instanceID` int(6) NOT NULL default '1',
   PRIMARY KEY  (`phaseID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=203 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__tags` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `tag` text collate utf8_general_ci NOT NULL,
   PRIMARY KEY  (`tagID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=439 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__teams` (
   `instanceID` int(6) unsigned NOT NULL default '1',
   `status` int(5) NOT NULL default '0',
   PRIMARY KEY  (`teamID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__users` (
   `userTeamID` int(11) unsigned default NULL,
   `status` int(9) NOT NULL default '0',
   PRIMARY KEY  (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `bet4l1__user_teams` (
   `maxPoints` int(6) unsigned NOT NULL default '0',
   `lastRank` int(6) unsigned NOT NULL default '1',
   PRIMARY KEY  (`userTeamID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
 
@@ -217,10 +217,10 @@ INSERT INTO `bet4l1__teams` (`teamID`, `name`, `rssName`, `instanceID`, `status`
   (4, 'FC Metz', 'Metz', 1, 1);
 
 INSERT INTO `bet4l1__phases` (`phaseID`, `name`, `aller_retour`, `nb_matchs`, `nb_qualifies`, `phasePrecedente`, `nbPointsRes`, `nbPointsQualifie`, `nbPointsScore`, `multiplicateurMatchDuJour`, `instanceID`) VALUES
-  (1, '1ère journée', 0, 10, 10, NULL, 1, 0, 1, 2, 1),
-  (2, '2ème journée', 0, 10, 10, 1, 1, 0, 1, 2, 1),
-  (3, '3ème journée', 0, 10, 10, 2, 1, 0, 1, 2, 1),
-  (4, '4ème journée', 0, 10, 10, 3, 1, 0, 1, 2, 1);
+  (1, '1ere journee', 0, 10, 10, NULL, 1, 0, 1, 2, 1),
+  (2, '2eme journee', 0, 10, 10, 1, 1, 0, 1, 2, 1),
+  (3, '3eme journee', 0, 10, 10, 2, 1, 0, 1, 2, 1),
+  (4, '4eme journee', 0, 10, 10, 3, 1, 0, 1, 2, 1);
 
 INSERT INTO `bet4l1__matchs` (`matchID`, `teamA`, `teamB`, `scoreA`, `scoreB`, `pnyA`, `pnyB`, `bonusA`, `bonusB`, `date`, `phaseID`, `status`) VALUES
   (1, 1, 2, 2, 1, NULL, NULL, 0, 0, '2016-08-12 20:00:00', 1, 0),

@@ -1,0 +1,11 @@
+{
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "vendor-dir": "app/lib/vendor"
+  },
+  "require": {
+    "debril/feed-io": "*",
+    "ircmaxell/random-lib": "^1.1"
+  }
+}
