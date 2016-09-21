@@ -2,3 +2,4 @@ logs/
 .idea
 *.iml
 .DS_Store
+app/lib/vendor
