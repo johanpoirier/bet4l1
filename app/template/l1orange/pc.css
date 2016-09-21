@@ -558,7 +558,7 @@ footer {
 }
 
 
-.headline { /* FF3.6+ */
+.headline {
     background: -webkit-linear-gradient(left, #fe9408 0%, #fedb9e 100%); /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
     background: linear-gradient(to right, #fe9408 0%, #fedb9e 100%); /* W3C */
     border: 0px solid #ffffff;
@@ -569,7 +569,7 @@ footer {
     -webkit-flex-flow: row nowrap;
     -ms-flex-flow: row nowrap;
     flex-flow: row nowrap;
-    margin: 0;
+    margin: 0 0 0.5rem 0;
     padding: 7px 12px 5px 15px;
 }
 

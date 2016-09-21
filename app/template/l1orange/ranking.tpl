@@ -3,7 +3,8 @@
 
         <div class="headline">
             <div class="headline-title">
-                <h1>Classement général</h1> après {NB_MATCHES}
+                <h1>Classement général</h1>
+                <span>Après {NB_MATCHES}</span>
             </div>
             <div class="headline-menu">
                 <a href="/?op=view_ranking"><strong>{GENERAL_CUP_LABEL}</strong></a>
