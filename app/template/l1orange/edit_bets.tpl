@@ -1,5 +1,6 @@
 <section id="mainarea">
     <div class="maincontent">
+
         <div class="headline">
             <div class="headline-title"><h1>Pronostics de {USER_LOGIN}</h1></div>
             <div class="headline-menu">
