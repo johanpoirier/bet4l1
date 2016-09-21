@@ -208,6 +208,18 @@ switch($op) {
 
         $op = "edit_instances";
         break;
+
+    case "update_ranking":
+        $engine->users->updateRanking();
+        //$engine->users->updateTeamRanking();
+        $engine->users->updateRankingLCP();
+        echo "OKOK";
+        return;
+
+    case "update_stats":
+        $engine->stats->regenerateStats();
+        echo "OKOK";
+        return;
 }
 
 // page display
@@ -257,18 +269,6 @@ switch($op) {
 
     case "view_ranking_visual":
         $engine->loadRankingVisual($_SESSION['userID']);
-        break;
-
-    case "update_ranking":
-        $engine->users->updateRanking();
-        //$engine->users->updateTeamRanking();
-        $engine->users->updateRankingLCP();
-        $engine->loadRanking($_SESSION['userID']);
-        break;
-
-    case "stats":
-        $engine->stats->regenerateStats();
-        $engine->loadRanking($_SESSION['userID']);
         break;
 
     case "my_profile":

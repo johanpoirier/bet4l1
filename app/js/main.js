@@ -157,8 +157,8 @@ function getTags(userTeamID, startTag) {
 }
 
 function generateUuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
@@ -168,4 +168,52 @@ function getUuid() {
         return window.localStorage.getItem('uuid');
     }
     return null;
+}
+
+function updateRanking() {
+    $('.update-ranking').html('En cours...');
+    $.ajax({
+        type: 'GET',
+        url: '/',
+        data: 'op=update_ranking',
+        success: function (data) {
+            handleUpdateRankingResponse(data);
+        }
+    });
+}
+
+function handleUpdateRankingResponse(results) {
+    if (results == 'OKOK') {
+        $('.update-ranking').html('Classement à jour.');
+    }
+    else {
+        $('.update-ranking').html('Erreur !');
+        console.error('update ranking failed', results);
+    }
+
+}
+
+function updateStats() {
+    $('.update-stats button').html("Génération en cours...");
+    $.ajax({
+        type: 'GET',
+        url: '/',
+        data: 'op=update_stats',
+        success: function (data) {
+            handleUpdateStatsResponse(data);
+        },
+        error: function (XMLHttpRequest, textStatus) {
+            alert(textStatus);
+        }
+    });
+}
+
+function handleUpdateStatsResponse(results) {
+    if (results == 'OKOK') {
+        $('.update-stats').html('Stats à jour.');
+    }
+    else {
+        $('.update-stats').html('Erreur !');
+        console.error('update stats failed', results);
+    }
 }

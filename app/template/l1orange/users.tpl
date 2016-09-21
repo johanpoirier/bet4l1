@@ -1,11 +1,9 @@
 <section id="mainarea">
     <div class="maincontent">
         <div class="headline">
-            <h1>Parieurs</h1>
+            <div class="headline-title"><h1>Parieurs</h1></div>
         </div>
-    </div>
 
-    <div class="maincontent">
         <div class="tag_cloud">
             <form name="add_user" action="/?op=add_user" method="post">
                 <input type="hidden" id="idUser" value="" />
@@ -60,15 +58,12 @@
                 <input type="file" name="csv_file" size="40" />&nbsp;<input type="submit" name="submit" value="Ok" />
             </form>
         </div>
-        <br />
-        <br />
-    </div>
+        <br><br>
 
-    <div class="maincontent">
-        <div class="headline"><h1>Equipes</h1></div>
-    </div>
+        <div class="headline">
+            <div class="headline-title"><h1>Equipes</h1></div>
+        </div>
 
-    <div class="maincontent">
         <div class="tag_cloud" id="list_user_teams">
             <!-- BEGIN teams -->
             <div id="user_team{teams.ID}">

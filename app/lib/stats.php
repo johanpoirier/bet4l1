@@ -37,8 +37,6 @@ class Stats
             $this->parent->db->insert($req);
         }
         echo "OK";
-
-        return;
     }
 
     function regenerateStats()
@@ -62,8 +60,6 @@ class Stats
                 $this->parent->db->insert($req);
             }
         }
-
-        return;
     }
 
     function addPhaseRanksToGlobalRanking($usersRanking, $ranksToAdd)
