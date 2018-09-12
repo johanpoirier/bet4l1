@@ -792,8 +792,8 @@ class Engine
             $phasePrecedente = $this->phases->getById($phaseConsultee['phasePrecedente']);
         }
 
-        if (sizeof($users) > 0) {
-            usort($users, "compare_users");
+        if (count($users) > 0) {
+            usort($users, 'compare_users');
 
             $i = 1;
             $j = 0;
@@ -809,7 +809,7 @@ class Engine
                     'ID' => $user['userID'],
                     'NAME' => $user['name'],
                     'LOGIN' => $user['login'],
-                    'VIEW_BETS' => "<a href=\"/?op=edit_pronos&user=" . $user['userID'] . "\">",
+                    'VIEW_BETS' => '<a href="/?op=edit_pronos&user=' . $user['userID'] . '">',
                     'POINTS' => $user['points'],
                     'NBRESULTS' => $user['nbresults'],
                     'NBSCORES' => $user['nbscores'],

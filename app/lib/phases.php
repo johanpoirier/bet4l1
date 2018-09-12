@@ -137,10 +137,27 @@ class Phases {
         $req .= " ORDER BY p.phaseID $order";
 
         $phases = $this->parent->db->select_array($req, $this->max_results);
-        if($this->parent->debug)
-            array_show($phases);
+        $this->parent->debug && array_show($phases);
 
         return $phases;
+    }
+
+    function getCompletePlayedOnes($order='DESC') {
+      $prefix = $this->parent->config['db_prefix'];
+
+      // Main Query
+      $req = 'SELECT p.phaseID, p.name, p.phasePrecedente, count(m.matchID) as matchCount, p.nbPointsRes, p.nbPointsScore, p.multiplicateurMatchDuJour';
+      $req .= " FROM ${prefix}phases p";
+      $req .= " LEFT JOIN ${prefix}matchs m ON(m.phaseID = p.phaseID)";
+      $req .= ' WHERE m.scoreA IS NOT NULL and scoreB IS NOT NULL';
+      $req .= ' AND p.instanceID = ' . $this->parent->config['current_instance'];
+      $req .= ' GROUP BY p.phaseID HAVING matchCount = 10';
+      $req .= " ORDER BY p.phaseID $order";
+
+      $phases = $this->parent->db->select_array($req, $this->max_results);
+      $this->parent->debug && array_show($phases);
+
+      return $phases;
     }
 
     function getPlayedOnesAndCurrent($order='DESC') {

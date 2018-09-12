@@ -551,13 +551,13 @@ class Users
     {
       $users = [];
 
-      $phases = $this->parent->phases->getPlayedOnes('ASC');
+      $phases = $this->parent->phases->getCompletePlayedOnes('ASC');
       foreach ($phases as $phase) {
         $phaseUserRankings = $this->getRankingByPhase($phase['phaseID']);
 
         foreach ($phaseUserRankings as $index => $phaseUserRanking) {
-          echo "$index<br>";
           $userID = $phaseUserRanking['userID'];
+
           if (!isset($users[$userID])) {
             $users[$userID] = [
               'userID' => $userID,
@@ -576,8 +576,14 @@ class Users
           $users[$userID]['bonus'] += $phaseUserRanking['bonus'];
           $users[$userID]['diff'] += $phaseUserRanking['diff'];
 
-          // 1 bonus point for phase winner
-          if ($index === 0) {
+          // 1 bonus point for phase winner(s)
+          if ($phaseUserRanking['rank'] === 1) {
+            $users[$userID]['points'] += 1;
+            $users[$userID]['bonus'] += 1;
+          }
+
+          // 1 bonus point big time scorers
+          if ($phaseUserRanking['points'] >= 12) {
             $users[$userID]['points'] += 1;
             $users[$userID]['bonus'] += 1;
           }
@@ -588,9 +594,9 @@ class Users
       $is_rank_to_update = $this->parent->settings->isRankToUpdate();
       foreach ($users as $ID => $user) {
         if ($is_rank_to_update) {
-          $this->parent->db->exec_query('UPDATE ' . $this->parent->config['db_prefix'] . 'users SET points = ' . $user['points'] . ', nbresults = ' . $user['nbresults'] . ', nbscores = ' . $user['nbscores'] . ", bonus = " . $user['bonus'] . ", diff = " . $user['diff'] . ", last_rank = " . $user['rank'] . " WHERE userID=" . $ID . "");
+          $this->parent->db->exec_query('UPDATE ' . $this->parent->config['db_prefix'] . 'users SET points = ' . $user['points'] . ', nbresults = ' . $user['nbresults'] . ', nbscores = ' . $user['nbscores'] . ', bonus = ' . $user['bonus'] . ', diff = ' . $user['diff'] . ', last_rank = ' . $user['rank'] . " WHERE userID=$ID");
         } else {
-          $this->parent->db->exec_query('UPDATE ' . $this->parent->config['db_prefix'] . 'users SET points = ' . $user['points'] . ', nbresults = ' . $user['nbresults'] . ', nbscores = ' . $user['nbscores'] . ", bonus = " . $user['bonus'] . ", diff = " . $user['diff'] . " WHERE userID=" . $ID . "");
+          $this->parent->db->exec_query('UPDATE ' . $this->parent->config['db_prefix'] . 'users SET points = ' . $user['points'] . ', nbresults = ' . $user['nbresults'] . ', nbscores = ' . $user['nbscores'] . ', bonus = ' . $user['bonus'] . ', diff = ' . $user['diff'] . " WHERE userID=$ID");
         }
       }
       if ($is_rank_to_update) {
@@ -635,6 +641,7 @@ class Users
                     $users[$userID]['login'] = $user['login'];
                     $users[$userID]['name'] = $user['name'];
                     $users[$userID]['team'] = $user['team'];
+                    $users[$userID]['rank'] = 'NULL';
                 }
 
                 if (($bet['scorePronoA'] !== NULL) && ($bet['scorePronoB'] !== NULL) && ($game['scoreMatchA'] !== NULL) && ($game['scoreMatchB'] !== NULL)) {
@@ -649,6 +656,18 @@ class Users
         }
 
         usort($users, 'compare_users');
+
+        $lastUser = $users[0];
+        $rank = 1;
+        $userIndex = 0;
+        foreach ($users as $key => $user) {
+          if (compare_users($user, $lastUser) !== 0) {
+            $rank = $userIndex + 1;
+          }
+          $user['rank'] = $rank;
+          $users[$key] = $user;
+          $userIndex++;
+        }
 
         return $users;
     }
