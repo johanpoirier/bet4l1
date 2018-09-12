@@ -45,7 +45,7 @@ class MySQL_DB
         $this->nb_queries++;
 
         if ($this->debug) {
-            echo "REQUEST N°" . $this->nb_queries . "='" . $req . "'";
+            echo 'REQUEST N°' . $this->nb_queries . "='" . $req . "'";
         }
 
         if (!$this->cnx) {
@@ -54,7 +54,7 @@ class MySQL_DB
             ]);
         }
         if (!$this->cnx) {
-            return $this->error_query("Echec Connexion MySql", $this->cnx);
+            return $this->error_query('Echec Connexion MySql', $this->cnx);
         }
 
         $this->cnx->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -62,7 +62,7 @@ class MySQL_DB
         try {
             $statement = $this->cnx->prepare($req);
             $statement->execute($params);
-        } catch(PDOException $e) {
+        } catch(Exception $e) {
             return $e;
         }
 

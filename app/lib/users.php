@@ -545,71 +545,76 @@ class Users
         if ($is_rank_to_update) {
             $this->parent->settings->setLastGenerate(true);
         }
-        return;
     }
 
     function updateRanking()
     {
-        $matchs = $this->parent->games->get();
-        $users = [];
-        $ranks = $this->getRanks();
+      $users = [];
 
-        // Points pr les matchs
-        foreach ($matchs as $match) {
-            $pronos = $this->parent->bets->getByGame($match['matchID']);
-            $phase = $this->parent->phases->getById($match['phaseID']);
+      $phases = $this->parent->phases->getCompletePlayedOnes('ASC');
+      foreach ($phases as $phase) {
+        $phaseUserRankings = $this->getRankingByPhase($phase['phaseID']);
 
-            foreach ($pronos as $prono) {
-                if (!isset($users[$prono['userID']])) {
-                    $users[$prono['userID']] = [];
-                    $users[$prono['userID']]['userID'] = $prono['userID'];
-                    $users[$prono['userID']]['points'] = 0;
-                    $users[$prono['userID']]['nbscores'] = 0;
-                    $users[$prono['userID']]['bonus'] = 0;
-                    $users[$prono['userID']]['diff'] = 0;
-                    $users[$prono['userID']]['nbresults'] = 0;
-                    $users[$prono['userID']]['rank'] = 'NULL';
-                    if (isset($ranks[$prono['userID']])) {
-                        $users[$prono['userID']]['rank'] = $ranks[$prono['userID']];
-                    }
-                }
+        foreach ($phaseUserRankings as $index => $phaseUserRanking) {
+          $userID = $phaseUserRanking['userID'];
 
-                if (($prono['scorePronoA'] !== NULL) && ($prono['scorePronoB'] !== NULL) && ($match['scoreMatchA'] !== NULL) && ($match['scoreMatchB'] !== NULL)) {
-                    $resProno = $this->parent->settings->computeNbPtsProno($phase, $prono['status'], $match['scoreMatchA'], $match['scoreMatchB'], $prono['scorePronoA'], $prono['scorePronoB']);
-                    $users[$prono['userID']]['nbresults'] += $resProno['res'];
-                    $users[$prono['userID']]['points'] += $resProno['points'];
-                    $users[$prono['userID']]['nbscores'] += $resProno['score'];
-                    $users[$prono['userID']]['bonus'] += $resProno['bonus'];
-                    $users[$prono['userID']]['diff'] += $resProno['diff'];
-                }
-            }
+          if (!isset($users[$userID])) {
+            $users[$userID] = [
+              'userID' => $userID,
+              'points' => 0,
+              'nbresults' => 0,
+              'nbscores' => 0,
+              'bonus' => 0,
+              'diff' => 0,
+              'rank' => 'NULL'
+            ];
+          }
+
+          $users[$userID]['points'] += $phaseUserRanking['points'];
+          $users[$userID]['nbresults'] += $phaseUserRanking['nbresults'];
+          $users[$userID]['nbscores'] += $phaseUserRanking['nbscores'];
+          $users[$userID]['bonus'] += $phaseUserRanking['bonus'];
+          $users[$userID]['diff'] += $phaseUserRanking['diff'];
+
+          // 1 bonus point for phase winner(s)
+          if ($phaseUserRanking['rank'] === 1) {
+            $users[$userID]['points'] += 1;
+            $users[$userID]['bonus'] += 1;
+          }
+
+          // 1 bonus point big time scorers
+          if ($phaseUserRanking['points'] >= 12) {
+            $users[$userID]['points'] += 1;
+            $users[$userID]['bonus'] += 1;
+          }
         }
+      }
 
-        // MaJ BDD
-        $is_rank_to_update = $this->parent->settings->isRankToUpdate();
-        foreach ($users as $ID => $user) {
-            if ($is_rank_to_update) {
-                $this->parent->db->exec_query("UPDATE " . $this->parent->config['db_prefix'] . "users SET points = " . $user['points'] . ", nbresults = " . $user['nbresults'] . ", nbscores = " . $user['nbscores'] . ", bonus = " . $user['bonus'] . ", diff = " . $user['diff'] . ", last_rank = " . $user['rank'] . " WHERE userID=" . $ID . "");
-            } else {
-                $this->parent->db->exec_query("UPDATE " . $this->parent->config['db_prefix'] . "users SET points = " . $user['points'] . ", nbresults = " . $user['nbresults'] . ", nbscores = " . $user['nbscores'] . ", bonus = " . $user['bonus'] . ", diff = " . $user['diff'] . " WHERE userID=" . $ID . "");
-            }
-        }
+      // MaJ BDD
+      $is_rank_to_update = $this->parent->settings->isRankToUpdate();
+      foreach ($users as $ID => $user) {
         if ($is_rank_to_update) {
-            $this->parent->settings->setLastGenerate();
+          $this->parent->db->exec_query('UPDATE ' . $this->parent->config['db_prefix'] . 'users SET points = ' . $user['points'] . ', nbresults = ' . $user['nbresults'] . ', nbscores = ' . $user['nbscores'] . ', bonus = ' . $user['bonus'] . ', diff = ' . $user['diff'] . ', last_rank = ' . $user['rank'] . " WHERE userID=$ID");
+        } else {
+          $this->parent->db->exec_query('UPDATE ' . $this->parent->config['db_prefix'] . 'users SET points = ' . $user['points'] . ', nbresults = ' . $user['nbresults'] . ', nbscores = ' . $user['nbscores'] . ', bonus = ' . $user['bonus'] . ', diff = ' . $user['diff'] . " WHERE userID=$ID");
         }
+      }
+      if ($is_rank_to_update) {
+        $this->parent->settings->setLastGenerate();
+      }
 
-        // MaJ libelle etat classement
-        $this->parent->settings->setLastGenerateLabel();
-
-        return;
+      // MaJ libelle etat classement
+      $this->parent->settings->setLastGenerateLabel();
     }
 
     function getRankingByPhase($phaseID = false)
     {
-        if (!$phaseID)
+        if (!$phaseID) {
             $phaseID = PHASE_ID_ACTIVE - 1;
-        if ($phaseID < 0)
+        }
+        if ($phaseID < 0) {
             $phaseID = 0;
+        }
 
         $games = $this->parent->games->getByPhase($phaseID);
         $phase = $this->parent->phases->getById($phaseID);
@@ -620,33 +625,48 @@ class Users
             $bets = $this->parent->bets->getByGame($game['matchID']);
 
             foreach ($bets as $bet) {
-                if (!isset($users[$bet['userID']])) {
-                    $user = $this->getById($bet['userID']);
-                    $users[$bet['userID']] = [];
-                    $users[$bet['userID']]['userID'] = $bet['userID'];
-                    $users[$bet['userID']]['points'] = 0;
-                    $users[$bet['userID']]['nbscores'] = 0;
-                    $users[$bet['userID']]['nbresults'] = 0;
-                    $users[$bet['userID']]['bonus'] = 0;
-                    $users[$bet['userID']]['diff'] = 0;
-                    $users[$bet['userID']]['lcp_points'] = 0;
-                    $users[$bet['userID']]['lcp_bonus'] = 0;
-                    $users[$bet['userID']]['lcp_match'] = 0;
-                    $users[$bet['userID']]['rank'] = 'NULL';
-                    $users[$bet['userID']]['login'] = $user['login'];
-                    $users[$bet['userID']]['name'] = $user['name'];
-                    $users[$bet['userID']]['team'] = $user['team'];
+                $userID = $bet['userID'];
+                if (!isset($users[$userID])) {
+                    $user = $this->getById($userID);
+                    $users[$userID] = [];
+                    $users[$userID]['userID'] = $userID;
+                    $users[$userID]['points'] = 0;
+                    $users[$userID]['nbscores'] = 0;
+                    $users[$userID]['nbresults'] = 0;
+                    $users[$userID]['bonus'] = 0;
+                    $users[$userID]['diff'] = 0;
+                    $users[$userID]['lcp_points'] = 0;
+                    $users[$userID]['lcp_bonus'] = 0;
+                    $users[$userID]['lcp_match'] = 0;
+                    $users[$userID]['login'] = $user['login'];
+                    $users[$userID]['name'] = $user['name'];
+                    $users[$userID]['team'] = $user['team'];
+                    $users[$userID]['rank'] = 'NULL';
                 }
 
                 if (($bet['scorePronoA'] !== NULL) && ($bet['scorePronoB'] !== NULL) && ($game['scoreMatchA'] !== NULL) && ($game['scoreMatchB'] !== NULL)) {
                     $resProno = $this->parent->settings->computeNbPtsProno($phase, $bet['status'], $game['scoreMatchA'], $game['scoreMatchB'], $bet['scorePronoA'], $bet['scorePronoB']);
-                    $users[$bet['userID']]['points'] += $resProno['points'];
-                    $users[$bet['userID']]['nbresults'] += $resProno['res'];
-                    $users[$bet['userID']]['nbscores'] += $resProno['score'];
-                    $users[$bet['userID']]['bonus'] += $resProno['bonus'];
-                    $users[$bet['userID']]['diff'] += $resProno['diff'];
+                    $users[$userID]['points'] += $resProno['points'];
+                    $users[$userID]['nbresults'] += $resProno['res'];
+                    $users[$userID]['nbscores'] += $resProno['score'];
+                    $users[$userID]['bonus'] += $resProno['bonus'];
+                    $users[$userID]['diff'] += $resProno['diff'];
                 }
             }
+        }
+
+        usort($users, 'compare_users');
+
+        $lastUser = $users[0];
+        $rank = 1;
+        $userIndex = 0;
+        foreach ($users as $key => $user) {
+          if (compare_users($user, $lastUser) !== 0) {
+            $rank = $userIndex + 1;
+          }
+          $user['rank'] = $rank;
+          $users[$key] = $user;
+          $userIndex++;
         }
 
         return $users;
@@ -654,19 +674,21 @@ class Users
 
     function getRankingLCPByPhase($phaseID = false)
     {
-        if (!$phaseID)
+        if (!$phaseID) {
             $phaseID = PHASE_ID_ACTIVE - 1;
-        if ($phaseID < 0)
+        }
+        if ($phaseID < 0) {
             $phaseID = 0;
+        }
 
         $phase = $this->parent->phases->getById($phaseID);
 
         $usersPhase = $this->getRankingByPhase($phase['phaseID']);
-        $nbUsersPhase = sizeof($usersPhase);
+        $nbUsersPhase = count($usersPhase);
         $users = [];
 
         if ($nbUsersPhase > 0) {
-            usort($usersPhase, "compare_users_simple_reverse");
+            usort($usersPhase, 'compare_users_simple_reverse');
 
             $lastNbPoints = $usersPhase[0]['points'];
             $cptRank = 3;
