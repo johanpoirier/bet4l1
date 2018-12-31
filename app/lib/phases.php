@@ -376,4 +376,18 @@ class Phases {
             $this->parent->db->exec_query($req);
         }
     }
+
+    function updateGameCount($phaseID) {
+      $req = 'SELECT count(matchID)';
+      $req .= ' FROM ' . $this->parent->config['db_prefix'] . 'matchs';
+      $req .= " WHERE phaseID = $phaseID";
+      $gameCount = $this->parent->db->select_one($req);
+
+
+      $req = 'UPDATE ' . $this->parent->config['db_prefix'] . 'phases';
+      $req .= ' SET nb_matchs = :gameCount';
+      $req .= ' WHERE phaseID = :phaseId';
+
+      return $this->parent->db->exec_query($req, ['gameCount' => $gameCount, 'phaseId' => $phaseID]);
+    }
 }

@@ -114,20 +114,29 @@ switch($op) {
         $phaseRef = $_POST['phaseRef'];
         $engine->phases->move($phaseIdToMove, $phaseRef);
         $op = "edit_games";
-        //return;
         break;
 
     case "add_match":
         $submit = $_POST['add_match'];
         $id_match = $_POST['idMatch'];
         if($submit == "Supprimer") {
-            $engine->games->delete($id_match);
+          $engine->games->delete($id_match);
         } else {
-            $isSpecial = 0;
-            if(isset($_POST['matchspecial']))
-                $isSpecial = $_POST['matchspecial'];
-            $engine->games->add($_POST['phase'], $_POST['day'], $_POST['month'], $_POST['year'], $_POST['hour'], $_POST['minutes'], $_POST['teamA'], $_POST['teamB'], $isSpecial, $_POST['idMatch']);
+          $isSpecial = 0;
+          if(isset($_POST['matchspecial'])) {
+            $isSpecial = $_POST['matchspecial'];
+          }
+
+          if(isset($_POST['idMatch'])) {
+            $game = $engine->games->getById($_POST['idMatch']);
+          }
+          $engine->games->add($_POST['phase'], $_POST['day'], $_POST['month'], $_POST['year'], $_POST['hour'], $_POST['minutes'], $_POST['teamA'], $_POST['teamB'], $isSpecial, $_POST['idMatch']);
+
+          if (isset($game) && $game['phaseID'] !== $_POST['phase']) {
+            $engine->phases->updateGameCount($game['phaseID']);
+          }
         }
+        $engine->phases->updateGameCount($_POST['phase']);
         $op = "edit_games";
         break;
 
