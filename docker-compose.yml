@@ -1,0 +1,48 @@
+version: '2.3'
+
+volumes:
+  db: ~
+
+services:
+  web:
+    image: nginx:1.15.6
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/usr/src/bet4l1/app
+      - ./docker/config/ssl:/etc/nginx/ssl
+      - ./docker/config/site.conf:/etc/nginx/conf.d/site.conf
+    depends_on:
+      - "app"
+    networks:
+      - code-network
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "33061:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d:ro
+      - ./:/usr/src/bet4l1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - code-network
+
+  app:
+    build:
+      context: ./app/
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/config/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+      - ./app:/usr/src/bet4l1/app
+    depends_on:
+      - "db"
+    networks:
+    - code-network
+
+networks:
+  code-network:
+    driver: bridge

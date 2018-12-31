@@ -11,11 +11,12 @@ class Phases {
 
     function getPhaseIDActive() {
         // next phase within 3 days ?
-        $req = "SELECT p.phaseID";
-        $req .= " FROM " . $this->parent->config['db_prefix'] . "phases AS p";
-        $req .= " LEFT JOIN " . $this->parent->config['db_prefix'] . "matchs AS m ON(p.phaseID = m.phaseID)";
-        $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
-        $req .= " AND m.scoreA IS NULL HAVING DATEDIFF(MIN(m.date), NOW()) <= 3";
+        $req = 'SELECT p.phaseID';
+        $req .= ' FROM ' . $this->parent->config['db_prefix'] . 'phases AS p';
+        $req .= ' LEFT JOIN ' . $this->parent->config['db_prefix'] . 'matchs AS m ON(p.phaseID = m.phaseID)';
+        $req .= ' WHERE p.instanceID = ' . $this->parent->config['current_instance'];
+        $req .= ' AND m.scoreA IS NULL';
+        $req .= ' GROUP BY p.phaseID HAVING DATEDIFF(MIN(m.date), NOW()) <= 3';
         $phaseIDactive = $this->parent->db->select_one($req);
         
         // last played phase
@@ -146,15 +147,19 @@ class Phases {
       $prefix = $this->parent->config['db_prefix'];
 
       // Main Query
-      $req = 'SELECT p.phaseID, p.name, p.phasePrecedente, count(m.matchID) as matchCount, p.nbPointsRes, p.nbPointsScore, p.multiplicateurMatchDuJour';
+      $req = 'SELECT p.phaseID, p.name, p.phasePrecedente, count(m.matchID) as matchCount, p.nbPointsRes, p.nbPointsScore, p.multiplicateurMatchDuJour, p.nb_matchs';
       $req .= " FROM ${prefix}phases p";
       $req .= " LEFT JOIN ${prefix}matchs m ON(m.phaseID = p.phaseID)";
       $req .= ' WHERE m.scoreA IS NOT NULL and scoreB IS NOT NULL';
-      $req .= ' AND p.instanceID = ' . $this->parent->config['current_instance'];
-      $req .= ' GROUP BY p.phaseID HAVING matchCount = 10';
+      $req .= ' AND p.instanceID = :instanceId';
+      $req .= ' GROUP BY p.phaseID HAVING matchCount = p.nb_matchs';
       $req .= " ORDER BY p.phaseID $order";
 
-      $phases = $this->parent->db->select_array($req, $this->max_results);
+      $phases = $this->parent->db->selectArray(
+        $req,
+        ['instanceId' => $this->parent->config['current_instance']],
+        $this->max_results
+      );
       $this->parent->debug && array_show($phases);
 
       return $phases;
