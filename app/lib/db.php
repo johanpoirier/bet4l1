@@ -14,7 +14,7 @@ class MySQL_DB
     var $username;
     var $password;
 
-    public function __construct($host = "localhost", $dbname = "", $port = "", $username = "", $password = "")
+    public function __construct($host = '127.0.0.1', $dbname = '', $port = '', $username = '', $password = '')
     {
         global $host;
         global $dbname;
@@ -45,7 +45,7 @@ class MySQL_DB
         $this->nb_queries++;
 
         if ($this->debug) {
-            echo 'REQUEST N°' . $this->nb_queries . "='" . $req . "'";
+            echo 'REQUEST N°' . $this->nb_queries . "='" . $req . "'<br>";
         }
 
         if (!$this->cnx) {
@@ -57,6 +57,7 @@ class MySQL_DB
             return $this->error_query('Echec Connexion MySql', $this->cnx);
         }
 
+        $this->cnx->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->cnx->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
         try {
@@ -128,11 +129,10 @@ class MySQL_DB
         if ($this->test_error($statement)) {
             return $statement;
         }
-        else {
-            $nbLines = $statement->rowCount();
-            for ($i = 0; $i < $nbLines; $i++) {
-                $resultSet[$i] = $statement->fetch();
-            }
+
+        $nbLines = $statement->rowCount();
+        for ($i = 0; $i < $nbLines; $i++) {
+            $resultSet[$i] = $statement->fetch();
         }
 
         return $resultSet;

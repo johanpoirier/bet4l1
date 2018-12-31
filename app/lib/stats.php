@@ -47,7 +47,7 @@ class Stats
         // ranking snapshot for each phase
         $reqBase = "INSERT INTO  " . $this->parent->config['db_prefix'] . "stats_user VALUES";
         $phases = $this->parent->phases->getPlayedOnes('ASC');
-        $globalUsersRanking = array();
+        $globalUsersRanking = [];
         foreach ($phases as $phase) {
             $users = $this->parent->users->getRankingByPhase($phase['phaseID']);
             $globalUsersRanking = $this->addPhaseRanksToGlobalRanking($globalUsersRanking, $users);
@@ -64,7 +64,7 @@ class Stats
 
     function addPhaseRanksToGlobalRanking($usersRanking, $ranksToAdd)
     {
-        if (sizeof($usersRanking) == 0) {
+        if (count($usersRanking) === 0) {
             $usersRanking = $ranksToAdd;
         } else {
             foreach ($ranksToAdd as $rank) {

@@ -228,12 +228,11 @@ class Settings {
             $req .= " WHERE p.instanceID = " . $this->parent->config['current_instance'];
             $req .= " AND DATE_FORMAT(m.date, '%m%e') = DATE_FORMAT(NOW(), '%m%e')";
             $req .= " AND m.scoreA IS NULL AND m.scoreB IS NULL";
-            $nbMacths = $this->parent->db->select_one($req, null);
-            return ($nbMacths == 0);
+            $matchCount = $this->parent->db->select_one($req, null);
+            return $matchCount === 0;
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
     function computeNbPtsProno($phase, $isSpecial, $scoreMatchA, $scoreMatchB, $scorePronoA, $scorePronoB) {

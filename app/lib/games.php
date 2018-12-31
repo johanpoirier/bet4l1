@@ -9,12 +9,11 @@ class Games {
     }
 
     function add($phase, $day, $month, $year, $hour, $minutes, $teamA, $teamB, $isSpecial, $idMatch) {
-        $date = $year . "-" . $month . "-" . $day . " " . $hour . ":" . $minutes . ":00";
-        if ($idMatch != null) {
-            return $this->parent->db->exec_query("UPDATE " . $this->parent->config['db_prefix'] . "matchs SET date = '" . addslashes($date) . "', teamA = $teamA, teamB = $teamB, phaseID = $phase, status = $isSpecial WHERE matchID = " . $idMatch . "");
-        } else {
-            return $this->parent->db->insert("INSERT INTO  " . $this->parent->config['db_prefix'] . "matchs (date, teamA, teamB, phaseID, status) VALUES ('" . addslashes($date) . "', '" . addslashes($teamA) . "', '" . addslashes($teamB) . "', " . addslashes($phase) . ", $isSpecial)");
-        }
+      $date = "$year-$month-$day $hour:$minutes:00";
+      if ($idMatch != null) {
+        return $this->parent->db->exec_query("UPDATE " . $this->parent->config['db_prefix'] . "matchs SET date = '" . addslashes($date) . "', teamA = $teamA, teamB = $teamB, phaseID = $phase, status = $isSpecial WHERE matchID = " . $idMatch . "");
+      }
+      return $this->parent->db->insert("INSERT INTO  " . $this->parent->config['db_prefix'] . "matchs (date, teamA, teamB, phaseID, status) VALUES ('" . addslashes($date) . "', '" . addslashes($teamA) . "', '" . addslashes($teamB) . "', " . addslashes($phase) . ", $isSpecial)");
     }
 
     function delete($matchID) {

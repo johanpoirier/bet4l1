@@ -19,9 +19,10 @@ class Bets {
         if ($phaseID >= 0) {
             $req .= " AND m.phaseId = " . $phaseID;
         }
-        $req .= " ORDER BY m.date ASC";
+        $req .= " ORDER BY date_str ASC";
 
-        $pronos = $this->parent->db->select_array($req, $nb_pronos);
+        $betCount = 0;
+        $pronos = $this->parent->db->select_array($req, $betCount);
 
         if ($this->parent->debug) {
             array_show($pronos);
