@@ -127,7 +127,7 @@ switch($op) {
             $isSpecial = $_POST['matchspecial'];
           }
 
-          if(isset($_POST['idMatch'])) {
+          if(!empty($_POST['idMatch'])) {
             $game = $engine->games->getById($_POST['idMatch']);
           }
           $engine->games->add($_POST['phase'], $_POST['day'], $_POST['month'], $_POST['year'], $_POST['hour'], $_POST['minutes'], $_POST['teamA'], $_POST['teamB'], $isSpecial, $_POST['idMatch']);
