@@ -550,7 +550,7 @@ class Users
     function getInitialRanking($instanceId) {
       if ($instanceId === "9") {
         return [
-          [
+          973 => [
             'userID' => 973, // mikedulosc
             'points' => 189,
             'nbresults' => 136,
@@ -559,7 +559,7 @@ class Users
             'diff' => 0,
             'rank' => 1
           ],
-          [
+          974 => [
             'userID' => 974, // Jean Aymard
             'points' => 188,
             'nbresults' => 131,
@@ -568,7 +568,7 @@ class Users
             'diff' => 0,
             'rank' => 2
           ],
-          [
+          972 => [
             'userID' => 972, // Syl20
             'points' => 180,
             'nbresults' => 131,
@@ -577,7 +577,7 @@ class Users
             'diff' => 0,
             'rank' => 3
           ],
-          [
+          975 => [
             'userID' => 975, // Gaaloul
             'points' => 180,
             'nbresults' => 136,
@@ -586,7 +586,7 @@ class Users
             'diff' => 0,
             'rank' => 4
           ],
-          [
+          978 => [
             'userID' => 978, // Romsroms
             'points' => 177,
             'nbresults' => 125,
@@ -595,7 +595,7 @@ class Users
             'diff' => 0,
             'rank' => 5
           ],
-          [
+          979 => [
             'userID' => 979, // lounmik
             'points' => 176,
             'nbresults' => 129,
@@ -604,7 +604,7 @@ class Users
             'diff' => 0,
             'rank' => 6
           ],
-          [
+          989 => [
              'userID' => 989, // pierro
              'points' => 175,
              'nbresults' => 134,
@@ -613,7 +613,7 @@ class Users
              'diff' => 0,
              'rank' => 7
           ],
-          [
+          976 => [
             'userID' => 976, // ludosch13
             'points' => 172,
             'nbresults' => 127,
@@ -622,7 +622,7 @@ class Users
             'diff' => 0,
             'rank' => 8
           ],
-          [
+          977 => [
            'userID' => 977, // ala1n
            'points' => 170,
            'nbresults' => 122,
@@ -631,7 +631,7 @@ class Users
            'diff' => 0,
            'rank' => 9
           ],
-          [
+          981 => [
               'userID' => 981, // Guichou#21
               'points' => 167,
               'nbresults' => 121,
@@ -640,7 +640,7 @@ class Users
               'diff' => 0,
               'rank' => 10
           ],
-          [
+          982 => [
              'userID' => 982, // canari
              'points' => 166,
              'nbresults' => 125,
@@ -649,7 +649,7 @@ class Users
              'diff' => 0,
              'rank' => 11
           ],
-          [
+          980 => [
             'userID' => 980, // jp
             'points' => 165,
             'nbresults' => 119,
@@ -658,7 +658,7 @@ class Users
             'diff' => 0,
             'rank' => 12
           ],
-          [
+          983 => [
            'userID' => 983, // 48MK
            'points' => 165,
            'nbresults' => 123,
@@ -667,7 +667,7 @@ class Users
            'diff' => 0,
            'rank' => 13
           ],
-          [
+          984 => [
               'userID' => 984, // MGKhéo
               'points' => 153,
               'nbresults' => 118,
@@ -676,7 +676,7 @@ class Users
               'diff' => 0,
               'rank' => 14
           ],
-          [
+          985 => [
              'userID' => 985, // blond
              'points' => 145,
              'nbresults' => 109,
@@ -685,16 +685,16 @@ class Users
              'diff' => 0,
              'rank' => 15
           ],
-          [
+          986 => [
             'userID' => 986, // Zil
             'points' => 145,
             'nbresults' => 107,
             'nbscores' => 23,
             'bonus' => 15,
             'diff' => 0,
-            'rank' => 15
+            'rank' => 16
           ],
-          [
+          987 => [
            'userID' => 987, // maran04
            'points' => 128,
            'nbresults' => 103,
@@ -703,7 +703,7 @@ class Users
            'diff' => 0,
            'rank' => 17
           ],
-          [
+          988 => [
               'userID' => 988, // gorky
               'points' => 110,
               'nbresults' => 86,
