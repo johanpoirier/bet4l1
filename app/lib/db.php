@@ -14,7 +14,7 @@ class MySQL_DB
     var $username;
     var $password;
 
-    public function __construct($host = '127.0.0.1', $dbname = '', $port = '', $username = '', $password = '')
+    public function __construct($host = '127.0.0.1', $dbname = '', $port = 3306, $username = '', $password = '')
     {
         global $host;
         global $dbname;
@@ -49,7 +49,7 @@ class MySQL_DB
         }
 
         if (!$this->cnx) {
-            $this->cnx = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname, $this->username, $this->password, [
+            $this->cnx = new PDO("mysql:host={$this->host};port={$this->port};dbname={$this->dbname}", $this->username, $this->password, [
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET lc_time_names='fr_FR',NAMES utf8"
             ]);
         }
