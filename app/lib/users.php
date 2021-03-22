@@ -547,9 +547,179 @@ class Users
         }
     }
 
+    function getInitialRanking($instanceId) {
+      if ($instanceId === "9") {
+        return [
+          [
+            'userID' => 973, // mikedulosc
+            'points' => 189,
+            'nbresults' => 136,
+            'nbscores' => 31,
+            'bonus' => 22,
+            'diff' => 0,
+            'rank' => 1
+          ],
+          [
+            'userID' => 974, // Jean Aymard
+            'points' => 188,
+            'nbresults' => 131,
+            'nbscores' => 29,
+            'bonus' => 28,
+            'diff' => 0,
+            'rank' => 2
+          ],
+          [
+            'userID' => 972, // Syl20
+            'points' => 180,
+            'nbresults' => 131,
+            'nbscores' => 29,
+            'bonus' => 20,
+            'diff' => 0,
+            'rank' => 3
+          ],
+          [
+            'userID' => 975, // Gaaloul
+            'points' => 180,
+            'nbresults' => 136,
+            'nbscores' => 26,
+            'bonus' => 18,
+            'diff' => 0,
+            'rank' => 4
+          ],
+          [
+            'userID' => 978, // Romsroms
+            'points' => 177,
+            'nbresults' => 125,
+            'nbscores' => 32,
+            'bonus' => 20,
+            'diff' => 0,
+            'rank' => 5
+          ],
+          [
+            'userID' => 979, // lounmik
+            'points' => 176,
+            'nbresults' => 129,
+            'nbscores' => 29,
+            'bonus' => 18,
+            'diff' => 0,
+            'rank' => 6
+          ],
+          [
+             'userID' => 989, // pierro
+             'points' => 175,
+             'nbresults' => 134,
+             'nbscores' => 26,
+             'bonus' => 15,
+             'diff' => 0,
+             'rank' => 7
+          ],
+          [
+            'userID' => 976, // ludosch13
+            'points' => 172,
+            'nbresults' => 127,
+            'nbscores' => 27,
+            'bonus' => 18,
+            'diff' => 0,
+            'rank' => 8
+          ],
+          [
+           'userID' => 977, // ala1n
+           'points' => 170,
+           'nbresults' => 122,
+           'nbscores' => 31,
+           'bonus' => 17,
+           'diff' => 0,
+           'rank' => 9
+          ],
+          [
+              'userID' => 981, // Guichou#21
+              'points' => 167,
+              'nbresults' => 121,
+              'nbscores' => 30,
+              'bonus' => 16,
+              'diff' => 0,
+              'rank' => 10
+          ],
+          [
+             'userID' => 982, // canari
+             'points' => 166,
+             'nbresults' => 125,
+             'nbscores' => 24,
+             'bonus' => 17,
+             'diff' => 0,
+             'rank' => 11
+          ],
+          [
+            'userID' => 980, // jp
+            'points' => 165,
+            'nbresults' => 119,
+            'nbscores' => 29,
+            'bonus' => 17,
+            'diff' => 0,
+            'rank' => 12
+          ],
+          [
+           'userID' => 983, // 48MK
+           'points' => 165,
+           'nbresults' => 123,
+           'nbscores' => 27,
+           'bonus' => 15,
+           'diff' => 0,
+           'rank' => 13
+          ],
+          [
+              'userID' => 984, // MGKhéo
+              'points' => 153,
+              'nbresults' => 118,
+              'nbscores' => 23,
+              'bonus' => 12,
+              'diff' => 0,
+              'rank' => 14
+          ],
+          [
+             'userID' => 985, // blond
+             'points' => 145,
+             'nbresults' => 109,
+             'nbscores' => 17,
+             'bonus' => 19,
+             'diff' => 0,
+             'rank' => 15
+          ],
+          [
+            'userID' => 986, // Zil
+            'points' => 145,
+            'nbresults' => 107,
+            'nbscores' => 23,
+            'bonus' => 15,
+            'diff' => 0,
+            'rank' => 15
+          ],
+          [
+           'userID' => 987, // maran04
+           'points' => 128,
+           'nbresults' => 103,
+           'nbscores' => 17,
+           'bonus' => 8,
+           'diff' => 0,
+           'rank' => 17
+          ],
+          [
+              'userID' => 988, // gorky
+              'points' => 110,
+              'nbresults' => 86,
+              'nbscores' => 14,
+              'bonus' => 10,
+              'diff' => 0,
+              'rank' => 18
+          ]
+        ];
+      }
+      return [];
+    }
+
     function updateRanking()
     {
-      $users = [];
+      $users = $this->getInitialRanking($this->parent->config['current_instance']);
 
       $phases = $this->parent->phases->getCompletePlayedOnes('ASC');
       foreach ($phases as $phase) {
